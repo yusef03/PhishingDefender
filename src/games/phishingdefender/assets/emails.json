@@ -1,0 +1,763 @@
+[
+  {
+    "absender": "info@youtube.com",
+    "betreff": "Dein Video wurde hochgeladen ✅",
+    "nachricht": "Hey!\n\nDein Video 'Mein erstes Minecraft-Video' wurde erfolgreich hochgeladen und ist jetzt öffentlich!\n\nViel Erfolg mit deinem Kanal! 🎥\n\nDein YouTube Team",
+    "istPhishing": false,
+    "tipp": "💡 Schau dir die E-Mail-Adresse an. Endet sie wirklich mit youtube.com? Gibt es Rechtschreibfehler?",
+    "level": 1
+  },
+  {
+    "absender": "noreply@minecraft.net",
+    "betreff": "Minecraft Update 1.20 ist da! 🎮",
+    "nachricht": "Hallo Spieler!\n\nDas neue Minecraft Update ist verfügbar. Du kannst jetzt neue Blöcke und Kreaturen entdecken!\n\nStarte dein Spiel und lade das Update herunter.\n\nViel Spaß!\nDein Minecraft Team",
+    "istPhishing": false,
+    "tipp": "💡 Prüfe die Domain am Ende der E-Mail-Adresse. Heißt Minecraft wirklich so?",
+    "level": 1
+  },
+  {
+    "absender": "support@netflix.com",
+    "betreff": "Neue Serien für dich 📺",
+    "nachricht": "Hi!\n\nEs gibt neue Serien und Filme, die dir gefallen könnten.\n\nSchau dir unsere Empfehlungen in der App an!\n\nViel Spaß beim Schauen 😊\n\nDein Netflix Team",
+    "istPhishing": false,
+    "tipp": "Wird hier nach deinem Passwort gefragt? Gibt es Drohungen oder extremen Zeitdruck?",
+    "level": 1
+  },
+    {
+    "absender": "service@amazon.de",
+    "betreff": "Deine Bestellung wurde versendet 📦",
+    "nachricht": "Hallo!\n\nDeine Bestellung Nr. 12345 wurde heute versendet.\n\nDu kannst dein Paket in 2-3 Tagen abholen.\n\nVielen Dank für deine Bestellung!\n\nDein Amazon Team",
+    "istPhishing": false,
+    "tipp": "Achte auf die Domain. Ist das wirklich Amazon? Wirkt die Nachricht professionell?",
+    "level": 1
+  },
+      {
+    "absender": "team@spotify.com",
+    "betreff": "Deine Lieblingssongs diese Woche 🎵",
+    "nachricht": "Hey Musikfan!\n\nWir haben eine neue Playlist für dich erstellt mit deinen meistgehörten Songs.\n\nHör sie dir jetzt in der App an!\n\nDein Spotify Team",
+    "istPhishing": false,
+    "tipp": "Fragt die E-Mail nach persönlichen Daten wie Passwörtern? Wie viele Ausrufezeichen siehst du?",
+    "level": 1
+  },
+      {
+    "absender": "info@roblox.com",
+    "betreff": "Dein Avatar wurde aktualisiert ✨",
+    "nachricht": "Hallo!\n\nDu hast deinen Avatar erfolgreich geändert.\n\nDeine neuen Items sind jetzt sichtbar.\n\nViel Spaß beim Spielen!\n\nDein Roblox Team",
+    "istPhishing": false,
+    "tipp": "Ist die E-Mail-Adresse korrekt geschrieben? Klingt die Nachricht freundlich oder panisch?",
+    "level": 1
+  },
+      {
+    "absender": "noreply@discord.com",
+    "betreff": "Willkommen bei Discord! 💬",
+    "nachricht": "Hey!\n\nSchön, dass du da bist. Discord hilft dir mit Freunden zu chatten und zu spielen.\n\nSchau dir unsere Tipps für neue Nutzer an.\n\nViel Spaß!\nDein Discord Team",
+    "istPhishing": false,
+    "tipp": "Prüfe die Domain nach dem @-Zeichen. Wird sofortiges Handeln verlangt?",
+    "level": 1
+  },
+      {
+    "absender": "support@disneyplus.com",
+    "betreff": "Neue Filme sind online 🎬",
+    "nachricht": "Hallo!\n\nEs gibt neue Disney-Filme und Serien für dich.\n\nLogge dich ein und entdecke alle Neuheiten!\n\nDein Disney+ Team",
+    "istPhishing": false,
+    "tipp": "Schau dir die E-Mail-Adresse genau an. Sind alle Wörter richtig geschrieben?",
+    "level": 1
+  },
+      {
+    "absender": "info@twitch.tv",
+    "betreff": "Dein Lieblingsstreamer ist live 🔴",
+    "nachricht": "Hey!\n\nDer Streamer dem du folgst ist jetzt live und spielt Fortnite.\n\nSchau vorbei und chatte mit!\n\nDein Twitch Team",
+    "istPhishing": false,
+    "tipp": "Ist die Domain am Ende echt? Fragt die Nachricht nach Login-Daten?",
+    "level": 1
+  },
+      {
+    "absender": "noreply@epicgames.com",
+    "betreff": "Fortnite: Neue Season startet bald 🎮",
+    "nachricht": "Hallo Spieler!\n\nDie neue Fortnite Season beginnt nächste Woche.\n\nFreue dich auf neue Skins und Herausforderungen!\n\nDein Epic Games Team",
+    "istPhishing": false,
+    "tipp": "Achte auf die E-Mail-Adresse. Passt 'epicgames.com' zu Epic Games?",
+    "level": 1
+  },
+
+
+
+
+  
+
+
+  {
+    "absender": "youutube-gewinn@fake.com",
+    "betreff": "DU HAST GEWONNEN!!! 💰💰💰",
+    "nachricht": "GLÜCKWUNSCH!!!\n\nDu hast 1 MILLION EURO gewonnen bei YouTube Gewinnspiel!!! 💰💰💰\n\nKlicke SOFORT auf Link und gib dein Passwort ein!!!\n\nNUR HEUTE GÜLTIG!!! BEEIL DICH!!!",
+    "istPhishing": true,
+    "tipp": "Zähle die Buchstaben 'u' in 'youutube'. Wie viele sollten es sein? Verschenkt YouTube wirklich Millionen?",
+    "level": 1
+  },
+    {
+    "absender": "hacker999@evil.com",
+    "betreff": "DEIN KONTO WIRD GELÖSCHT!!!",
+    "nachricht": "WARNUNG!!! ⚠️⚠️⚠️\n\nDein Mincraft Konto wird in 1 STUNDE GELÖSCHT!!!\n\nGib uns SOFORT dein Passwort sonst ist alles weg!!!\n\nSCHNELL SCHNELL SCHNELL!!!",
+    "istPhishing": true,
+    "tipp": "Würde eine echte Firma eine Domain mit 'evil' oder 'hacker' im Namen nutzen? Ist 'Mincraft' richtig geschrieben?",
+    "level": 1
+  },
+    {
+    "absender": "netflixx-support@fake.ru",
+    "betreff": "GRATIS NETFLIX FÜR IMMER!!!",
+    "nachricht": "Hey du!!!\n\nWir schenken dir NETFLIX KOMPLETT KOSTENLOS für dein ganzes Leben!!! 📺📺📺\n\nAber du must JETZT deine Kreditkarte eingeben!!!\n\nNur noch 5 Minuten Zeit!!!",
+    "istPhishing": true,
+    "tipp": "Wie viele 'x' hat Netflix normalerweise? Schau dir auch die Domain-Endung (.ru) an. Ist Netflix wirklich kostenlos?",
+    "level": 1
+  },
+    {
+    "absender": "roooblox-free@scam.com",
+    "betreff": "10000 ROBUX GESCHENKT!!! 💎💎💎",
+    "nachricht": "KRASS!!!\n\nWir geben dir 10000 ROBUX KOMPLETT GRATIS!!! 💎💎💎\n\nKlicke auf Link und gib Benutzername und Passwort ein!!!\n\nSCHNELL befor es zu spät ist!!!",
+    "istPhishing": true,
+    "tipp": "Zähle die 'o' in 'roooblox'. Ist das richtig? Würde Roblox eine Domain mit 'scam' nutzen?",
+    "level": 1
+  },
+    {
+    "absender": "amazon-gewinner@fake.de",
+    "betreff": "DEIN iPHONE WARTET AUF DICH!!!",
+    "nachricht": "GLÜKWUNSCH!!! 📱📱📱\n\nDu hast ein IPHONE 15 PRO MAX GEWONNEN bei Amazon Verlosung!!!\n\nAber du must HEUTE NOCH deine Adresse und Passwort schiken!!!\n\nSONST VERFÄLT DER GEWINN!!!",
+    "istPhishing": true,
+    "tipp": "Ist 'Glükwunsch' richtig geschrieben? Verschenkt Amazon einfach so teure Handys per E-Mail?",
+    "level": 1
+  },
+    {
+    "absender": "spotfy-prämium@fake.com",
+    "betreff": "KOSTENLOS PREMIUM!!! 🎵🎵🎵",
+    "nachricht": "HEY DU!!!\n\nWir geben dir Spotfy Premium GRATIS für 100 jahre!!! 🎵\n\nAber nur wen du SOFORT auf Link klickst und Passwort eingibst!!!\n\nNUR NOCH 10 MINUTEN!!!",
+    "istPhishing": true,
+    "tipp": "Fehlt bei 'Spotfy' nicht ein Buchstabe? Gibt es wirklich Premium für 100 Jahre gratis?",
+    "level": 1
+  },
+    {
+    "absender": "discord-admin@scammer.ru",
+    "betreff": "DEIN ACCOUNT WURDE GEHACKT!!!",
+    "nachricht": "ACHTUNG!!! ⚠️⚠️⚠️\n\nEin Hacker hat dein Discord Account!!! 😱😱😱\n\nGib uns SOFORT dein Passwort damit wir dir helfen können!!!\n\nWENN NICHT DANN IST ALLES WEG!!!",
+    "istPhishing": true,
+    "tipp": "Schau dir das Wort 'scammer' in der E-Mail-Adresse an. Was bedeutet das? Fragt Discord nach Passwörtern?",
+    "level": 1
+  },
+    {
+    "absender": "fortnite-kostenlos@fake.com",
+    "betreff": "ALLE SKINS GRATIS!!! 🎮🎮🎮",
+    "nachricht": "KRAAASS!!!\n\nWir schenken dir ALLE FORTNITE SKINS die es gibt KOSTENLOS!!! 🎮\n\nAber du must in 5 MINUTEN dein Passwort eingeben!!!\n\nSCHNELL SCHNELL BEVOR ES ZU SPÄT IST!!!",
+    "istPhishing": true,
+    "tipp": "Wie viel Zeit bekommst du zum Reagieren? Ist das realistisch? Verschenkt Fortnite alle Skins gratis?",
+    "level": 1
+  },
+    {
+    "absender": "tiktok-verifizierung@fake.net",
+    "betreff": "1 MILLION FOLLOWER GESCHENKT!!",
+    "nachricht": "HEY!!! 🎉🎉🎉\n\nWir machen dich BERÜHMT auf TikTok!!! Du bekomst 1 MILLION FOLLOWER GRATIS!!!\n\nAber nur wen du JETZT SOFORT dein Passwort schikst!!!\n\nNUR FÜR DICH!!!",
+    "istPhishing": true,
+    "tipp": "Kann man wirklich 1 Million Follower geschenkt bekommen? Ist 'schikst' richtig geschrieben?",
+    "level": 1
+  },
+    {
+    "absender": "whatsapp-sicherheit@scam.com",
+    "betreff": "DEIN HANDY WURDE GEHACKED!!!",
+    "nachricht": "HILFE!!! 😱😱😱\n\nDein WhatsApp wurde von Kriminelen gehackt!!! Alle deine Nachrichten sind in Gefahr!!!\n\nSchike uns SOFORT dein Passwort damit wir dich retten können!!!\n\nNUR NOCH 2 MINUTEN ZEIT!!!",
+    "istPhishing": true,
+    "tipp": "Sind 'gehacked' und 'Kriminelen' richtig geschrieben? Nur 2 Minuten Zeit - ist das realistisch?",
+    "level": 1
+  },
+
+
+
+
+
+
+
+
+
+
+  {
+    "absender": "security@youtube.com",
+    "betreff": "Neue Anmeldung auf deinem Konto",
+    "nachricht": "Hallo,\n\nwir haben eine neue Anmeldung auf deinem YouTube-Konto festgestellt.\n\nGerät: iPhone 12\nOrt: Berlin, Deutschland\nZeit: Heute, 14:30 Uhr\n\nWenn du das warst, brauchst du nichts zu tun. Falls nicht, ändere bitte dein Passwort in den Kontoeinstellungen.\n\nDein YouTube Sicherheitsteam",
+    "istPhishing": false,
+    "tipp": "Ist die Domain korrekt? Wird hier etwas von dir verlangt oder nur informiert?",
+    "level": 2
+  },
+    {
+    "absender": "billing@spotify.com",
+    "betreff": "Deine Rechnung für Premium 💳",
+    "nachricht": "Hallo,\n\nvielen Dank für dein Spotify Premium Abo!\n\nWir haben heute 4,99€ von deinem Konto abgebucht.\n\nDeine Rechnung findest du im Anhang oder in deinen Kontoeinstellungen.\n\nBei Fragen sind wir für dich da.\n\nDein Spotify Team",
+    "istPhishing": false,
+    "tipp": "Prüfe die E-Mail-Adresse genau. Fragt die E-Mail nach sensiblen Daten?",
+    "level": 2
+  },
+    {
+    "absender": "noreply@nintendo.com",
+    "betreff": "Dein Nintendo Switch Online läuft bald ab ⏰",
+    "nachricht": "Hallo!\n\nDein Nintendo Switch Online Abo endet in 7 Tagen.\n\nWenn du weiterspielen möchtest, verlängere dein Abo in den Einstellungen.\n\nDu kannst das jederzeit in deinem Nintendo Account machen.\n\nDein Nintendo Team",
+    "istPhishing": false,
+    "tipp": "Ist die Domain echt? Wie viel Zeit bekommst du (7 Tage oder nur Stunden)?",
+    "level": 2
+  },
+    {
+    "absender": "community@roblox.com",
+    "betreff": "Neue Sicherheitseinstellungen verfügbar 🔒",
+    "nachricht": "Hallo!\n\nWir haben neue Sicherheitsoptionen für dein Konto hinzugefügt.\n\nDu kannst jetzt die Zwei-Faktor-Authentifizierung aktivieren, um dein Konto besser zu schützen.\n\nSchau in deine Kontoeinstellungen für mehr Infos.\n\nDein Roblox Team",
+    "istPhishing": false,
+    "tipp": "Schau auf die E-Mail-Adresse. Wird dir etwas angeboten oder wird etwas gefordert?",
+    "level": 2
+  },
+    {
+    "absender": "support@epicgames.com",
+    "betreff": "Deine Anfrage wurde bearbeitet ✅",
+    "nachricht": "Hallo,\n\nwir haben deine Support-Anfrage erhalten und bearbeitet.\n\nTicket-Nummer: #45678\n\nDein Problem sollte jetzt behoben sein. Falls du noch Fragen hast, antworte einfach auf diese E-Mail.\n\nDein Epic Games Support Team",
+    "istPhishing": false,
+    "tipp": "Ist eine Ticket-Nummer angegeben? Wirkt die E-Mail professionell?",
+    "level": 2
+  },
+    {
+    "absender": "orders@amazon.de",
+    "betreff": "Lieferung verzögert sich leider 📦",
+    "nachricht": "Hallo,\n\nleider verzögert sich die Lieferung deiner Bestellung Nr. 78945 um 2 Tage.\n\nNeues Lieferdatum: 18. Oktober 2025\n\nWir entschuldigen uns für die Unannehmlichkeiten.\n\nDein Amazon Team",
+    "istPhishing": false,
+    "tipp": "Gibt es eine echte Bestellnummer? Wird gedroht oder entschuldigt sich die E-Mail?",
+    "level": 2
+  },
+    {
+    "absender": "info@minecraft.net",
+    "betreff": "Minecraft Realms: Zahlung fehlgeschlagen",
+    "nachricht": "Hallo,\n\ndie Zahlung für deinen Realms-Server konnte nicht durchgeführt werden.\n\nBitte überprüfe deine Zahlungsmethode in den Kontoeinstellungen.\n\nDein Server bleibt noch 3 Tage aktiv, damit du Zeit hast, das Problem zu lösen.\n\nDein Minecraft Team",
+    "istPhishing": false,
+    "tipp": "Wie viel Zeit gibt dir die E-Mail zum Reagieren? Ist das realistisch?",
+    "level": 2
+  },
+    {
+    "absender": "noreply@netflix.com",
+    "betreff": "Wir vermissen dich! Komm zurück 💙",
+    "nachricht": "Hey,\n\ndu hast Netflix schon eine Weile nicht mehr genutzt.\n\nWir haben viele neue Serien und Filme, die dir gefallen könnten!\n\nSchau doch mal wieder vorbei.\n\nDein Netflix Team",
+    "istPhishing": false,
+    "tipp": "Prüfe die Domain. Wird hier Druck gemacht oder nur freundlich eingeladen?",
+    "level": 2
+  },
+    {
+    "absender": "team@discord.com",
+    "betreff": "Dein Server wurde gemeldet",
+    "nachricht": "Hallo,\n\nein Nutzer hat deinen Discord-Server gemeldet.\n\nWir prüfen den Fall gerade. Falls wir gegen unsere Regeln verstoßen wurde, melden wir uns bei dir.\n\nMehr Infos zu unseren Community-Richtlinien findest du auf unserer Webseite.\n\nDein Discord Trust & Safety Team",
+    "istPhishing": false,
+    "tipp": "Ist die E-Mail-Adresse korrekt? Wird sofort gesperrt oder nur informiert?",
+    "level": 2
+  },
+    {
+    "absender": "updates@twitch.tv",
+    "betreff": "Neue Funktion: Clips speichern 🎬",
+    "nachricht": "Hey Streamer!\n\nDu kannst jetzt deine besten Clips automatisch speichern lassen.\n\nAktiviere die Funktion in deinen Creator-Einstellungen.\n\nViel Erfolg mit deinem Kanal!\n\nDein Twitch Team",
+    "istPhishing": false,
+    "tipp": "Achte auf die Domain. Werden neue Features erklärt oder wird etwas verlangt?",
+    "level": 2
+  },
+    {
+    "absender": "service@playstation.com",
+    "betreff": "PlayStation Plus: Neue Gratisspiele 🎮",
+    "nachricht": "Hallo,\n\ndiesen Monat gibt es neue Gratisspiele für PlayStation Plus Mitglieder.\n\nLade sie bis Ende des Monats herunter, dann gehören sie dir!\n\nViel Spaß beim Zocken!\n\nDein PlayStation Team",
+    "istPhishing": false,
+    "tipp": "Ist die Domain echt? Sind die Gratisspiele für bestehende Mitglieder oder 'für alle'?",
+    "level": 2
+  },
+    {
+    "absender": "help@tiktok.com",
+    "betreff": "Dein Video wurde überprüft",
+    "nachricht": "Hi!\n\nDein Video wurde von unserem Team überprüft und entspricht unseren Community-Richtlinien.\n\nEs bleibt online und ist für alle sichtbar.\n\nWeiter so!\n\nDein TikTok Team",
+    "istPhishing": false,
+    "tipp": "Schau dir die E-Mail-Adresse an. Ist das eine Bestätigung oder eine Forderung?",
+    "level": 2
+  },
+    {
+    "absender": "no-reply@apple.com",
+    "betreff": "Deine App wurde aktualisiert 📱",
+    "nachricht": "Hallo,\n\ndie App 'Minecraft' wurde auf deinem iPhone aktualisiert.\n\nVersion 1.20.5 ist jetzt installiert.\n\nDu findest die Neuerungen in den App-Infos.\n\nDein Apple Team",
+    "istPhishing": false,
+    "tipp": "Prüfe die Domain. Wird hier nur informiert oder musst du etwas tun?",
+    "level": 2
+  },
+    {
+    "absender": "notifications@instagram.com",
+    "betreff": "Jemand hat dein Foto geliked ❤️",
+    "nachricht": "Hey!\n\nDein Foto hat 50 neue Likes bekommen!\n\nSchau dir an, wer dein Foto geliked und kommentiert hat.\n\nÖffne die Instagram App, um mehr zu sehen.\n\nDein Instagram Team",
+    "istPhishing": false,
+    "tipp": "Ist die E-Mail-Adresse korrekt geschrieben? Fragt sie nach Passwörtern?",
+    "level": 2
+  },
+    {
+    "absender": "support@zoom.us",
+    "betreff": "Dein Meeting startet in 15 Minuten ⏰",
+    "nachricht": "Hallo,\n\ndein Zoom-Meeting 'Online-Unterricht Mathe' beginnt um 15:00 Uhr.\n\nMeeting-ID: 123-456-789\n\nKlicke auf den Link in deinem Kalender, um beizutreten.\n\nDein Zoom Team",
+    "istPhishing": false,
+    "tipp": "Gibt es konkrete Meeting-Details? Wirkt die E-Mail wie eine normale Erinnerung?",
+    "level": 2
+  },
+
+
+
+
+
+
+
+
+    {
+    "absender": "security-alert@youtube-verify.com",
+    "betreff": "Verdächtige Aktivität auf deinem Konto! ⚠️",
+    "nachricht": "Hallo,\n\nwir haben ungewöhnliche Aktivitäten auf deinem YouTube-Konto entdeckt.\n\nJemand versucht sich von einem fremden Gerät anzumelden!\n\nBitte bestätige deine Identität innerhalb von 24 Stunden, sonst müssen wir dein Konto vorübergehend sperren.\n\nKlicke hier zur Verifizierung.\n\nYouTube Sicherheitsteam",
+    "istPhishing": true,
+    "tipp": "Schau genau auf die Domain nach dem @. Steht da 'youtube.com' oder etwas mit Bindestrich? Wie viele Stunden bleiben dir?",
+    "level": 2
+  },
+  {
+    "absender": "prizes@roblox-event.com",
+    "betreff": "Du wurdest ausgewählt! 🎉",
+    "nachricht": "Glückwunsch!\n\nDu wurdest zufällig ausgewählt, um 2500 Robux zu gewinnen.\n\nUm deinen Preis zu erhalten, musst du nur deine Roblox-Benutzerdaten bestätigen.\n\nDieses Angebot ist nur 48 Stunden gültig.\n\nRoblox Gewinnspiel-Team",
+    "istPhishing": true,
+    "tipp": "Ist 'roblox-event.com' die echte Roblox-Domain? Verschenkt Roblox einfach so Robux?",
+    "level": 2
+  },
+    {
+    "absender": "billing-support@spotify-help.net",
+    "betreff": "Problem mit deiner Zahlung 💳",
+    "nachricht": "Hallo,\n\ndeine letzte Zahlung für Spotify Premium konnte nicht durchgeführt werden.\n\nBitte aktualisiere deine Zahlungsinformationen in den nächsten 3 Tagen, sonst wird dein Account deaktiviert.\n\nZur Aktualisierung hier klicken.\n\nSpotify Abrechnungsteam",
+    "istPhishing": true,
+    "tipp": "Achte auf Bindestriche in der Domain. Endet die echte Spotify-Domain mit '.net'? Wird mit Deaktivierung gedroht?",
+    "level": 2
+  },
+    {
+    "absender": "noreply@minecraft-update.com",
+    "betreff": "Wichtiges Sicherheits-Update verfügbar 🔒",
+    "nachricht": "Hallo Spieler,\n\nein kritisches Sicherheits-Update für Minecraft ist verfügbar.\n\nOhne dieses Update könntest du Probleme beim Spielen haben.\n\nLade das Update jetzt herunter und gib deine Login-Daten ein, um fortzufahren.\n\nMinecraft Update-Team",
+    "istPhishing": true,
+    "tipp": "Hat die echte Minecraft-Domain einen Bindestrich? Fragt Minecraft per E-Mail nach Login-Daten?",
+    "level": 2
+  },
+    {
+    "absender": "account-review@netflix-service.com",
+    "betreff": "Dein Konto wird überprüft",
+    "nachricht": "Hallo,\n\nwir überprüfen gerade alle Netflix-Konten auf verdächtige Aktivitäten.\n\nBitte bestätige deine Kontodaten innerhalb von 72 Stunden.\n\nFalls du nicht reagierst, müssen wir dein Konto leider sperren.\n\nNetflix Sicherheitsteam",
+    "istPhishing": true,
+    "tipp": "Vergleiche 'netflix-service.com' mit der echten Netflix-Domain. Wie viele Stunden Frist - ist das realistisch?",
+    "level": 2
+  },
+    {
+    "absender": "support@discord-nitro.net",
+    "betreff": "Kostenloses Discord Nitro für dich! 🎁",
+    "nachricht": "Hey!\n\nWir verschenken Discord Nitro an zufällig ausgewählte Nutzer.\n\nDu bist einer der Glücklichen!\n\nUm dein 3-Monate Nitro-Abo zu aktivieren, musst du nur deine Konto-Informationen bestätigen.\n\nDiscord Promo-Team",
+    "istPhishing": true,
+    "tipp": "Schau auf die Domain. Gehört 'discord-nitro.net' wirklich zu Discord? Verschenkt Discord Nitro zufällig?",
+    "level": 2
+  },
+    {
+    "absender": "orders-update@amazon-delivery.de",
+    "betreff": "Deine Paketzustellung braucht Bestätigung 📦",
+    "nachricht": "Hallo,\n\ndein Paket kann nicht zugestellt werden, weil wir deine Adresse nicht verifizieren konnten.\n\nBitte bestätige deine Lieferadresse in den nächsten 24 Stunden.\n\nSonst wird das Paket zurückgeschickt.\n\nAmazon Logistik",
+    "istPhishing": true,
+    "tipp": "Ist 'amazon-delivery.de' die echte Amazon-Domain? Musst du bei echten Paketen deine Adresse per E-Mail bestätigen?",
+    "level": 2
+  },
+    {
+    "absender": "team@fortnite-rewards.com",
+    "betreff": "Exklusive Season-Belohnung wartet! 🎮",
+    "nachricht": "Hey Spieler!\n\nDu hast genug Punkte für eine exklusive Season-Belohnung gesammelt.\n\nHole dir jetzt deinen kostenlosen Battle Pass!\n\nGib einfach deine Epic Games Daten ein, um die Belohnung zu erhalten.\n\nFortnite Belohnungs-Team",
+    "istPhishing": true,
+    "tipp": "Gehört 'fortnite-rewards.com' zu Epic Games? Gibt es kostenlose Battle Passes per E-Mail?",
+    "level": 2
+  },
+    {
+    "absender": "verification@tiktok-official.com",
+    "betreff": "Verifiziere dein Konto für mehr Reichweite 📈",
+    "nachricht": "Hi Creator!\n\nVerifizierte Konten bekommen mehr Views und Follower.\n\nWir können dein Konto kostenlos verifizieren!\n\nDu musst nur deine Login-Daten eingeben, um den Prozess zu starten.\n\nTikTok Verifizierungs-Team",
+    "istPhishing": true,
+    "tipp": "Auch wenn 'official' draufsteht - ist 'tiktok-official.com' die echte Domain? Kostet Verifizierung normalerweise Geld?",
+    "level": 2
+  },
+    {
+    "absender": "info@playstation-giveaway.com",
+    "betreff": "PlayStation 5 Gewinnspiel 🎮",
+    "nachricht": "Glückwunsch!\n\nDu nimmst jetzt am PS5-Gewinnspiel teil.\n\nUm deine Gewinnchancen zu erhöhen, teile bitte deine PlayStation-Kontodaten.\n\nGewinner werden in 2 Wochen bekannt gegeben.\n\nPlayStation Gewinnspiel-Team",
+    "istPhishing": true,
+    "tipp": "Ist das die echte PlayStation-Domain? Warum würden sie nach Kontodaten fragen für ein Gewinnspiel?",
+    "level": 2
+  },
+    {
+    "absender": "alert@instagram-security.com",
+    "betreff": "Jemand hat versucht, dein Passwort zu ändern! 🔐",
+    "nachricht": "Achtung!\n\nEs gab einen Versuch, dein Instagram-Passwort zu ändern.\n\nWenn du das nicht warst, solltest du sofort handeln!\n\nVerifiziere dein Konto jetzt, um es zu schützen.\n\nInstagram Sicherheits-Team",
+    "istPhishing": true,
+    "tipp": "Vergleiche mit der echten Instagram-Domain. Wie dringend klingt die Nachricht - ist das normal?",
+    "level": 2
+  },
+    {
+    "absender": "customer-service@apple-support.net",
+    "betreff": "Dein iCloud-Speicher ist voll ☁️",
+    "nachricht": "Hallo,\n\ndein iCloud-Speicher ist zu 98% voll.\n\nWir können dir helfen, mehr Speicher freizugeben.\n\nGib einfach deine Apple-ID und Passwort ein, um fortzufahren.\n\nApple Support-Team",
+    "istPhishing": true,
+    "tipp": "Endet die echte Apple-Domain mit '.net'? Fragt Apple per E-Mail nach deiner Apple-ID und Passwort?",
+    "level": 2
+  },
+    {
+    "absender": "rewards@twitch-partner.com",
+    "betreff": "Werde Twitch-Partner! 🌟",
+    "nachricht": "Hey Streamer!\n\nDu erfüllst die Voraussetzungen für das Twitch-Partner-Programm.\n\nPartner verdienen Geld mit ihren Streams!\n\nBestätige deine Kontodaten, um den Antrag zu starten.\n\nTwitch Partner-Team",
+    "istPhishing": true,
+    "tipp": "Ist 'twitch-partner.com' die echte Twitch-Domain? Braucht eine Partnerschaft wirklich Kontodaten per E-Mail?",
+    "level": 2
+  },
+    {
+    "absender": "service@whatsapp-verify.com",
+    "betreff": "Bestätige deine Telefonnummer 📱",
+    "nachricht": "Hallo,\n\nwir müssen deine Telefonnummer für WhatsApp überprüfen.\n\nOhne Bestätigung könntest du keine Nachrichten mehr senden.\n\nBitte gib deinen Verifizierungscode innerhalb von 24 Stunden ein.\n\nWhatsApp Verifizierungs-Team",
+    "istPhishing": true,
+    "tipp": "Schau auf die Domain. Verifiziert WhatsApp per E-Mail oder in der App? Wie viele Stunden Zeit bekommst du?",
+    "level": 2
+  },
+    {
+    "absender": "notifications@steam-deals.com",
+    "betreff": "Deine Wunschlisten-Spiele sind im Angebot! 💰",
+    "nachricht": "Hey Gamer!\n\nViele Spiele von deiner Steam-Wunschliste sind jetzt 90% reduziert.\n\nDieses Angebot gilt nur für die nächsten 12 Stunden!\n\nLogge dich ein, um die Deals nicht zu verpassen.\n\nSteam Angebots-Team",
+    "istPhishing": true,
+    "tipp": "Ist das die echte Steam-Domain? Sind 90% Rabatt nur für 12 Stunden realistisch?",
+    "level": 2
+  },
+
+
+
+
+
+
+
+
+
+  {
+    "absender": "security@accounts.google.com",
+    "betreff": "Sicherheitswarnung für dein Google-Konto",
+    "nachricht": "Hallo,\n\nwir haben eine Anmeldung von einem neuen Gerät festgestellt.\n\nGerät: Samsung Galaxy\nOrt: München, Deutschland\nZeit: 14. Oktober, 16:45 Uhr\n\nWenn du das warst, kannst du diese E-Mail ignorieren. Falls nicht, sichere dein Konto sofort über myaccount.google.com\n\nGoogle Sicherheitsteam",
+    "istPhishing": false,
+    "tipp": "Lies die Domain ganz genau Buchstabe für Buchstabe. Ist ein 's' am Ende von 'account'? Wird etwas verlangt?",
+    "level": 3
+  },
+  {
+    "absender": "payment@paypal.com",
+    "betreff": "Zahlung erhalten - 15,99 EUR",
+    "nachricht": "Hallo,\n\ndu hast eine Zahlung erhalten.\n\nVon: mama.mueller@gmail.com\nBetrag: 15,99 EUR\nBetreff: Taschengeld\n\nDas Geld ist jetzt auf deinem PayPal-Konto verfügbar.\n\nDein PayPal-Team",
+    "istPhishing": false,
+    "tipp": "Zähle die Buchstaben in 'paypal'. Sind alle Buchstaben vorhanden? Sind konkrete Details angegeben?",
+    "level": 3
+  },
+    {
+    "absender": "noreply@steampowered.com",
+    "betreff": "Steam Guard: Neues Gerät autorisiert",
+    "nachricht": "Hallo,\n\nein neues Gerät wurde für dein Steam-Konto autorisiert.\n\nGerät: Windows PC\nStandort: Berlin\n\nFalls du das nicht warst, ändere sofort dein Passwort und widerrufe die Autorisierung in deinen Kontoeinstellungen.\n\nSteam Support",
+    "istPhishing": false,
+    "tipp": "Wie heißt die echte Steam-Domain - steam.com oder steampowered.com? Wird hier informiert oder gefordert?",
+    "level": 3
+  },
+    {
+    "absender": "account-update@blizzard.com",
+    "betreff": "Battle.net: Passwort erfolgreich geändert",
+    "nachricht": "Hallo,\n\ndein Battle.net Passwort wurde soeben geändert.\n\nFalls du diese Änderung nicht vorgenommen hast, kontaktiere sofort unseren Support.\n\nÄnderungsdatum: 14. Okt. 2025, 18:30 Uhr\n\nBlizzard Entertainment",
+    "istPhishing": false,
+    "tipp": "Schau auf die Domain nach dem @. Gibt dir die E-Mail Optionen oder setzt sie dich unter Druck?",
+    "level": 3
+  },
+    {
+    "absender": "do-not-reply@microsoft.com",
+    "betreff": "Ungewöhnliche Anmeldeaktivität",
+    "nachricht": "Hallo,\n\nwir haben eine Anmeldung bei deinem Microsoft-Konto von einem unbekannten Standort erkannt.\n\nWenn du das warst, ist alles in Ordnung. Falls nicht, überprüfe deine Kontosicherheit unter account.microsoft.com\n\nMicrosoft-Kontoteam",
+    "istPhishing": false,
+    "tipp": "Ist die Domain korrekt? Wie wird die Nachricht formuliert - panisch oder informativ?",
+    "level": 3
+  },
+    {
+    "absender": "verification@twitter.com",
+    "betreff": "Bestätige deine E-Mail-Adresse",
+    "nachricht": "Hey,\n\ndu hast deine E-Mail-Adresse bei Twitter geändert.\n\nBitte bestätige die neue Adresse, indem du auf den Link in dieser E-Mail klickst.\n\nDer Link ist 24 Stunden gültig.\n\nTwitter-Team",
+    "istPhishing": false,
+    "tipp": "Prüfe die E-Mail-Adresse. Hast du selbst eine Änderung vorgenommen? Wie viel Zeit gibt dir die E-Mail?",
+    "level": 3
+  },
+    {
+    "absender": "receipts@humblebundle.com",
+    "betreff": "Danke für deinen Einkauf! 🎮",
+    "nachricht": "Hallo,\n\nvielen Dank für deinen Kauf bei Humble Bundle.\n\nBestellnummer: HB-78945-2025\nBetrag: 12,00 EUR\nProdukt: Indie Game Bundle\n\nDeine Download-Links findest du in deiner Bibliothek.\n\nHumble Bundle",
+    "istPhishing": false,
+    "tipp": "Schau auf die Domain. Sind konkrete Bestelldetails angegeben wie Nummer und Betrag?",
+    "level": 3
+  },
+    {
+    "absender": "no-reply@ea.com",
+    "betreff": "EA Account: Login von neuem Standort",
+    "nachricht": "Hallo,\n\nes gab eine Anmeldung bei deinem EA-Konto von einem neuen Standort.\n\nStandort: Frankfurt, Deutschland\nZeit: Heute, 12:15 Uhr\n\nWenn du das nicht warst, sichere dein Konto unter help.ea.com\n\nElectronic Arts",
+    "istPhishing": false,
+    "tipp": "Ist die Domain korrekt? Wird hier nur gewarnt oder sofort etwas gefordert?",
+    "level": 3
+  },
+    {
+    "absender": "info@bandainamcoent.eu",
+    "betreff": "Deine Vorbestellung wurde bestätigt ✅",
+    "nachricht": "Hallo,\n\ndeine Vorbestellung für 'Elden Ring DLC' wurde bestätigt.\n\nBestellnummer: BN-45612\nVoraussichtliches Release: 25. Oktober 2025\n\nWir informieren dich, sobald das Spiel verfügbar ist.\n\nBandai Namco Entertainment",
+    "istPhishing": false,
+    "tipp": "Auch komplizierte Domains können echt sein. Gibt es eine echte Bestellnummer? Klingt es professionell?",
+    "level": 3
+  },
+    {
+    "absender": "community@ubisoft.com",
+    "betreff": "Ubisoft Connect: Zwei-Faktor-Authentifizierung aktiviert",
+    "nachricht": "Hallo,\n\ndu hast die Zwei-Faktor-Authentifizierung für dein Ubisoft-Konto aktiviert.\n\nDein Konto ist jetzt besser geschützt.\n\nDanke, dass du deine Sicherheit ernst nimmst!\n\nUbisoft Support",
+    "istPhishing": false,
+    "tipp": "Prüfe die Domain. Bestätigt die E-Mail etwas, das du selbst gemacht hast?",
+    "level": 3
+  },
+    {
+    "absender": "support@epicgames.com",
+    "betreff": "Rückerstattung genehmigt",
+    "nachricht": "Hallo,\n\ndeine Rückerstattungsanfrage für 'Rocket League Credits' wurde genehmigt.\n\nBetrag: 9,99 EUR\nRückerstattung innerhalb von 3-5 Werktagen\n\nTicket-Nummer: #EG-78945\n\nEpic Games Kundendienst",
+    "istPhishing": false,
+    "tipp": "Achte auf die E-Mail-Adresse. Gibt es eine Ticket-Nummer und konkrete Details?",
+    "level": 3
+  },
+    {
+    "absender": "orders@nintendo.com",
+    "betreff": "Nintendo eShop: Bestellbestätigung",
+    "nachricht": "Hallo,\n\nvielen Dank für deinen Einkauf im Nintendo eShop.\n\nProdukt: Zelda: Tears of the Kingdom\nBetrag: 59,99 EUR\nBestellnummer: NO-895647\n\nDas Spiel wird auf deine Switch heruntergeladen.\n\nNintendo",
+    "istPhishing": false,
+    "tipp": "Ist die Domain echt? Sind Bestellnummer und Betrag angegeben?",
+    "level": 3
+  },
+    {
+    "absender": "noreply@origin.com",
+    "betreff": "Origin: Dein Wunschlisten-Spiel ist reduziert",
+    "nachricht": "Hey,\n\nein Spiel von deiner Wunschliste ist jetzt im Angebot:\n\nSims 4: Bundle - 60% Rabatt\nJetzt 19,99 EUR statt 49,99 EUR\n\nAngebot gültig bis 20. Oktober.\n\nOrigin Team",
+    "istPhishing": false,
+    "tipp": "Schau auf die Domain. Klingt das Angebot realistisch oder zu gut um wahr zu sein?",
+    "level": 3
+  },
+    {
+    "absender": "hello@gog.com",
+    "betreff": "GOG Galaxy: Update verfügbar",
+    "nachricht": "Hallo,\n\nein Update für GOG Galaxy ist verfügbar.\n\nVersion 2.0.75\nNeue Features und Bugfixes\n\nDie App wird beim nächsten Start automatisch aktualisiert.\n\nGOG.com",
+    "istPhishing": false,
+    "tipp": "Ist die Domain korrekt? Wird hier nur informiert oder musst du sofort handeln?",
+    "level": 3
+  },
+    {
+    "absender": "team@crunchyroll.com",
+    "betreff": "Neue Anime-Folgen verfügbar! 📺",
+    "nachricht": "Hi Anime-Fan,\n\nneve Folgen deiner Lieblings-Serien sind jetzt verfügbar:\n\n- One Piece: Folge 1089\n- My Hero Academia: Staffel 7, Folge 3\n\nSchau sie dir jetzt an!\n\nCrunchyroll",
+    "istPhishing": false,
+    "tipp": "Prüfe die E-Mail-Adresse. Werden konkrete Folgen-Nummern genannt?",
+    "level": 3
+  },
+    {
+    "absender": "info@hbomax.com",
+    "betreff": "HBO Max wird zu Max",
+    "nachricht": "Hallo,\n\nHBO Max heißt jetzt einfach 'Max'.\n\nAlle deine Inhalte und Einstellungen bleiben gleich. Du musst nichts tun.\n\nDie App wird automatisch aktualisiert.\n\nMax Team",
+    "istPhishing": false,
+    "tipp": "Schau auf die Domain. Wird etwas von dir verlangt oder nur informiert?",
+    "level": 3
+  },
+    {
+    "absender": "notify@reddit.com",
+    "betreff": "Dein Post hat 100 Upvotes bekommen! ⬆️",
+    "nachricht": "Hey u/deinusername,\n\ndein Post in r/gaming ist beliebt!\n\nTitel: 'Meine Minecraft-Basis nach 200 Stunden'\n100 Upvotes, 23 Kommentare\n\nSchau dir die Kommentare an!\n\nReddit",
+    "istPhishing": false,
+    "tipp": "Ist die Domain korrekt geschrieben? Sind konkrete Details wie Upvotes angegeben?",
+    "level": 3
+  },
+    {
+    "absender": "no-reply@battle.net",
+    "betreff": "Battle.net: Geschenk erhalten 🎁",
+    "nachricht": "Hallo,\n\nein Freund hat dir ein Geschenk geschickt!\n\nGeschenk: Overwatch 2 - Legendary Skin\nVon: MaxGamer123\n\nDas Geschenk wurde deinem Konto hinzugefügt.\n\nBlizzard Entertainment",
+    "istPhishing": false,
+    "tipp": "Achte auf die Domain. Wird ein konkreter Absender genannt der dir etwas geschenkt hat?",
+    "level": 3
+  },
+    {
+    "absender": "updates@unity.com",
+    "betreff": "Unity: Dein Projekt wurde gespeichert ☁️",
+    "nachricht": "Hallo,\n\ndein Unity-Projekt 'MeinSpiel_v2' wurde erfolgreich in die Cloud gespeichert.\n\nLetzte Änderung: 14. Okt. 2025, 17:30 Uhr\nGröße: 245 MB\n\nZugriff jederzeit über unity.com\n\nUnity Technologies",
+    "istPhishing": false,
+    "tipp": "Prüfe die E-Mail-Adresse. Gibt es konkrete technische Details wie Größe und Zeitpunkt?",
+    "level": 3
+  },
+    {
+    "absender": "billing@adobe.com",
+    "betreff": "Adobe Creative Cloud: Rechnung Oktober 2025",
+    "nachricht": "Hallo,\n\ndeine monatliche Rechnung ist verfügbar.\n\nBetrag: 12,99 EUR\nDatum: 14. Oktober 2025\nRechnungsnummer: AD-785469\n\nDownload unter account.adobe.com\n\nAdobe Systems",
+    "istPhishing": false,
+    "tipp": "Ist die Domain echt? Gibt es eine konkrete Rechnungsnummer und Datum?",
+    "level": 3
+  },
+
+
+
+
+
+
+
+    {
+    "absender": "security@account-google.com",
+    "betreff": "Sicherheitswarnung für dein Google-Konto",
+    "nachricht": "Hallo,\n\nwir haben einen verdächtigen Anmeldeversuch festgestellt.\n\nGerät: Unbekanntes Android-Gerät\nOrt: Russland\nZeit: 14. Oktober, 17:20 Uhr\n\nÜberprüfe deine Kontoaktivität sofort unter diesem Link, um dein Konto zu schützen.\n\nGoogle Sicherheitsteam",
+    "istPhishing": true,
+    "tipp": "GANZ GENAU hinschauen! Steht da 'account' oder 'accounts' (mit s)? Aus welchem Land kommt der Anmeldeversuch?",
+    "level": 3
+  },
+      {
+    "absender": "support@paypa1.com",
+    "betreff": "PayPal: Ungewöhnliche Transaktion erkannt",
+    "nachricht": "Hallo,\n\nwir haben eine ungewöhnliche Transaktion über 299 EUR festgestellt.\n\nEmpfänger: TechStore_Online\nBetrag: 299,00 EUR\n\nFalls du diese Zahlung nicht autorisiert hast, bestätige bitte deine Identität innerhalb von 24 Stunden.\n\nPayPal Sicherheitsteam",
+    "istPhishing": true,
+    "tipp": "ACHTUNG! Ist das ein kleines L oder eine EINS (1) in 'paypa1'? Klicke auf die Adresse und schau genau hin!",
+    "level": 3
+  },
+      {
+    "absender": "noreply@steam-community.com",
+    "betreff": "Steam: Verdächtige Aktivität auf deinem Konto",
+    "nachricht": "Hallo,\n\njemand hat versucht, teure Items aus deinem Inventar zu handeln.\n\nWir haben die Transaktion vorläufig blockiert.\n\nBitte verifiziere dein Konto innerhalb von 48 Stunden, um es zu entsperren.\n\nSteam Guard Team",
+    "istPhishing": true,
+    "tipp": "Hat die echte Steam-Domain das Wort 'community' drin? Fragt Steam per E-Mail nach Verifizierung?",
+    "level": 3
+  },
+      {
+    "absender": "account@blizzard-entertainment.com",
+    "betreff": "Battle.net: Kontoüberprüfung erforderlich",
+    "nachricht": "Hallo,\n\nwir führen routinemäßige Sicherheitsüberprüfungen durch.\n\nDein Konto wurde für eine Überprüfung ausgewählt.\n\nBitte bestätige deine Kontodaten innerhalb von 72 Stunden, um Einschränkungen zu vermeiden.\n\nBlizzard Sicherheitsteam",
+    "istPhishing": true,
+    "tipp": "Ist 'blizzard-entertainment.com' die echte Domain oder nur 'blizzard.com'? Wie viele Stunden Frist - ist das normal?",
+    "level": 3
+  },
+      {
+    "absender": "verify@microsoft-account.com",
+    "betreff": "Microsoft: Bestätige deine Identität",
+    "nachricht": "Hallo,\n\nzur Verbesserung der Sicherheit bitten wir dich, deine Identität zu bestätigen.\n\nDieser Prozess dauert nur 2 Minuten.\n\nOhne Bestätigung könnte dein Konto eingeschränkt werden.\n\nMicrosoft-Sicherheitsteam",
+    "istPhishing": true,
+    "tipp": "Schau genau: 'microsoft-account.com' oder 'microsoft.com'? Fragt Microsoft per E-Mail nach Identitätsbestätigung?",
+    "level": 3
+  },
+      {
+    "absender": "security-team@twitter-official.com",
+    "betreff": "Twitter: Ungewöhnliche Login-Aktivität",
+    "nachricht": "Hey,\n\nes gab mehrere fehlgeschlagene Login-Versuche bei deinem Twitter-Account.\n\nStandort: Ukraine\nVersuche: 7\n\nSichere dein Konto jetzt, indem du deine Login-Daten aktualisierst.\n\nTwitter Sicherheits-Team",
+    "istPhishing": true,
+    "tipp": "Auch mit 'official' im Namen - ist das die echte Twitter-Domain? Aus welchem Land kommen die Login-Versuche?",
+    "level": 3
+  },
+      {
+    "absender": "help@ea-support.com",
+    "betreff": "EA: Dein Konto wurde temporär eingeschränkt",
+    "nachricht": "Hallo,\n\nwir haben Aktivitäten auf deinem Konto festgestellt, die gegen unsere Nutzungsbedingungen verstoßen könnten.\n\nDein Konto ist vorläufig eingeschränkt.\n\nReiche einen Einspruch ein, um die Einschränkung aufzuheben.\n\nEA Support Team",
+    "istPhishing": true,
+    "tipp": "Vergleiche 'ea-support.com' mit der echten EA-Domain. Sperrt EA sofort ohne vorherige Warnung?",
+    "level": 3
+  },
+      {
+    "absender": "notification@epicgames-store.com",
+    "betreff": "Epic Games: Kostenlose V-Bucks für Fortnite",
+    "nachricht": "Hallo,\n\nals Dankeschön für deine Treue schenken wir dir 1000 V-Bucks.\n\nDiese Aktion ist zeitlich begrenzt und gilt nur für ausgewählte Spieler.\n\nLöse deinen Code innerhalb der nächsten 48 Stunden ein.\n\nEpic Games Promotions",
+    "istPhishing": true,
+    "tipp": "Ist 'epicgames-store.com' die echte Domain? Werden V-Bucks an 'ausgewählte Spieler' verschenkt?",
+    "level": 3
+  },
+      {
+    "absender": "service@nintendo-eshop.com",
+    "betreff": "Nintendo: Zahlungsproblem bei deinem Abo",
+    "nachricht": "Hallo,\n\ndie Zahlung für dein Nintendo Switch Online Abo konnte nicht durchgeführt werden.\n\nBitte aktualisiere deine Zahlungsmethode innerhalb von 5 Tagen.\n\nSonst wird dein Abo deaktiviert und du verlierst den Zugriff auf Online-Funktionen.\n\nNintendo Billing",
+    "istPhishing": true,
+    "tipp": "Hat die echte Nintendo-Domain einen Bindestrich? Wie wird gedroht - subtil oder direkt?",
+    "level": 3
+  },
+      {
+    "absender": "updates@discord-app.com",
+    "betreff": "Discord: Wichtiges Sicherheitsupdate",
+    "nachricht": "Hey,\n\nein kritisches Sicherheitsupdate ist verfügbar.\n\nOhne dieses Update könnte dein Konto gefährdet sein.\n\nInstalliere das Update jetzt, indem du deine Kontodaten bestätigst.\n\nDiscord Security Team",
+    "istPhishing": true,
+    "tipp": "Ist 'discord-app.com' die echte Discord-Domain? Brauchen Updates wirklich Kontodaten?",
+    "level": 3
+  },
+      {
+    "absender": "alerts@spotify-premium.com",
+    "betreff": "Spotify: Dein Abo läuft ab",
+    "nachricht": "Hallo,\n\ndein Spotify Premium Abo endet in 3 Tagen.\n\nUm Unterbrechungen zu vermeiden, bestätige bitte deine Zahlungsinformationen.\n\nAktuelle Mitglieder erhalten 2 Monate gratis bei sofortiger Verlängerung.\n\nSpotify Membership Team",
+    "istPhishing": true,
+    "tipp": "Schau auf die Domain nach dem @. Gibt es '2 Monate gratis' bei normaler Verlängerung?",
+    "level": 3
+  },
+      {
+    "absender": "info@roblox-support.com",
+    "betreff": "Roblox: Jemand hat dein Passwort zurückgesetzt",
+    "nachricht": "Hallo,\n\nes wurde eine Passwort-Zurücksetzung für dein Konto beantragt.\n\nWenn du das nicht warst, sichere dein Konto sofort!\n\nKlicke hier, um die Zurücksetzung zu blockieren.\n\nRoblox Account Security",
+    "istPhishing": true,
+    "tipp": "Vergleiche mit der echten Roblox-Domain. Wo würdest du eine Passwort-Zurücksetzung blockieren - per E-Mail-Link oder in der App?",
+    "level": 3
+  },
+      {
+    "absender": "team@netflix-billing.com",
+    "betreff": "Netflix: Aktualisierung deiner Zahlungsdaten nötig",
+    "nachricht": "Hallo,\n\ndeine Kreditkarte ist abgelaufen.\n\nBitte aktualisiere deine Zahlungsinformationen, um dein Netflix-Abo fortzusetzen.\n\nOhne Aktualisierung wird dein Konto in 7 Tagen deaktiviert.\n\nNetflix Payment Services",
+    "istPhishing": true,
+    "tipp": "Ist das die echte Netflix-Domain? Wie wird gedroht - wie viele Tage bleiben dir?",
+    "level": 3
+  },
+      {
+    "absender": "verify@instagram-team.com",
+    "betreff": "Instagram: Verifizierungsabzeichen verfügbar ✓",
+    "nachricht": "Hi,\n\ndein Account erfüllt die Voraussetzungen für ein Verifizierungsabzeichen.\n\nDer blaue Haken erhöht deine Reichweite und Glaubwürdigkeit.\n\nStarte den Verifizierungsprozess jetzt - nur noch 50 Plätze verfügbar!\n\nInstagram Verification Team",
+    "istPhishing": true,
+    "tipp": "Schau auf die Domain. Ist das Verifizierungsabzeichen kostenlos oder kostet es Geld?",
+    "level": 3
+  },
+      {
+    "absender": "support@twitch-partners.com",
+    "betreff": "Twitch: Du wurdest zum Partner nominiert",
+    "nachricht": "Hey Streamer,\n\nGlückwunsch! Du wurdest für das Twitch-Partner-Programm nominiert.\n\nPartner verdienen durchschnittlich 500 EUR pro Monat.\n\nSchließe deine Bewerbung ab, indem du deine Kontodaten verifizierst.\n\nTwitch Partnership Team",
+    "istPhishing": true,
+    "tipp": "Ist das die echte Twitch-Domain? Wirst du für Partnerschaften nominiert oder musst du dich bewerben?",
+    "level": 3
+  },
+      {
+    "absender": "noreply@amazon-security.de",
+    "betreff": "Amazon: Verdächtige Bestellung erkannt",
+    "nachricht": "Hallo,\n\nwir haben eine verdächtige Bestellung über 459 EUR auf deinem Konto entdeckt.\n\nProdukt: iPhone 15 Pro\nBestellnummer: DE-998847\n\nFalls du diese Bestellung nicht aufgegeben hast, storniere sie innerhalb von 12 Stunden.\n\nAmazon Fraud Detection",
+    "istPhishing": true,
+    "tipp": "Vergleiche mit der echten Amazon-Domain. Wie viele Stunden Zeit - ist das realistisch bei so teuren Bestellungen?",
+    "level": 3
+  },
+      {
+    "absender": "alerts@apple-id.com",
+    "betreff": "Apple: Deine Apple-ID wurde auf einem neuen Gerät verwendet",
+    "nachricht": "Hallo,\n\ndeine Apple-ID wurde auf einem neuen Gerät angemeldet.\n\nGerät: MacBook Pro\nStandort: Polen\n\nWenn du das nicht warst, sperre den Zugriff sofort über diesen Link.\n\nApple Security",
+    "istPhishing": true,
+    "tipp": "Ist 'apple-id.com' die echte Apple-Domain? Aus welchem Land kommt die Anmeldung - wirkt das verdächtig?",
+    "level": 3
+  },
+      {
+    "absender": "prizes@playstation-rewards.com",
+    "betreff": "PlayStation: Exklusive Belohnung für treue Spieler 🎮",
+    "nachricht": "Hallo,\n\naufgrund deiner Spielzeit hast du dich für eine exklusive Belohnung qualifiziert.\n\nBelohnung: 50 EUR PlayStation Store Guthaben\n\nLöse deinen Code innerhalb von 72 Stunden ein.\n\nPlayStation Rewards Program",
+    "istPhishing": true,
+    "tipp": "Schau auf die Domain nach dem @. Verschenkt PlayStation Guthaben für 'Spielzeit'?",
+    "level": 3
+  },
+      {
+    "absender": "notifications@tiktok-creators.com",
+    "betreff": "TikTok: Creator Fund Zahlung ausstehend 💰",
+    "nachricht": "Hi Creator,\n\ndeine Creator Fund Zahlung von 127 EUR steht bereit.\n\nZahlungszeitraum: September 2025\n\nVerifiziere deine Zahlungsinformationen, um die Auszahlung zu erhalten.\n\nTikTok Creator Fund Team",
+    "istPhishing": true,
+    "tipp": "Ist das die echte TikTok-Domain? Werden Creator Fund Zahlungen per E-Mail-Link oder über die App abgewickelt?",
+    "level": 3
+  },
+      {
+    "absender": "service@minecraft-realms.net",
+    "betreff": "Minecraft: Dein Realms-Server wird gelöscht",
+    "nachricht": "Hallo,\n\ndein Realms-Server konnte nicht verlängert werden, da die Zahlung fehlgeschlagen ist.\n\nDer Server wird in 48 Stunden permanent gelöscht.\n\nAlle deine Welten und Fortschritte gehen verloren!\n\nAktualisiere deine Zahlungsdaten sofort.\n\nMinecraft Realms Support",
+    "istPhishing": true,
+    "tipp": "Prüfe die Domain genau. Wie wird gedroht - 48 Stunden bis permanente Löschung? Ist das realistisch?",
+    "level": 3
+  }
+]

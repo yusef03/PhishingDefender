@@ -1,0 +1,26 @@
+# Ignoriere alle kompilierten Java-Dateien
+*.class
+
+# Ignoriere kompilierte Ordner von IDEs
+bin/
+out/
+build/
+
+# Ignoriere IntelliJ IDEA-Projektdateien
+# (Diese .iml-Datei ist für das ganze "games"-Projekt, nicht für deins)
+# Wir fügen sie trotzdem hinzu, falls du eine eigene erstellst.
+.idea/
+*.iml
+
+# Ignoriere temporäre OS-Dateien
+.DS_Store
+Thumbs.db
+
+# Ignoriere Java-Artefakte
+*.jar
+*.war
+*.ear
+
+# Ignoriere Log- und temporäre Dateien
+*.log
+*.tmp

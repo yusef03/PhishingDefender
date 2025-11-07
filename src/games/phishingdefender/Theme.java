@@ -1,0 +1,143 @@
+package games.phishingdefender;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+/**
+ * Zentrale Klasse für UI-Konstanten wie Farben, Schriftarten und Ränder (Padding).
+ * Enthält auch eine Factory-Methode (`createStyledButton`) zum Erstellen
+ * von konsistent gestylten "Flat Design"-Buttons mit Hover-Effekt.
+ * Hilft, das Erscheinungsbild des Spiels zentral zu verwalten.
+ *
+ * @author yusef03
+ * @version 1.0
+ */
+
+public class Theme {
+
+    // === NEUE FARBPALETTE (DARK & GREEN) ===
+
+    // Hintergrund
+    public static final Color COLOR_BACKGROUND_DARK = new Color(18, 18, 18); // Fast Schwarz
+    public static final Color COLOR_PANEL_DARK = new Color(30, 30, 30);      // Dunkles Grau
+
+    // Text
+    public static final Color COLOR_TEXT_PRIMARY = new Color(240, 240, 240); // Helles Weiß
+    public static final Color COLOR_TEXT_SECONDARY = new Color(170, 170, 170); // Helles Grau
+
+    // Haupt-Akzent (Grün statt Orange)
+    public static final Color COLOR_ACCENT_GREEN = new Color(0, 220, 120);
+    public static final Color COLOR_ACCENT_GREEN_HOVER = new Color(20, 240, 140);
+
+    // Neutraler Button (Grau statt Blau/Purple)
+    public static final Color COLOR_BUTTON_NEUTRAL = new Color(70, 70, 70);
+    public static final Color COLOR_BUTTON_NEUTRAL_HOVER = new Color(90, 90, 90);
+
+    // Warn-Button (Rot)
+    public static final Color COLOR_BUTTON_RED = new Color(220, 50, 50);
+    public static final Color COLOR_BUTTON_RED_HOVER = new Color(240, 70, 70);
+
+    // *** ALTE KONSTANTEN (um Kompatibilität zu halten) ***
+    // Wir leiten sie auf die neuen Farben um.
+
+    // Orange -> Green
+    public static final Color COLOR_ACCENT_ORANGE = COLOR_ACCENT_GREEN;
+    public static final Color COLOR_ACCENT_ORANGE_HOVER = COLOR_ACCENT_GREEN_HOVER;
+
+    // Green -> Green (bleibt)
+    public static final Color COLOR_BUTTON_GREEN = COLOR_ACCENT_GREEN;
+    public static final Color COLOR_BUTTON_GREEN_HOVER = COLOR_ACCENT_GREEN_HOVER;
+
+    // Grey -> Neutral
+    public static final Color COLOR_BUTTON_GREY = COLOR_BUTTON_NEUTRAL;
+    public static final Color COLOR_BUTTON_GREY_HOVER = COLOR_BUTTON_NEUTRAL_HOVER;
+
+    // Blue -> Neutral
+    public static final Color COLOR_BUTTON_BLUE = COLOR_BUTTON_NEUTRAL;
+    public static final Color COLOR_BUTTON_BLUE_HOVER = COLOR_BUTTON_NEUTRAL_HOVER;
+
+    // Purple -> Neutral
+    public static final Color COLOR_BUTTON_PURPLE = COLOR_BUTTON_NEUTRAL;
+    public static final Color COLOR_BUTTON_PURPLE_HOVER = COLOR_BUTTON_NEUTRAL_HOVER;
+
+
+    // === SCHRIFTARTEN ===
+    // (Bleiben gleich, sind gut)
+    public static final Font FONT_TITLE = new Font("SansSerif", Font.BOLD, 42);
+    public static final Font FONT_BUTTON_LARGE = new Font("SansSerif", Font.BOLD, 22);
+    public static final Font FONT_BUTTON_MEDIUM = new Font("SansSerif", Font.BOLD, 18);
+    public static final Font FONT_BUTTON_SMALL = new Font("SansSerif", Font.BOLD, 16);
+
+
+    // === RÄNDER (Padding) ===
+    // (Bleiben gleich, sind gut)
+    public static final Border PADDING_BUTTON_LARGE = BorderFactory.createEmptyBorder(15, 35, 15, 35);
+    public static final Border PADDING_BUTTON_MEDIUM = BorderFactory.createEmptyBorder(12, 30, 12, 30);
+
+
+    /**
+     * FABRIK-METHODE für unsere "Flat Buttons".
+     * (Bleibt exakt gleich, holt sich die Farben von oben)
+     */
+    public static JButton createStyledButton(String text, Font font, Color normalColor, Color hoverColor, Border padding) {
+
+        JButton button = new JButton(text) {
+            private boolean isHovered = false;
+
+            // Dieser Block wird beim Erstellen des Buttons aufgerufen
+            {
+                addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        isHovered = true;
+                        repaint(); // Neu zeichnen
+                    }
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        isHovered = false;
+                        repaint(); // Neu zeichnen
+                    }
+                });
+            }
+
+            // Hier malen wir den Button selbst!
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Hintergrund-Farbe (je nach Hover)
+                if (isHovered) {
+                    g2.setColor(hoverColor);
+                } else {
+                    g2.setColor(normalColor);
+                }
+
+                // Zeichne das abgerundete Rechteck
+                // (Die 25, 25 ist die Stärke der Rundung)
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
+
+                g2.dispose();
+
+                // super.paintComponent MALT DEN TEXT (muss nachher kommen)
+                super.paintComponent(g);
+            }
+        };
+
+        // WICHTIGE EINSTELLUNGEN, damit unser eigener Look funktioniert
+        button.setFont(font);
+        button.setForeground(COLOR_TEXT_PRIMARY); // Text bleibt weiß
+        button.setBorder(padding);                // Padding für die Größe
+        button.setContentAreaFilled(false);       // WICHTIG: Sag Swing, nicht den Standard-Hintergrund zu malen
+        button.setFocusPainted(false);
+        button.setOpaque(false);                  // WICHTIG
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Den alten MouseListener brauchen wir nicht mehr, wir haben einen neuen (siehe oben)
+
+        return button;
+    }
+}

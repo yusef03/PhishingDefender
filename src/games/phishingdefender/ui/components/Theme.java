@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.ui.components;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,8 +17,6 @@ import java.awt.event.MouseEvent;
  */
 
 public class Theme {
-
-    // === NEUE FARBPALETTE (DARK & GREEN) ===
 
     // Hintergrund
     public static final Color COLOR_BACKGROUND_DARK = new Color(18, 18, 18); // Fast Schwarz
@@ -40,14 +38,12 @@ public class Theme {
     public static final Color COLOR_BUTTON_RED = new Color(220, 50, 50);
     public static final Color COLOR_BUTTON_RED_HOVER = new Color(240, 70, 70);
 
-    // *** ALTE KONSTANTEN (um Kompatibilität zu halten) ***
-    // Wir leiten sie auf die neuen Farben um.
 
     // Orange -> Green
     public static final Color COLOR_ACCENT_ORANGE = COLOR_ACCENT_GREEN;
     public static final Color COLOR_ACCENT_ORANGE_HOVER = COLOR_ACCENT_GREEN_HOVER;
 
-    // Green -> Green (bleibt)
+    // Green -> Green
     public static final Color COLOR_BUTTON_GREEN = COLOR_ACCENT_GREEN;
     public static final Color COLOR_BUTTON_GREEN_HOVER = COLOR_ACCENT_GREEN_HOVER;
 
@@ -65,7 +61,6 @@ public class Theme {
 
 
     // === SCHRIFTARTEN ===
-    // (Bleiben gleich, sind gut)
     public static final Font FONT_TITLE = new Font("SansSerif", Font.BOLD, 42);
     public static final Font FONT_BUTTON_LARGE = new Font("SansSerif", Font.BOLD, 22);
     public static final Font FONT_BUTTON_MEDIUM = new Font("SansSerif", Font.BOLD, 18);
@@ -73,7 +68,6 @@ public class Theme {
 
 
     // === RÄNDER (Padding) ===
-    // (Bleiben gleich, sind gut)
     public static final Border PADDING_BUTTON_LARGE = BorderFactory.createEmptyBorder(15, 35, 15, 35);
     public static final Border PADDING_BUTTON_MEDIUM = BorderFactory.createEmptyBorder(12, 30, 12, 30);
 
@@ -103,7 +97,6 @@ public class Theme {
                 });
             }
 
-            // Hier malen wir den Button selbst!
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
@@ -121,13 +114,11 @@ public class Theme {
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
 
                 g2.dispose();
-
-                // super.paintComponent MALT DEN TEXT (muss nachher kommen)
                 super.paintComponent(g);
             }
         };
 
-        // WICHTIGE EINSTELLUNGEN, damit unser eigener Look funktioniert
+        // WICHTIGE EINSTELLUNGEN, damit Look funktioniert
         button.setFont(font);
         button.setForeground(COLOR_TEXT_PRIMARY); // Text bleibt weiß
         button.setBorder(padding);                // Padding für die Größe
@@ -135,8 +126,6 @@ public class Theme {
         button.setFocusPainted(false);
         button.setOpaque(false);                  // WICHTIG
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        // Den alten MouseListener brauchen wir nicht mehr, wir haben einen neuen (siehe oben)
 
         return button;
     }

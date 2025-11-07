@@ -1,4 +1,6 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.ui.components.Theme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -123,7 +125,7 @@ public class PauseMenu extends JPanel {
         // Fortsetzen Button
         JButton fortsetzenButton = Theme.createStyledButton(
                 "▶️ FORTSETZEN",
-                Theme.FONT_BUTTON_MEDIUM, // 18px (20 war nicht in Theme, 18 ist nah dran)
+                Theme.FONT_BUTTON_MEDIUM, // 18px
                 Theme.COLOR_BUTTON_GREEN,
                 Theme.COLOR_BUTTON_GREEN_HOVER,
                 Theme.PADDING_BUTTON_LARGE // 15px padding

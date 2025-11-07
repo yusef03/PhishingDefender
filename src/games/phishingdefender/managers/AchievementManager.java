@@ -1,4 +1,7 @@
-package games.phishingdefender;
+package games.phishingdefender.managers;
+
+import games.phishingdefender.ui.components.LevelConfig;
+import games.phishingdefender.data.Achievement;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -79,7 +82,6 @@ public class AchievementManager {
     private String getAchievementsFile() {
         String cleanName = spielerName.toLowerCase().replaceAll("[^a-z0-9]", "");
 
-        // Stelle sicher, dass der Ordner existiert (genau wie in StarsManager)
         File dataDir = new File(SAVE_DIR_PATH);
         if (!dataDir.exists()) {
             dataDir.mkdirs();
@@ -94,7 +96,7 @@ public class AchievementManager {
     private void loadAchievements() {
         File file = new File(getAchievementsFile());
         if (!file.exists()) {
-            return; // Keine Datei, keine Achievements freigeschaltet
+            return;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -116,10 +118,10 @@ public class AchievementManager {
     private void saveAchievements() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getAchievementsFile()))) {
 
-            // Gehe durch alle Achievements in unserer Map
+            //durch alle Achievements in Map gehen
             for (Achievement ach : achievements.values()) {
                 if (ach.isUnlocked()) {
-                    // Wenn es freigeschaltet ist, schreibe seine ID in die Datei
+                    // Wenn es freigeschaltet ist, seine ID in die Datei schreiben !
                     writer.write(ach.getId());
                     writer.newLine();
                 }

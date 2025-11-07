@@ -1,4 +1,9 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.ui.components.Theme;
+import games.phishingdefender.managers.HighscoreManager;
+import games.phishingdefender.managers.MusicManager;
+import games.phishingdefender.managers.StarsManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -167,7 +172,7 @@ public class SettingsDialog extends JDialog {
     private void adminResetAusfuehren() {
 
         // === DAS PASSWORT ===
-        final String ADMIN_PASSWORT = "yusef2020";
+        final String ADMIN_PASSWORT = "123321";
 
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         JLabel label = new JLabel("Bitte Admin-Passwort eingeben:");
@@ -193,7 +198,7 @@ public class SettingsDialog extends JDialog {
         }
 
         // 4. Passwort auslesen und prüfen
-        // Wir holen das Passwort als char[] und wandeln es in einen String um
+        //holen das Passwort als char[] und wandeln es in einen String um
         String eingabe = new String(passField.getPassword());
 
         if (!eingabe.equals(ADMIN_PASSWORT)) {

@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.data;
 
 /**
  * Eine Daten-Klasse , die ein einzelnes Achievement (einen Erfolg) darstellt.

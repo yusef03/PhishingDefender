@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,12 +64,12 @@ public class FeedbackCard extends JPanel {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 
 
-        // 1. Hintergrund (Dunkelgrau, fast wie Theme.PANEL_DARK)
+        // 1. Hintergrund
         int bgAlpha = (int)(230 * alpha); // 230 = fast opak
         g2.setColor(new Color(30, 30, 30, bgAlpha));
         g2.fill(new RoundRectangle2D.Float(0, 0, w - 1, h - 1, cornerRadius, cornerRadius));
 
-        // 2. Rand (in Akzentfarbe: Grün oder Rot)
+        // 2. Rand (in Akzentfarbe)
         int borderAlpha = (int)(200 * alpha);
         g2.setColor(new Color(mainColor.getRed(), mainColor.getGreen(), mainColor.getBlue(), borderAlpha));
         g2.setStroke(new BasicStroke(2.5f));

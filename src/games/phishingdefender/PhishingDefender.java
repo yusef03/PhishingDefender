@@ -1,5 +1,15 @@
 package games.phishingdefender;
 
+import games.phishingdefender.managers.AchievementManager;
+import games.phishingdefender.managers.MusicManager;
+import games.phishingdefender.managers.StarsManager;
+import games.phishingdefender.ui.*;
+import games.phishingdefender.ui.SplashScreen;
+import games.phishingdefender.ui.components.AnimatedBackgroundPanel;
+import games.phishingdefender.ui.components.ScrollablePanel;
+import games.phishingdefender.ui.components.SettingsButton;
+import games.phishingdefender.ui.components.Theme;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -33,8 +43,7 @@ public class PhishingDefender extends JFrame {
         hoechstesFreigeschaltetes = 1;
         this.spielerName = "";
 
-        // === FENSTER-SETUP ===
-        setTitle("Phishing Defender by 03yusef v.0.8");
+        setTitle("Phishing Defender by 03yusef v.2.0");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
@@ -42,7 +51,6 @@ public class PhishingDefender extends JFrame {
         setMinimumSize(new Dimension(1920, 1080));
         // Zentriert das Fenster
         setLocationRelativeTo(null);
-        // === ENDE FENSTER-SETUP ===
 
         // Haupt-Panel für Gradient-Hintergrund
         mainPanel = new AnimatedBackgroundPanel();
@@ -297,7 +305,7 @@ public class PhishingDefender extends JFrame {
         settingsWrapper.setOpaque(false);
         settingsWrapper.add(settingsButton);
 
-        // === BOTTOM PANEL (Buttons + Settings) ===
+
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         // Packt die Buttons in die Mitte (GridBagLayout)
@@ -317,7 +325,7 @@ public class PhishingDefender extends JFrame {
         getContentPane().removeAll();
         getContentPane().add(mainPanel);
 
-        // 1. ZUERST die Logik ausführen, die ändert, was sichtbar ist
+        // 1. Logik ausführen, die ändert, was sichtbar ist
         aktualisiereSpielerAnzeige();
         aktualisiereStartButtonStatus();
 
@@ -393,7 +401,6 @@ public class PhishingDefender extends JFrame {
     public void zeigeResultScreen(int level, int score, int leben, int maxLeben, int gesamtEmails, boolean erfolg) {
         MusicManager.stopMenuMusic();
         getContentPane().removeAll();
-        // KORREKTER AUFRUF MIT 8 ARGUMENTEN
         getContentPane().add(new ResultScreen(this, level, score, leben, maxLeben, gesamtEmails, erfolg, this.achievementManager));
         revalidate();
         repaint();
@@ -510,11 +517,10 @@ public class PhishingDefender extends JFrame {
         zeigeWelcomeScreen();
     }
 
-    // (Die alte packAndCenterWindow() Methode ist GELÖSCHT)
 
     // === MAIN METHODE ===
     public static void main(String[] args) {
-        SplashScreen splash = new SplashScreen();
+        games.phishingdefender.ui.SplashScreen splash = new SplashScreen();
         splash.setVisible(true);
 
         SwingWorker<PhishingDefender, Void> worker = new SwingWorker<>() {

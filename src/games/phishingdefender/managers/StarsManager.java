@@ -1,4 +1,6 @@
-package games.phishingdefender;
+package games.phishingdefender.managers;
+
+import games.phishingdefender.ui.components.LevelConfig;
 
 import java.io.*;
 import java.util.HashMap;
@@ -40,7 +42,6 @@ public class StarsManager {
     private String getStarsFile() {
         String cleanName = spielerName.toLowerCase().replaceAll("[^a-z0-9]", "");
 
-        // Erstelle den NEUEN Ordner (genau wie im HighscoreManager)
         File dataDir = new File(SAVE_DIR_PATH);
         if (!dataDir.exists()) {
             dataDir.mkdirs();
@@ -50,9 +51,6 @@ public class StarsManager {
         return SAVE_DIR_PATH + File.separator + "stars_" + cleanName + ".txt";
     }
 
-    /**
-     * Lädt Sterne aus Datei
-     */
     /**
      * Lädt Sterne aus Datei
      */
@@ -69,8 +67,7 @@ public class StarsManager {
                 String[] parts = line.split("=");
                 if (parts.length == 2) {
 
-                    // === KORREKTUR START ===
-                    // Wir prüfen, WAS wir da lesen
+                    //prüfen, WAS wir da lesen
 
                     if (parts[0].startsWith("level")) {
                         // Es ist eine Level-Zeile
@@ -81,7 +78,6 @@ public class StarsManager {
                         // Es ist die Tutorial-Zeile
                         hatTutorialGelesen = Boolean.parseBoolean(parts[1]);
                     }
-                    // === KORREKTUR ENDE ===
                 }
             }
         } catch (Exception e) {
@@ -121,7 +117,6 @@ public class StarsManager {
     public void updateStars(int level, int newStars) {
         int currentStars = levelStars.getOrDefault(level, 0);
 
-        // Nur updaten wenn neue Sterne-Zahl BESSER ist!
         if (newStars > currentStars) {
             levelStars.put(level, newStars);
             saveStars();

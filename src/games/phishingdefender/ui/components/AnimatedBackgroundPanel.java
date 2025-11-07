@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,8 +58,6 @@ public class AnimatedBackgroundPanel extends JPanel {
         Graphics2D g2 = backgroundBuffer.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // === MALLE JETZT DEN TEUREN CODE NUR EINMAL ===
-
         // 1. Gradient-Hintergrund
         GradientPaint gradient = new GradientPaint(
                 0, 0, Theme.COLOR_BACKGROUND_DARK,
@@ -94,7 +92,7 @@ public class AnimatedBackgroundPanel extends JPanel {
     }
 
     /**
-     * paintComponent ist jetzt SUPER SCHNELL.
+     * paintComponent
      */
     @Override
     protected void paintComponent(Graphics g) {

@@ -1,4 +1,14 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.*;
+import games.phishingdefender.data.HighscoreEntry;
+import games.phishingdefender.managers.AchievementManager;
+import games.phishingdefender.managers.HighscoreManager;
+import games.phishingdefender.managers.StarsManager;
+import games.phishingdefender.ui.components.AchievementCard;
+import games.phishingdefender.ui.components.AnimatedBackgroundPanel;
+import games.phishingdefender.ui.components.LevelConfig;
+import games.phishingdefender.ui.components.Theme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,12 +60,12 @@ public class ResultScreen extends JPanel {
 
             // === HIER ACHIEVEMENTS VERGEBEN & POPUP ZEITLICH STEUERN ===
             boolean levelCompleteNeu = achievementManager.unlockAchievement("L" + level + "_COMPLETE");
-            boolean levelPerfectNeu = false; // <-- Stelle sicher, dass diese Zeile hier ist
+            boolean levelPerfectNeu = false;
             if (erreichteSterne == 3) {
                 levelPerfectNeu = achievementManager.unlockAchievement("L" + level + "_PERFECT");
             }
 
-            final boolean finalLevelPerfectNeu = levelPerfectNeu; // Nötig für Timer
+            final boolean finalLevelPerfectNeu = levelPerfectNeu;
 
             Timer achTimer1 = new Timer(1500, e -> { // 1.5 Sek. Verzögerung
                 if (levelCompleteNeu) {
@@ -75,18 +85,18 @@ public class ResultScreen extends JPanel {
             }
             // === ENDE ===
 
-            // === NEU: Meta-Achievements prüfen (Makellos & Legende) ===
+            // === Meta-Achievements prüfen (Makellos & Legende) ===
 
-// 1. "Makellos"-Achievement (kein Leben verloren)
+            //1. "Makellos"-Achievement (kein Leben verloren)
             boolean makellosNeu = false;
             if (leben == maxLeben) { // Prüft auf volle Leben
                 // Wir benutzen "NO_MISTAKES_L" + die aktuelle Level-Nummer
                 makellosNeu = achievementManager.unlockAchievement("NO_MISTAKES_L" + level);
             }
 
-// 2. "Cyber-Legende"-Achievement (alle 3-Sterne-Erfolge geholt)
+            // 2. "Cyber-Legende"-Achievement (alle 3-Sterne-Erfolge geholt)
             boolean legendeNeu = false;
-// Wir prüfen, ob die 3 "Perfekt"-Erfolge (die schon existieren) alle freigeschaltet sind
+            //prüfen, ob die 3 "Perfekt"-Erfolge (die schon existieren) alle freigeschaltet sind
             if (achievementManager.isUnlocked("L1_PERFECT") &&
                     achievementManager.isUnlocked("L2_PERFECT") &&
                     achievementManager.isUnlocked("L3_PERFECT"))
@@ -174,7 +184,6 @@ public class ResultScreen extends JPanel {
         // Stats Cards erstellen
         statsPanel.add(createStatCard("⭐", "PUNKTE", String.valueOf(score), new Color(255, 200, 80)));
         statsPanel.add(createStatCard("❤️", "LEBEN", leben + "/" + maxLeben, new Color(255, 100, 100)));
-        // NEU:
         statsPanel.add(createStatCard("🎯", "GENAUIGKEIT", genauigkeit + "%", Theme.COLOR_ACCENT_GREEN)); // <-- Grün
         statsPanel.add(createStatCard("🏆", "RANG", "#" + rang + " von " + LevelConfig.GESAMT_EINZIGARTIGE_EMAILS_DB, Theme.COLOR_TEXT_SECONDARY)); // <-- Grau
         // === STERNE PANEL (nur wenn gewonnen!) ===
@@ -240,7 +249,7 @@ public class ResultScreen extends JPanel {
 
             JButton auswahlButton = Theme.createStyledButton(
                     "🎮 LEVEL AUSWAHL",
-                    Theme.FONT_BUTTON_MEDIUM, // 18px (war 20)
+                    Theme.FONT_BUTTON_MEDIUM, // 18px
                     Theme.COLOR_BUTTON_GREY,
                     Theme.COLOR_BUTTON_GREY_HOVER,
                     Theme.PADDING_BUTTON_LARGE // Großes Padding
@@ -326,7 +335,7 @@ public class ResultScreen extends JPanel {
             centerPanel.add(sterneWrapper);
         }
 
-// === NEUER TOP-WRAPPER FÜR "WHATSAPP"-NACHRICHTEN ===
+        // === NEUER TOP-WRAPPER ===
         achievementCard = new AchievementCard(); // Karte erstellen
 
         JPanel topAreaWrapper = new JPanel();
@@ -336,10 +345,7 @@ public class ResultScreen extends JPanel {
         topAreaWrapper.add(achievementCard); // Zuerst die (unsichtbare) Karte
         topAreaWrapper.add(topPanel); // Dann der Titel
 
-// ... (centerPanel wurde erstellt) ...
-// ... (buttonPanel wurde erstellt) ...
-
-        backgroundPanel.add(topAreaWrapper, BorderLayout.NORTH); // <-- Wrapper hier einfügen
+        backgroundPanel.add(topAreaWrapper, BorderLayout.NORTH);
         backgroundPanel.add(centerPanel, BorderLayout.CENTER);
         backgroundPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -348,7 +354,7 @@ public class ResultScreen extends JPanel {
 
     // Erstellt eine Stat Card
     private JPanel createStatCard(String icon, String label, String value, Color accentColor) {
-// ...
+
         JPanel card = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -374,7 +380,6 @@ public class ResultScreen extends JPanel {
                 g2.dispose();
             }
         };
-// ...
 
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setOpaque(false);

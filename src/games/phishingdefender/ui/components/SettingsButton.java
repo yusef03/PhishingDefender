@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.ui.components;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,10 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.ui.components.AnimatedBackgroundPanel;
+import games.phishingdefender.ui.components.LevelConfig;
+import games.phishingdefender.PhishingDefender;
+import games.phishingdefender.ui.components.Theme;
+import games.phishingdefender.managers.StarsManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,7 +72,7 @@ public class LevelSelectionScreen extends JPanel {
         cardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 30));
         cardsPanel.setOpaque(false);
 
-// Level 1
+        // Level 1
         cardsPanel.add(createLevelCard(
                 LevelConfig.L1_LEVEL_NUM,
                 LevelConfig.L1_NAME,
@@ -112,7 +118,7 @@ public class LevelSelectionScreen extends JPanel {
                 Theme.COLOR_BUTTON_GREY_HOVER,
                 Theme.PADDING_BUTTON_MEDIUM // 12px padding
         );
-        zurueckButton.setPreferredSize(new Dimension(200, 55)); // Deine alte Größe
+        zurueckButton.setPreferredSize(new Dimension(200, 55));
         zurueckButton.addActionListener(e -> hauptFenster.zeigeWelcomeScreen());
 
         JPanel bottomPanel = new JPanel();
@@ -192,7 +198,7 @@ public class LevelSelectionScreen extends JPanel {
                 int w = getWidth();
                 int h = getHeight();
 
-                // Glow-Effekt beim Hover
+                // Glow Effekt beim Hover
                 if (hovered && unlocked) {
                     g2.setColor(new Color(accentColor.getRed(), accentColor.getGreen(),
                             accentColor.getBlue(), (int)(100 * glowAlpha)));

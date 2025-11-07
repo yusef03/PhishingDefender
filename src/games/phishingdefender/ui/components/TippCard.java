@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.geom.RoundRectangle2D;
  * Erscheint mit einem Fade-In Effekt.
  *
  * @author yusef03
- * @version 2.0 (Modern Dark Rework)
+ * @version 2.0
  */
 
 public class TippCard extends JPanel {
@@ -60,7 +60,6 @@ public class TippCard extends JPanel {
         // Alpha für Fade-In
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 
-        // --- NEUES DESIGN (FLAT) ---
 
         // 1. Hintergrund (Dunkelgrau)
         int bgAlpha = (int)(230 * alpha);
@@ -82,7 +81,7 @@ public class TippCard extends JPanel {
         g2.setFont(new Font("SansSerif", Font.BOLD, 16));
         g2.setColor(Theme.COLOR_TEXT_PRIMARY); // Weiß
 
-        // Text umbrechen (Logik bleibt gleich)
+        // Text umbrechen
         FontMetrics fm = g2.getFontMetrics();
         int maxWidth = w - 90;
         String displayText = tippText;

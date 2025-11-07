@@ -1,4 +1,6 @@
-package games.phishingdefender;
+package games.phishingdefender.managers;
+
+import games.phishingdefender.ui.SettingsDialog;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;

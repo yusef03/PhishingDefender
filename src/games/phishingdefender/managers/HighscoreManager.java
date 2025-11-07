@@ -1,4 +1,7 @@
-package games.phishingdefender;
+package games.phishingdefender.managers;
+
+import games.phishingdefender.ui.components.LevelConfig;
+import games.phishingdefender.data.HighscoreEntry;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -31,7 +34,7 @@ public class HighscoreManager {
 
     // Lädt Highscores aus Datei
     private void laden() {
-        File dataDir = new File(SAVE_DIR_PATH); //
+        File dataDir = new File(SAVE_DIR_PATH);
         if (!dataDir.exists()) {
             dataDir.mkdirs();
         }
@@ -136,7 +139,7 @@ public class HighscoreManager {
             if (datei.exists()) {
                 return datei.delete(); // Versucht zu löschen
             }
-            return true; // War schon weg, also erfolgreich
+            return true;
         } catch (Exception e) {
             System.err.println("ADMIN RESET FEHLER (Highscore): " + e.getMessage());
             return false;

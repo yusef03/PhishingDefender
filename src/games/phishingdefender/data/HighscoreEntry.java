@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.data;
 
 /**
  * Stellt einen einzelnen Eintrag in der Highscore-Liste dar.

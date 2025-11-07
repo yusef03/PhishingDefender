@@ -1,4 +1,10 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.ui.components.AnimatedBackgroundPanel;
+import games.phishingdefender.PhishingDefender;
+import games.phishingdefender.ui.components.Theme;
+import games.phishingdefender.data.HighscoreEntry;
+import games.phishingdefender.managers.HighscoreManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,7 +57,7 @@ public class HighscoreScreen extends JPanel {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.setOpaque(false);
-        topPanel.setBorder(BorderFactory.createEmptyBorder(35, 50, 20, 50)); // Dein Border
+        topPanel.setBorder(BorderFactory.createEmptyBorder(35, 50, 20, 50));
 
         JLabel titleLabel = new JLabel("🏆 HIGHSCORES", JLabel.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
@@ -151,7 +157,7 @@ public class HighscoreScreen extends JPanel {
         JPanel panel = new JPanel(new BorderLayout(15, 0));
         panel.setOpaque(false);
         panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 1, 0, COLOR_SEPARATOR), // Untere Trennlinie
+                BorderFactory.createMatteBorder(0, 0, 1, 0, COLOR_SEPARATOR), //Trennlinie
                 BorderFactory.createEmptyBorder(15, 20, 15, 20)  // Innenabstand
         ));
         // Verhindert, dass die Einträge in der Höhe wachsen

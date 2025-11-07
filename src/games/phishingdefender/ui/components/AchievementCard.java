@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class AchievementCard extends JPanel {
         setVisible(false);
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 
-        // Der Text, den wir später ändern
+
         textLabel = new JLabel("🏆 Erfolg freigeschaltet: ???");
         textLabel.setFont(new Font("SansSerif", Font.BOLD, 17));
         textLabel.setForeground(Theme.COLOR_TEXT_PRIMARY);

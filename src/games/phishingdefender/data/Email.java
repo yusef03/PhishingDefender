@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.data;
 
 /**
  * Stellt eine einzelne E-Mail im Spiel dar.
@@ -9,7 +9,6 @@ package games.phishingdefender;
  * @version 1.0
  */
 
-// Klasse für eine einzelne E-Mail im Spiel
 public class Email {
 
     private String absender;

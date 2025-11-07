@@ -1,7 +1,9 @@
-package games.phishingdefender;
+package games.phishingdefender.managers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import games.phishingdefender.ui.components.LevelConfig;
+import games.phishingdefender.data.Email;
 
 import javax.swing.*;
 import java.io.InputStream;

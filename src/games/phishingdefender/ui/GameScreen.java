@@ -1,4 +1,10 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.*;
+import games.phishingdefender.data.Email;
+import games.phishingdefender.managers.AchievementManager;
+import games.phishingdefender.managers.EmailDatabase;
+import games.phishingdefender.ui.components.*;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -161,7 +167,7 @@ public class GameScreen extends JPanel {
              */
             @Override
             protected Void doInBackground() throws Exception {
-                // Hier rufen wir die blockierende Lade-Methode auf
+                // blockierende Lade-Methode aufrufen
                 soundsVorladen();
                 return null;
             }
@@ -179,9 +185,7 @@ public class GameScreen extends JPanel {
                     phishingButton.setEnabled(true);
                     zeigeNaechsteEmail();
 
-                    // NEUER, BESSERER WEG, UM FOKUS ZU SETZEN:
-                    // Wir warten einen winzigen Moment (10ms), bis die UI
-                    // sich "gesetzt" hat, und holen uns DANN den Fokus.
+                    //  warten (10ms), bis die UI sich "gesetzt" hat, und holen uns DANN den Fokus.
                     Timer focusTimer = new Timer(10, e -> requestFocusInWindow());
                     focusTimer.setRepeats(false);
                     focusTimer.start();
@@ -555,7 +559,6 @@ public class GameScreen extends JPanel {
         }
 
         if (verbleibendeSekunden <= 7 && verbleibendeSekunden > 0) {
-            // Starte den Tick-Sound (im Loop), falls er nicht schon läuft
             if (clipTimerTick != null && !clipTimerTick.isRunning()) {
                 clipTimerTick.loop(Clip.LOOP_CONTINUOUSLY);
             }
@@ -912,9 +915,9 @@ public class GameScreen extends JPanel {
 
     private String erstelleLebenString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("<html>"); // Starte HTML-Modus für das Label
+        sb.append("<html>"); // HTML-Modus für Label
 
-        // Definiere unsere Herzen (Rot und ein dunkles Grau)
+        // Herzen (Rot und ein dunkles Grau)
         String rotesHerz = "<font color='#E03030'>❤️</font>";
         String grauesHerz = "<font color='#444444'>🖤</font>";
 

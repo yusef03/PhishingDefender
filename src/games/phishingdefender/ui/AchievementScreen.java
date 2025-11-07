@@ -1,4 +1,10 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.ui.components.AnimatedBackgroundPanel;
+import games.phishingdefender.PhishingDefender;
+import games.phishingdefender.ui.components.Theme;
+import games.phishingdefender.data.Achievement;
+import games.phishingdefender.managers.AchievementManager;
 
 import javax.swing.*;
 import java.awt.*;

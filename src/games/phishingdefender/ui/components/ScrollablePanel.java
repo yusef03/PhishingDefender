@@ -1,4 +1,4 @@
-package games.phishingdefender;
+package games.phishingdefender.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +11,8 @@ import java.awt.*;
  * setScrollableTracksViewportWidth(true) ist der Schlüssel: Es zwingt
  * das Panel, seine Breite an den Viewport anzupassen, wodurch der Inhalt
  * (z.B. HTML-Labels) korrekt umbricht und die Höhe richtig berechnet wird.
+ *
+ * @author yusefbach
  */
 public class ScrollablePanel extends JPanel implements Scrollable {
 
@@ -25,7 +27,6 @@ public class ScrollablePanel extends JPanel implements Scrollable {
         super(layout);
     }
 
-    // === Die wichtigen Methoden vom Scrollable-Interface ===
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
@@ -44,18 +45,11 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportWidth() {
-        // DAS IST DER HACK:
-        // Sag JA, passe deine Breite an die Breite des Viewports an.
-        // Das verhindert horizontales Scrollen UND zwingt den Inhalt (HTML)
-        // zum korrekten Umbruch.
         return true;
     }
 
     @Override
     public boolean getScrollableTracksViewportHeight() {
-        // Sag NEIN, passe deine Höhe nicht an.
-        // Wenn der Inhalt höher ist, soll vertikales Scrollen
-        // erlaubt sein (was wir ja wollen, wenn der Inhalt WIRKLICH lang ist).
         return false;
     }
 }

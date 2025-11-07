@@ -1,4 +1,6 @@
-package games.phishingdefender;
+package games.phishingdefender.ui;
+
+import games.phishingdefender.ui.components.Theme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +60,6 @@ public class SplashScreen extends JWindow {
             logoLabel = new JLabel("🛡️", JLabel.CENTER); // Fallback-Text
             logoLabel.setFont(new Font("Arial", Font.PLAIN, 80));
         }
-        // Border etc. bleiben gleich
         logoLabel.setBorder(BorderFactory.createEmptyBorder(40, 0, 20, 0));
 
         // Titel

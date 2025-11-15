@@ -19,12 +19,12 @@ import java.awt.event.MouseEvent;
 public class Theme {
 
     // Hintergrund
-    public static final Color COLOR_BACKGROUND_DARK = new Color(18, 18, 18); // Fast Schwarz
-    public static final Color COLOR_PANEL_DARK = new Color(30, 30, 30);      // Dunkles Grau
+    public static final Color COLOR_BACKGROUND_DARK = new Color(18, 18, 18);
+    public static final Color COLOR_PANEL_DARK = new Color(30, 30, 30);
 
     // Text
-    public static final Color COLOR_TEXT_PRIMARY = new Color(240, 240, 240); // Helles Weiß
-    public static final Color COLOR_TEXT_SECONDARY = new Color(170, 170, 170); // Helles Grau
+    public static final Color COLOR_TEXT_PRIMARY = new Color(240, 240, 240);
+    public static final Color COLOR_TEXT_SECONDARY = new Color(170, 170, 170);
 
     // Haupt-Akzent (Grün statt Orange)
     public static final Color COLOR_ACCENT_GREEN = new Color(0, 220, 120);
@@ -55,9 +55,17 @@ public class Theme {
     public static final Color COLOR_BUTTON_BLUE = COLOR_BUTTON_NEUTRAL;
     public static final Color COLOR_BUTTON_BLUE_HOVER = COLOR_BUTTON_NEUTRAL_HOVER;
 
+    // (NEUE FARBE FÜR SCHRITT 2 - HIER PLATZIERT FÜR TIMER)
+    public static final Color COLOR_ACCENT_BLUE = new Color(100, 200, 255);
+
     // Purple -> Neutral
     public static final Color COLOR_BUTTON_PURPLE = COLOR_BUTTON_NEUTRAL;
     public static final Color COLOR_BUTTON_PURPLE_HOVER = COLOR_BUTTON_NEUTRAL_HOVER;
+
+    // NEUE TIMER-FARBEN
+    public static final Color COLOR_TIMER_HIGH = new Color(0, 220, 120);
+    public static final Color COLOR_TIMER_MEDIUM = new Color(255, 140, 0);
+    public static final Color COLOR_TIMER_LOW = new Color(220, 50, 50);
 
 
     // === SCHRIFTARTEN ===
@@ -66,10 +74,14 @@ public class Theme {
     public static final Font FONT_BUTTON_MEDIUM = new Font("SansSerif", Font.BOLD, 18);
     public static final Font FONT_BUTTON_SMALL = new Font("SansSerif", Font.BOLD, 16);
 
+    // NEUE SCHRIFTART FÜR TIMER
+    public static final Font FONT_HUD = new Font("Monospace", Font.BOLD, 34);
+
 
     // === RÄNDER (Padding) ===
     public static final Border PADDING_BUTTON_LARGE = BorderFactory.createEmptyBorder(15, 35, 15, 35);
     public static final Border PADDING_BUTTON_MEDIUM = BorderFactory.createEmptyBorder(12, 30, 12, 30);
+    public static Color COLOR_ACCENT_BLUE_HOVER;
 
 
     /**

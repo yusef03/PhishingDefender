@@ -12,7 +12,7 @@ import java.awt.*;
  * von Phishing für Kinder erklärt.
  *
  * @author yusef03
- * @version 1.0
+ * @version 1.1
  */
 public class TutorialScreen extends JPanel {
 
@@ -27,14 +27,17 @@ public class TutorialScreen extends JPanel {
     private JButton nextButton;
 
     //  Inhalte für Tutorial-Seiten
+    // (Arrays erweitert für 6 Seiten)
     private static final String[] TITEL = {
             "Was ist Phishing? 🎣",
             "Tipp 1: Prüfe den Absender! 🕵️",
             "Tipp 2: Lass dich nicht stressen! ⏰",
-            "Tipp 3: Vertraue keinen Links! 🔗"
+            "Tipp 3: Vertraue keinen Links! 🔗",
+            "Tipp 4: Setze deine Tipps klug ein! 💡",
+            "Tipp 5: Achte auf dein Schild! 🛡️" // NEUE SEITE
     };
 
-    private static final String[] ICONS = { "💡", "🕵️", "⏰", "🚫" };
+    private static final String[] ICONS = { "💡", "🕵️", "⏰", "🚫", "💡", "🛡️" }; // NEUES ICON
 
     private static final String[] INHALTE = {
             // Seite 1: Was ist Phishing?
@@ -71,7 +74,7 @@ public class TutorialScreen extends JPanel {
                     "Echte Firmen tun das (fast) nie. Atme tief durch und schau genau hin, bevor du klickst." +
                     "</body></html>",
 
-            // Seite 4:
+            // Seite 4: Links
             "<html><body style='width: 350px; font-size: 15px;'>" +
                     "Fahre mit der Maus über einen Link (ohne zu klicken!). Sieht die Adresse komisch aus? Klicke nicht darauf!<br><br>" +
                     "<b>Beispiel:</b><br>" +
@@ -83,6 +86,39 @@ public class TutorialScreen extends JPanel {
                     "</div><br>" +
 
                     "Echte Banken bitten dich nie, auf einen Link in einer E-Mail zu klicken." +
+                    "</body></html>",
+
+            // Seite 5: Tipps
+            "<html><body style='width: 350px; font-size: 15px;'>" +
+                    "Du bist dir bei einer E-Mail unsicher? Kein Problem!<br><br>" +
+                    "Du kannst den <b>💡 SCAN-Button</b> benutzen, um einen Hinweis zu bekommen. Aber Achtung:<br><br>" +
+
+                    "<div style='background-color: #3a3a1a; border: 1px solid #E0C830; padding: 12px; text-align: center;'>" +
+                    "<b>STRATEGIE:</b><br>" +
+                    "<span style='font-size: 16px; color: white; line-height: 1.5;'>" +
+                    "1. Es kostet dich wertvolle Zeit <b>(-⏱️)</b><br>" +
+                    "2. Du hast nur <b>wenige Tipps</b> pro Level!</b>" +
+                    "</span></div><br>" +
+
+                    "Setze deine Tipps klug ein, Detektiv!" +
+                    "</body></html>",
+
+            // NEUE SEITE 6: Schild-Erklärung
+            "<html><body style='width: 350px; font-size: 15px;'>" +
+                    "Deine Herzen ❤️ sind jetzt ein <b>High-Tech Schild</b>.<br>" +
+                    "Es zeigt dir live deinen System-Status (deine Leben).<br><br>" +
+
+                    "<div style='background-color: #1a3a1a; border: 1px solid #00DD78; padding: 12px; text-align: center; margin-bottom: 10px;'>" +
+                    "<b>STATUS: ONLINE (3 Leben)</b><br>" +
+                    "<span style='font-size: 16px; color: #00DD78; font-weight: bold;'>Schild ist GRÜN und intakt.</span></div>" +
+
+                    "<div style='background-color: #3a3a1a; border: 1px solid #FFA500; padding: 12px; text-align: center; margin-bottom: 10px;'>" +
+                    "<b>STATUS: BESCHÄDIGT (2 Leben)</b><br>" +
+                    "<span style='font-size: 16px; color: #FFA500; font-weight: bold;'>Schild ist ORANGE und hat einen Riss.</span></div>" +
+
+                    "<div style='background-color: #3a1a1a; border: 1px solid #E03030; padding: 12px; text-align: center;'>" +
+                    "<b>STATUS: KRITISCH (1 Leben)</b><br>" +
+                    "<span style='font-size: 16px; color: #E03030; font-weight: bold;'>Schild ist ROT und stark zerbrochen!</span></div>" +
                     "</body></html>"
     };
 
@@ -149,7 +185,7 @@ public class TutorialScreen extends JPanel {
         contentArea.setFont(new Font("SansSerif", Font.PLAIN, 16));
         contentArea.setForeground(Theme.COLOR_TEXT_PRIMARY);
         contentArea.setOpaque(false);
-        contentArea.setVerticalAlignment(JLabel.TOP); // WICHTIG: Text oben ausrichten
+        contentArea.setVerticalAlignment(JLabel.TOP);
         contentArea.setHorizontalAlignment(JLabel.CENTER);
         contentPanel.add(contentArea, BorderLayout.CENTER);
 
@@ -214,9 +250,7 @@ public class TutorialScreen extends JPanel {
         }
         if (currentPage >= TITEL.length) {
             // Letzte Seite erreicht
-
             hauptFenster.tutorialAbgeschlossen();
-
             return;
         }
 
@@ -231,10 +265,8 @@ public class TutorialScreen extends JPanel {
         iconLabel.setText(ICONS[currentPage]);
         contentArea.setText(INHALTE[currentPage]);
 
-
-
         // Buttons anpassen
-        prevButton.setVisible(currentPage > 0); // "Zurück" nur sichtbar nach Seite 1
+        prevButton.setVisible(currentPage > 0);
 
         if (currentPage == TITEL.length - 1) {
             // Letzte Seite

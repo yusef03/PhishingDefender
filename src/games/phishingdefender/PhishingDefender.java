@@ -2,6 +2,7 @@ package games.phishingdefender;
 
 import games.phishingdefender.managers.AchievementManager;
 import games.phishingdefender.managers.MusicManager;
+import games.phishingdefender.managers.SettingsManager;
 import games.phishingdefender.managers.StarsManager;
 import games.phishingdefender.ui.*;
 import games.phishingdefender.ui.SplashScreen;
@@ -19,7 +20,7 @@ import java.awt.*;
  * verwaltet und zwischen ihnen wechselt.
  *
  * @author yusef03
- * @version 1.0
+ * @version 1.3l
  */
 public class PhishingDefender extends JFrame {
 
@@ -31,6 +32,7 @@ public class PhishingDefender extends JFrame {
     private String spielerName;
     private StarsManager starsManager;
     private AchievementManager achievementManager;
+    private SettingsManager settingsManager;
 
     // UI-Komponenten, die sich ändern
     private JLabel spielerAnzeigeLabel;
@@ -42,6 +44,7 @@ public class PhishingDefender extends JFrame {
     public PhishingDefender() {
         hoechstesFreigeschaltetes = 1;
         this.spielerName = "";
+        this.settingsManager = new SettingsManager();
 
         setTitle("Phishing Defender by 03yusef v.2.0");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -298,7 +301,8 @@ public class PhishingDefender extends JFrame {
         // === Settings Button (unten rechts) ===
         SettingsButton settingsButton = new SettingsButton();
         settingsButton.addActionListener(e -> {
-            SettingsDialog dialog = new SettingsDialog(this);
+            // Wir übergeben den manager an den Dialog!
+            SettingsDialog dialog = new SettingsDialog(this, this.settingsManager);
             dialog.setVisible(true);
         });
         JPanel settingsWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT, 25, 25));
@@ -334,7 +338,7 @@ public class PhishingDefender extends JFrame {
         repaint();
 
         if (!MusicManager.isPlaying()) {
-            MusicManager.startMenuMusic();
+            MusicManager.startMenuMusic(this.settingsManager);
         }
         if (spielerName != null && !spielerName.isEmpty()) {
             aktualisiereLevelFreischaltung();
@@ -368,11 +372,12 @@ public class PhishingDefender extends JFrame {
 
     public void zeigeLevelAuswahl() {
         getContentPane().removeAll();
-        getContentPane().add(new LevelSelectionScreen(this));
+        // Wir übergeben den zentralen StarsManager
+        getContentPane().add(new LevelSelectionScreen(this, this.starsManager));
         revalidate();
         repaint();
         if (!MusicManager.isPlaying()) {
-            MusicManager.startMenuMusic();
+            MusicManager.startMenuMusic(this.settingsManager);
         }
     }
 
@@ -401,20 +406,27 @@ public class PhishingDefender extends JFrame {
     public void zeigeResultScreen(int level, int score, int leben, int maxLeben, int gesamtEmails, boolean erfolg) {
         MusicManager.stopMenuMusic();
         getContentPane().removeAll();
-        getContentPane().add(new ResultScreen(this, level, score, leben, maxLeben, gesamtEmails, erfolg, this.achievementManager));
+        // Wir übergeben den zentralen StarsManager UND AchievementManager
+        getContentPane().add(new ResultScreen(this, level, score, leben, maxLeben, gesamtEmails, erfolg, this.starsManager, this.achievementManager));
         revalidate();
         repaint();
     }
 
     public void levelGeschafft(int level) {
+        // Diese Methode aktualisiert nur noch den internen Status.
+        // Sie wechselt NICHT mehr den Bildschirm.
         aktualisiereLevelFreischaltung();
-        zeigeLevelAuswahl();
     }
 
     // === SPIELER-LOGIK METHODEN ===
 
     public int getHoechstesFreigeschaltetes() {
         return hoechstesFreigeschaltetes;
+    }
+
+    // Neuer Getter, damit andere Klassen den Manager abholen können
+    public StarsManager getStarsManager() {
+        return this.starsManager;
     }
 
     public void setSpielerName(String name) {
@@ -526,8 +538,9 @@ public class PhishingDefender extends JFrame {
         SwingWorker<PhishingDefender, Void> worker = new SwingWorker<>() {
             @Override
             protected PhishingDefender doInBackground() throws Exception {
-                MusicManager.startMenuMusic();
                 PhishingDefender game = new PhishingDefender();
+                // Wir starten die Musik erst, NACHDEM wir den SettingsManager haben
+                MusicManager.startMenuMusic(game.settingsManager);
                 Thread.sleep(1500);
                 return game;
             }

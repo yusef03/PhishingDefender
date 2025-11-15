@@ -3,6 +3,7 @@ package games.phishingdefender.ui;
 import games.phishingdefender.ui.components.Theme;
 import games.phishingdefender.managers.HighscoreManager;
 import games.phishingdefender.managers.MusicManager;
+import games.phishingdefender.managers.SettingsManager; // <-- HINZUGEFÜGT
 import games.phishingdefender.managers.StarsManager;
 
 import javax.swing.*;
@@ -21,18 +22,18 @@ import java.awt.*;
 
 public class SettingsDialog extends JDialog {
 
-    private static boolean musicMuted = false;
-    private static int musicVolume = 30;  // 0-100
 
-    public SettingsDialog(JFrame parent) {
+    private SettingsManager settingsManager;
+
+    public SettingsDialog(JFrame parent, SettingsManager manager) {
         super(parent, "⚙️ Einstellungen", true);
-        // setSize(450, 300); // <-- 1. Diese Zeile LÖSCHEN oder auskommentieren
+        this.settingsManager = manager;
         setLocationRelativeTo(parent);
         setResizable(false);
 
-        setupUI(); // Zuerst die UI bauen lassen...
+        setupUI();
 
-        pack(); // <-- 2. DIESE ZEILE HINZUFÜGEN (passt das Fenster an den Inhalt an)
+        pack();
     }
 
     private void setupUI() {
@@ -67,17 +68,18 @@ public class SettingsDialog extends JDialog {
         musicLabel.setForeground(Color.WHITE);
 
         JCheckBox musicCheckbox = new JCheckBox("An");
-        musicCheckbox.setSelected(!musicMuted);
+        musicCheckbox.setSelected(!settingsManager.isMusicMuted());
         musicCheckbox.setFont(new Font("SansSerif", Font.PLAIN, 14));
         musicCheckbox.setForeground(Color.WHITE);
         musicCheckbox.setOpaque(false);
         musicCheckbox.setFocusPainted(false);
+
         musicCheckbox.addActionListener(e -> {
-            musicMuted = !musicCheckbox.isSelected();
-            if (musicMuted) {
+            settingsManager.setMusicMuted(!musicCheckbox.isSelected()); // Wert im Manager setzen
+            if (settingsManager.isMusicMuted()) {
                 MusicManager.stopMenuMusic();
             } else {
-                MusicManager.startMenuMusic();
+                MusicManager.startMenuMusic(this.settingsManager); // Manager übergeben
             }
         });
 
@@ -89,24 +91,25 @@ public class SettingsDialog extends JDialog {
         volumePanel.setLayout(new BoxLayout(volumePanel, BoxLayout.Y_AXIS));
         volumePanel.setOpaque(false);
 
-        JLabel volumeLabel = new JLabel("🔊 Lautstärke: " + musicVolume + "%");
+        JLabel volumeLabel = new JLabel("🔊 Lautstärke: " + settingsManager.getMusicVolume() + "%");
         volumeLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         volumeLabel.setForeground(Color.WHITE);
         volumeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JSlider volumeSlider = new JSlider(0, 100, musicVolume);
+        JSlider volumeSlider = new JSlider(0, 100, settingsManager.getMusicVolume());
         volumeSlider.setOpaque(false);
         volumeSlider.setForeground(Theme.COLOR_ACCENT_GREEN);
         volumeSlider.setMajorTickSpacing(25);
         volumeSlider.setMinorTickSpacing(5);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         volumeSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                musicVolume = volumeSlider.getValue();
-                volumeLabel.setText("🔊 Lautstärke: " + musicVolume + "%");
+                settingsManager.setMusicVolume(volumeSlider.getValue()); // Wert im Manager setzen
+                volumeLabel.setText("🔊 Lautstärke: " + settingsManager.getMusicVolume() + "%");
                 // Lautstärke SOFORT anpassen!
-                MusicManager.updateVolume();
+                MusicManager.updateVolume(settingsManager); // Manager übergeben
             }
         });
 
@@ -117,7 +120,6 @@ public class SettingsDialog extends JDialog {
         settingsPanel.add(musicPanel);
         settingsPanel.add(volumePanel);
 
-// === NEUER "GEHEIMER" RESET BUTTON ===
 
         // Ein leeres Panel, das als Abstandshalter dient
         settingsPanel.add(Box.createVerticalStrut(20));
@@ -249,13 +251,5 @@ public class SettingsDialog extends JDialog {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-    }
-
-    public static boolean isMusicMuted() {
-        return musicMuted;
-    }
-
-    public static int getMusicVolume() {
-        return musicVolume;
     }
 }

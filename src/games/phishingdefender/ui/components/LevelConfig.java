@@ -56,4 +56,20 @@ public class LevelConfig {
     public static final String USER_HOME = System.getProperty("user.home");
     public static final String SAVE_DIR_NAME = ".phishingDefenderData";
     public static final String SAVE_DIR_PATH = USER_HOME + java.io.File.separator + SAVE_DIR_NAME;
+
+    // === GAMEPLAY-WERTE ===
+    public static final int PUNKTE_NORMAL = 10;
+    public static final int PUNKTE_BONUS = 20;
+    public static final int BONUS_SERIE_NOETIG = 5;
+    public static final int BONUS_DAUER_IN_EMAILS = 3;
+    public static final double BONUS_ZEIT_MULTIPLIKATOR = 0.5; // 0.5 = 50% mehr Zeit
+
+    // Tipp-Button-Konfiguration
+    public static final int L1_ANZAHL_TIPPS = 5;      // 5 Tipps für Level 1
+    public static final int L2_ANZAHL_TIPPS = 3;      // 3 Tipps für Level 2
+    public static final int L3_ANZAHL_TIPPS = 2;      // 2 Tipps für Level 3
+
+    public static final int L1_TIPP_KOSTEN = 6; // Leichter: nur 3 Sek
+    public static final int L2_TIPP_KOSTEN = 4; // Mittel: 5 Sek
+    public static final int L3_TIPP_KOSTEN = 2; // Schwer: 7 Sek
 }

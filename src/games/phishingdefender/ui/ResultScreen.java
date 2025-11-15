@@ -33,12 +33,13 @@ public class ResultScreen extends JPanel {
     private int gesamtEmails;
     private boolean gewonnen;
     private int erreichteSterne;
-    private StarsManager starsManager;
+    // private StarsManager starsManager; // Wird nicht mehr als Feld gebraucht
     private AchievementManager achievementManager;
     private AchievementCard achievementCard;
 
     public ResultScreen(PhishingDefender hauptFenster, int level, int score,
-                        int leben, int maxLeben, int gesamtEmails, boolean gewonnen, AchievementManager manager) {
+                        int leben, int maxLeben, int gesamtEmails, boolean gewonnen,
+                        StarsManager starsManager, AchievementManager manager) { // Manager werden jetzt übergeben
         this.hauptFenster = hauptFenster;
         this.level = level;
         this.score = score;
@@ -47,15 +48,16 @@ public class ResultScreen extends JPanel {
         this.gesamtEmails = gesamtEmails;
         this.gewonnen = gewonnen;
 
-        // Sterne berechnen (mit Spieler-Name!)
-        starsManager = new StarsManager(hauptFenster.getSpielerName());
-        int richtigeAntworten = score / 10; // 10 Punkte pro richtige Antwort
+        // starsManager = new StarsManager(hauptFenster.getSpielerName()); // WIRD GELÖSCHT
+
+        int richtigeAntworten = score / LevelConfig.PUNKTE_NORMAL;
         this.erreichteSterne = gewonnen ? StarsManager.berechneSterne(richtigeAntworten, gesamtEmails, leben, maxLeben) : 0;
 
 
         this.achievementManager = manager;
         // Sterne speichern (nur wenn gewonnen!)
         if (gewonnen) {
+            // Wir benutzen den übergebenen, zentralen starsManager
             starsManager.updateStars(level, erreichteSterne);
 
             // === HIER ACHIEVEMENTS VERGEBEN & POPUP ZEITLICH STEUERN ===
@@ -176,7 +178,7 @@ public class ResultScreen extends JPanel {
         statsPanel.setPreferredSize(new Dimension(700, 300));
 
         // Genauigkeit berechnen
-        int genauigkeit = gesamtEmails > 0 ? (int)((double)(score / 10) / gesamtEmails * 100) : 0;
+        int genauigkeit = gesamtEmails > 0 ? (int)((double)(score / LevelConfig.PUNKTE_NORMAL) / gesamtEmails * 100) : 0;
 
         // Rang berechnen
         int rang = getRangPlatzierung(score);

@@ -22,7 +22,8 @@ public class MusicManager {
     private static boolean isPlaying = false;
 
     // Startet Background Music (Loop)
-    public static void startMenuMusic() {
+    public static void startMenuMusic(SettingsManager settings) {
+        if (settings.isMusicMuted()) return;
         if (isPlaying) return;
 
         try {
@@ -41,8 +42,7 @@ public class MusicManager {
             musicClip.loop(Clip.LOOP_CONTINUOUSLY);
 
             // Lautstärke setzen
-            updateVolume();
-
+            updateVolume(settings);
             musicClip.start();
             isPlaying = true;
 
@@ -78,11 +78,11 @@ public class MusicManager {
         return (float) (20.0 * Math.log10(percent / 100.0));
     }
 
-    public static void updateVolume() {
+    public static void updateVolume(SettingsManager settings) {
         if (musicClip != null) {
             try {
                 FloatControl volume = (FloatControl) musicClip.getControl(FloatControl.Type.MASTER_GAIN);
-                int currentVolume = SettingsDialog.getMusicVolume();
+                int currentVolume = settings.getMusicVolume();
                 float db = percentToDecibel(currentVolume);
                 volume.setValue(db);
                 System.out.println("Lautstärke gesetzt: " + currentVolume + "% (" + db + " dB)");

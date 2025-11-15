@@ -28,9 +28,10 @@ public class LevelSelectionScreen extends JPanel {
     private PhishingDefender hauptFenster;
     private StarsManager starsManager;
 
-    public LevelSelectionScreen(PhishingDefender hauptFenster) {
+    public LevelSelectionScreen(PhishingDefender hauptFenster, StarsManager starsManager) { // Manager wird übergeben
         this.hauptFenster = hauptFenster;
-        this.starsManager = new StarsManager(hauptFenster.getSpielerName()); // MIT SPIELER-NAME!
+        this.starsManager = starsManager; // Wir benutzen den zentralen Manager
+        // this.starsManager = new StarsManager(hauptFenster.getSpielerName()); // WIRD GELÖSCHT
         setLayout(new BorderLayout());
         setupUI();
     }
@@ -58,7 +59,11 @@ public class LevelSelectionScreen extends JPanel {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Progress Bar
-        int hoechstes = hauptFenster.getHoechstesFreigeschaltetes();
+        // Wir fragen nicht mehr das Hauptfenster, wir wissen es selbst!
+        int hoechstes = 1;
+        if (starsManager.getStarsForLevel(1) > 0) hoechstes = 2;
+        if (starsManager.getStarsForLevel(2) > 0) hoechstes = 3;
+
         JPanel progressPanel = createProgressBar(hoechstes, 3);
 
         topPanel.add(greetingLabel);
@@ -81,11 +86,12 @@ public class LevelSelectionScreen extends JPanel {
                 LevelConfig.L1_ZEIT + " Sek. / E-Mail",
                 LevelConfig.L1_SCHWIERIGKEIT,
                 LevelConfig.L1_FARBE,
-                true
+                true // Level 1 ist immer frei
         ));
 
         // Level 2
-        boolean level2Unlocked = hoechstes >= LevelConfig.L2_LEVEL_NUM;
+        // Wir prüfen die Freischaltung jetzt direkt hier, mit dem frischen Manager!
+        boolean level2Unlocked = starsManager.getStarsForLevel(1) > 0;
         cardsPanel.add(createLevelCard(
                 LevelConfig.L2_LEVEL_NUM,
                 LevelConfig.L2_NAME,
@@ -98,7 +104,7 @@ public class LevelSelectionScreen extends JPanel {
         ));
 
         // Level 3
-        boolean level3Unlocked = hoechstes >= LevelConfig.L3_LEVEL_NUM;
+        boolean level3Unlocked = starsManager.getStarsForLevel(2) > 0;
         cardsPanel.add(createLevelCard(
                 LevelConfig.L3_LEVEL_NUM,
                 LevelConfig.L3_NAME,
@@ -262,6 +268,7 @@ public class LevelSelectionScreen extends JPanel {
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // === STERNE aus StarsManager ===
+        // Diese Zeile funktioniert jetzt, weil wir den zentralen, frischen starsManager benutzen!
         int sterne = starsManager.getStarsForLevel(level);
 
         JPanel sternePanel = new JPanel();

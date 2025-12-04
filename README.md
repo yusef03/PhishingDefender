@@ -1,8 +1,25 @@
 # 🛡️ Phishing Defender
 
+## 📢 Offizielle Projektvorstellung
+
+**Phishing Defender** wird offiziell auf meiner persönlichen Webseite vorgestellt:
+
+🔗 **Projektseite:**  
+https://yusefbach.de/projects/phishing-defender.html
+
+Auf dieser Seite findest du:
+
+- eine ausführliche Beschreibung des Projekts
+- technische Details zur Umsetzung
+- Screenshots & visuelle Einblicke
+- Hintergründe zur Idee und Entwicklung
+- zukünftige Erweiterungen & Roadmap
+
 **Phishing Defender** ist ein interaktives Serious Game, das entwickelt wurde, um Spielern (Zielgruppe 8-14 Jahre) auf spielerische Weise Kompetenzen im Bereich Cyber-Security zu vermitteln. Der Spieler schlüpft in die Rolle eines "Cyber-Detektivs" und muss E-Mails analysieren, um Phishing-Angriffe abzuwehren.
 
 **5372 Code-Zeilen**
+
+**Projekt auch auffindbar unter https://yusefbach.de/projects/phishing-defender.html**
 
 ---
 

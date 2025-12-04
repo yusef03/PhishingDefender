@@ -19,8 +19,6 @@ Auf dieser Seite findest du:
 
 **5372 Code-Zeilen**
 
-**Projekt auch auffindbar unter https://yusefbach.de/projects/phishing-defender.html**
-
 ---
 
 ## 🎮 Features

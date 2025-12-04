@@ -5,7 +5,7 @@
 **Phishing Defender** wird offiziell auf meiner persönlichen Webseite vorgestellt:
 
 🔗 **Projektseite:**  
-https://yusefbach.de/projects/phishing-defender.html
+[Offizielle Projektseite von Phishing Defender](https://yusefbach.de/projects/phishing-defender.html)
 
 Auf dieser Seite findest du:
 

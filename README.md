@@ -2,7 +2,7 @@
 
 ## 📢 Offizielle Projektvorstellung
 
-**Phishing Defender** wird offiziell auf meiner persönlichen Webseite vorgestellt:
+**Phishing Defender** wird offiziell auf meiner Portfolio Webseite vorgestellt:
 
 🔗 **Projektseite:**  
 [Offizielle Projektseite von Phishing Defender](https://yusefbach.de/projects/phishing-defender.html)

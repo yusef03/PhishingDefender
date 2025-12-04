@@ -5,23 +5,21 @@ import games.phishingdefender.data.Email;
 import games.phishingdefender.managers.AchievementManager;
 import games.phishingdefender.managers.EmailDatabase;
 import games.phishingdefender.ui.components.*;
-
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.List;
 
 /**
  * Das Haupt-Panel für das eigentliche Gameplay ("Level").
  * Zeigt E-Mails an, verwaltet den Timer, Score, Leben und Spieler-Antworten.
  *
  * @author yusef03
- * @version 1.7
+ * @version 1.9 (Final Emoji Fix)
  */
 public class GameScreen extends JPanel {
 
@@ -54,16 +52,21 @@ public class GameScreen extends JPanel {
     private int tippKostenSekunden;
 
     // UI Komponenten
-    private JLabel scoreLabel;
+    private ScoreDisplayPanel scoreDisplayPanel;
     private JEditorPane emailAnzeigeArea;
     private JLabel absenderLabel;
     private JLabel betreffLabel;
+    private JLabel datumLabel;
     private Timer timer;
     private TimerBarPanel timerBarPanel;
     private JLabel timerLabel;
     private JButton sicherButton;
     private JButton phishingButton;
     private JButton tippButton;
+
+    // Icons
+    private ImageIcon iconCheckmark;
+    private ImageIcon iconCross;
 
     // UI-Komponenten für Widgets
     private IntegrityShieldPanel shieldPanel;
@@ -84,6 +87,7 @@ public class GameScreen extends JPanel {
     private Clip clipLevelGeschafft;
     private Clip clipGameOver;
     private Clip clipTimerTick;
+    private Clip clipScan;
 
     // Overlay-Karten
     private FeedbackCard feedbackCard;
@@ -144,22 +148,8 @@ public class GameScreen extends JPanel {
         SwingUtilities.invokeLater(() -> requestFocusInWindow());
         ladeSoundsUndStarteSpiel();
 
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == TASTE_PAUSE) {
-                    togglePause();
-                } else if (isPausiert || isScanning) {
-                    return;
-                } else if (e.getKeyCode() == TASTE_SICHER) {
-                    antwortGeben(false);
-                } else if (e.getKeyCode() == TASTE_PHISHING) {
-                    antwortGeben(true);
-                } else if (e.getKeyCode() == TASTE_ZURUECK) {
-                    stopAllTimers();
-                    hauptFenster.zeigeLevelAuswahl();
-                }
-            }
-        });
+        setupKeyBindings();
+
     }
 
     private void ladeSoundsUndStarteSpiel() {
@@ -195,7 +185,8 @@ public class GameScreen extends JPanel {
         setBackground(Theme.COLOR_BACKGROUND_DARK);
 
         // === ZONE 1: TOP (Timer + Achievement Card) ===
-        timerLabel = new JLabel("⏱️ --s");
+        timerLabel = new JLabel("--s");
+        timerLabel.setIcon(Theme.loadIcon("icon_clock.png", 34));
         timerLabel.setFont(Theme.FONT_HUD);
         timerLabel.setForeground(Theme.COLOR_ACCENT_GREEN);
         timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -255,11 +246,9 @@ public class GameScreen extends JPanel {
         title.setForeground(Theme.COLOR_TEXT_SECONDARY);
         widget.add(title, BorderLayout.NORTH);
 
-        scoreLabel = new JLabel("0");
-        scoreLabel.setFont(new Font("Monospace", Font.BOLD, 48));
-        scoreLabel.setForeground(new Color(255, 215, 100));
-        scoreLabel.setHorizontalAlignment(JLabel.CENTER);
-        widget.add(scoreLabel, BorderLayout.CENTER);
+        scoreDisplayPanel = new ScoreDisplayPanel();
+        scoreDisplayPanel.setScore(0);
+        widget.add(scoreDisplayPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setOpaque(false);
@@ -402,18 +391,25 @@ public class GameScreen extends JPanel {
                 BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(0, 220, 120, 100)),
                 BorderFactory.createEmptyBorder(22, 28, 22, 28)
         ));
-        absenderLabel = new JLabel("📨 Von: ");
+
+        absenderLabel = new JLabel("Von: ");
+        absenderLabel.setIcon(Theme.loadIcon("icon_mail.png", 16));
         absenderLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
         absenderLabel.setForeground(Theme.COLOR_TEXT_SECONDARY);
         absenderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        betreffLabel = new JLabel("📌 Betreff: ");
+
+        betreffLabel = new JLabel("Betreff: ");
+        betreffLabel.setIcon(Theme.loadIcon("icon_pin.png", 16));
         betreffLabel.setFont(new Font("SansSerif", Font.BOLD, 19));
         betreffLabel.setForeground(new Color(255, 255, 255));
         betreffLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        JLabel datumLabel = new JLabel("📅 18. Okt 2025, 14:30");
+
+        datumLabel = new JLabel("18. Okt 2025, 14:30");
+        datumLabel.setIcon(Theme.loadIcon("icon_calendar.png", 16));
         datumLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
         datumLabel.setForeground(Theme.COLOR_TEXT_SECONDARY);
         datumLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         headerPanel.add(absenderLabel);
         headerPanel.add(Box.createRigidArea(new Dimension(0, 9)));
         headerPanel.add(betreffLabel);
@@ -477,9 +473,11 @@ public class GameScreen extends JPanel {
         feedbackPanel.setOpaque(false);
         feedbackPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
         feedbackPanel.setPreferredSize(new Dimension(850, 150));
-        feedbackCard = new FeedbackCard("✓", "RICHTIG! +10 Punkte", Theme.COLOR_ACCENT_GREEN);
+
+        feedbackCard = new FeedbackCard(iconCheckmark, "RICHTIG! +10 Punkte", Theme.COLOR_ACCENT_GREEN);
         feedbackCard.setVisible(false);
         feedbackCard.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         tippCard = new TippCard();
         tippCard.setVisible(false);
         tippCard.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -488,12 +486,13 @@ public class GameScreen extends JPanel {
         feedbackPanel.add(tippCard);
 
         tippButton = Theme.createStyledButton(
-                "🔬 E-MAIL SCANNEN (" + verbleibendeTipps + ")",
+                "E-MAIL SCANNEN (" + verbleibendeTipps + ")",
                 Theme.FONT_BUTTON_MEDIUM,
                 Theme.COLOR_ACCENT_BLUE,
                 Theme.COLOR_ACCENT_BLUE_HOVER,
                 Theme.PADDING_BUTTON_MEDIUM
         );
+        tippButton.setIcon(Theme.loadIcon("icon_lightbulb.png", 18));
         tippButton.setPreferredSize(new Dimension(310, 60));
         tippButton.addActionListener(e -> starteHeaderScan());
 
@@ -505,26 +504,31 @@ public class GameScreen extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 28));
         buttonPanel.setOpaque(false);
+
         sicherButton = Theme.createStyledButton(
-                "✅ SICHER (A)",
+                "SICHER (A)",
                 Theme.FONT_BUTTON_LARGE,
                 Theme.COLOR_BUTTON_GREEN,
                 Theme.COLOR_BUTTON_GREEN_HOVER,
                 Theme.PADDING_BUTTON_LARGE
         );
+        sicherButton.setIcon(Theme.loadIcon("icon_checkmark.png", 24));
         sicherButton.setEnabled(false);
         sicherButton.setPreferredSize(new Dimension(310, 75));
         sicherButton.addActionListener(e -> antwortGeben(false));
+
         phishingButton = Theme.createStyledButton(
-                "⚠️ PHISHING (L)",
+                "PHISHING (L)",
                 Theme.FONT_BUTTON_LARGE,
                 Theme.COLOR_BUTTON_RED,
                 Theme.COLOR_BUTTON_RED_HOVER,
                 Theme.PADDING_BUTTON_LARGE
         );
+        phishingButton.setIcon(Theme.loadIcon("icon_warning.png", 24));
         phishingButton.setEnabled(false);
         phishingButton.setPreferredSize(new Dimension(310, 75));
         phishingButton.addActionListener(e -> antwortGeben(true));
+
         buttonPanel.add(sicherButton);
         buttonPanel.add(phishingButton);
 
@@ -559,8 +563,8 @@ public class GameScreen extends JPanel {
         }
 
         Email email = emails.get(aktuelleEmailIndex);
-        absenderLabel.setText("📨 Von: " + email.getAbsender());
-        betreffLabel.setText("📌 Betreff: " + email.getBetreff());
+        absenderLabel.setText(" Von: " + email.getAbsender());
+        betreffLabel.setText(" Betreff: " + email.getBetreff());
 
         String emailBody = email.getNachricht().replaceAll("\n", "<br>");
         emailAnzeigeArea.setText("<html><body style='font-family: SansSerif; font-size: 16px; color: #DCDCDC;'>" + emailBody + "</body></html>");
@@ -584,7 +588,7 @@ public class GameScreen extends JPanel {
             richtigeInFolge++;
             int punkte = firewallAktiv ? LevelConfig.PUNKTE_BONUS : LevelConfig.PUNKTE_NORMAL;
             score += punkte;
-            scoreLabel.setText(String.valueOf(score));
+            scoreDisplayPanel.setScore(score);
 
             scoreLogArea.append("+ " + punkte + " (Korrekt)\n");
             scoreLogArea.setCaretPosition(scoreLogArea.getDocument().getLength());
@@ -625,7 +629,7 @@ public class GameScreen extends JPanel {
             livesLogArea.setCaretPosition(livesLogArea.getDocument().getLength());
             streakBonusBar.updateStreak(richtigeInFolge, LevelConfig.BONUS_SERIE_NOETIG);
 
-            zeigeFeedbackFalsch("FALSCH! -1 ❤️");
+            zeigeFeedbackFalsch("FALSCH! -1 Leben"); // ❤️ ENTFERNT
 
             if (leben <= 0) {
                 gameOver();
@@ -712,7 +716,7 @@ public class GameScreen extends JPanel {
 
         leben--;
         shieldPanel.updateShield(leben, maxLeben);
-        zeigeFeedbackFalsch("⏱️ ZEIT ABGELAUFEN! -1 ❤️");
+        zeigeFeedbackFalsch("ZEIT ABGELAUFEN! -1 Leben"); // ⏱️ ❤️ ENTFERNT
 
         if (leben <= 0) {
             gameOver();
@@ -738,7 +742,8 @@ public class GameScreen extends JPanel {
         scoreLogArea.append("--- FIREWALL AKTIV ---\n");
         scoreLogArea.setCaretPosition(scoreLogArea.getDocument().getLength());
 
-        JDialog firewallDialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "🛡️ Firewall Aktiviert!", true);
+        // --- EMOJIS AUS DIALOG ENTFERNT ---
+        JDialog firewallDialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Firewall Aktiviert!", true);
         firewallDialog.setLayout(new BorderLayout());
         firewallDialog.setUndecorated(true);
         JPanel dialogPanel = new JPanel();
@@ -748,25 +753,27 @@ public class GameScreen extends JPanel {
                 BorderFactory.createLineBorder(Theme.COLOR_ACCENT_GREEN, 2),
                 BorderFactory.createEmptyBorder(30, 40, 30, 40)
         ));
-        JLabel titleLabel = new JLabel("🛡️ FIREWALL AKTIVIERT! 🛡️", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("FIREWALL AKTIVIERT!", JLabel.CENTER);
+        titleLabel.setIcon(Theme.loadIcon("icon_fire.png", 32)); // ICON HINZUGEFÜGT
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
         titleLabel.setForeground(Theme.COLOR_ACCENT_GREEN);
         int prozent = (int)(LevelConfig.BONUS_ZEIT_MULTIPLIKATOR * 100);
         JLabel infoLabel = new JLabel(
                 "<html><center style='line-height: 1.6;'>" +
                         "<span style='font-size: 16px; color: #FFFFFF;'><b>Bonus für die nächsten " + LevelConfig.BONUS_DAUER_IN_EMAILS + " E-Mails:</b></span><br><br>" +
-                        "<span style='font-size: 15px; color: #AAAAAA;'>⏱️ <b>" + prozent + "% mehr Zeit</b> pro Email</span><br>" +
-                        "<span style='font-size: 15px; color: #AAAAAA;'>⭐ <b>" + LevelConfig.PUNKTE_BONUS + " Punkte</b> statt " + LevelConfig.PUNKTE_NORMAL + "</span>" +
+                        "<span style='font-size: 15px; color: #AAAAAA;'><b>" + prozent + "% mehr Zeit</b> pro Email</span><br>" +
+                        "<span style='font-size: 15px; color: #AAAAAA;'><b>" + LevelConfig.PUNKTE_BONUS + " Punkte</b> statt " + LevelConfig.PUNKTE_NORMAL + "</span>" +
                         "</center></html>",
                 JLabel.CENTER
         );
         JButton okButton = Theme.createStyledButton(
-                "✓ WEITER",
+                "WEITER",
                 Theme.FONT_BUTTON_MEDIUM,
                 Theme.COLOR_BUTTON_BLUE,
                 Theme.COLOR_BUTTON_BLUE_HOVER,
                 Theme.PADDING_BUTTON_MEDIUM
         );
+        okButton.setIcon(Theme.loadIcon("icon_checkmark.png", 18)); // ICON HINZUGEFÜGT
         okButton.setPreferredSize(new Dimension(180, 50));
         okButton.addActionListener(e -> firewallDialog.dispose());
         okButton.registerKeyboardAction(
@@ -796,9 +803,23 @@ public class GameScreen extends JPanel {
     }
 
     private void stopAllTimers() {
-        if (timer != null) timer.stop();
-        if (clipTimerTick != null) clipTimerTick.stop();
-        if (scanAnimationTimer != null) scanAnimationTimer.stop();
+        if (timer != null) {
+            timer.stop();
+        }
+
+        if (clipTimerTick != null) {
+            clipTimerTick.stop();
+            clipTimerTick.setFramePosition(0);
+        }
+
+        if (clipScan != null) {
+            clipScan.stop();
+            clipScan.setFramePosition(0);
+        }
+
+        if (scanAnimationTimer != null) {
+            scanAnimationTimer.stop();
+        }
     }
 
     private void togglePause() {
@@ -811,10 +832,10 @@ public class GameScreen extends JPanel {
 
     private void pausieren() {
         isPausiert = true;
-        stopAllTimers(); // Stoppt jetzt auch den scanAnimationTimer
+        stopAllTimers();
 
         int angezeigteSekunden = (int) Math.ceil(verbleibendeMillis / 1000.0);
-        pauseMenu = new PauseMenu(this, score, leben, angezeigteSekunden);
+        pauseMenu = new PauseMenu(this, score, leben, maxLeben, angezeigteSekunden);
 
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (frame != null) {
@@ -834,7 +855,6 @@ public class GameScreen extends JPanel {
         }
         pauseMenu = null;
 
-        // Starte den Haupt-Timer nur, wenn das Spiel nicht gerade scannt
         if (timer != null && !timer.isRunning() && !isScanning) {
             timer.start();
         }
@@ -880,8 +900,12 @@ public class GameScreen extends JPanel {
             return;
         }
 
-        // --- TAKTISCHE PAUSE START ---
         isScanning = true;
+        if (clipScan != null) {
+            clipScan.setFramePosition(0);
+            clipScan.loop(Clip.LOOP_CONTINUOUSLY); // Loopen, solange der Scan läuft
+            clipScan.start();
+        }
         if (timer != null) timer.stop();
         if (clipTimerTick != null) clipTimerTick.stop();
 
@@ -897,15 +921,17 @@ public class GameScreen extends JPanel {
             scanLineY += 10;
 
             if (scanLineY > emailContentWrapper.getHeight()) {
-                // --- SCAN FERTIG ---
                 scanAnimationTimer.stop();
                 isScanning = false;
+
+                if (clipScan != null) {
+                    clipScan.stop();
+                }
 
                 sicherButton.setEnabled(true);
                 phishingButton.setEnabled(true);
                 updateTippButtonStatus();
 
-                // ZEITSTRAFE JETZT ANWENDEN
                 verbleibendeMillis -= (this.tippKostenSekunden * 1000L);
                 if (verbleibendeMillis < 0) {
                     verbleibendeMillis = 0;
@@ -919,11 +945,8 @@ public class GameScreen extends JPanel {
 
                 emailContentWrapper.repaint();
 
-                // --- TAKTISCHE PAUSE ENDE ---
-                // Timer erst neustarten, NACHDEM der Tipp angezeigt wurde
                 if (timer != null) timer.start();
 
-                // Sound ggf. neustarten
                 int verbleibendeSekunden = (int) Math.ceil(verbleibendeMillis / 1000.0);
                 if (verbleibendeSekunden <= 7 && verbleibendeSekunden > 0) {
                     if (clipTimerTick != null && !clipTimerTick.isRunning()) {
@@ -947,9 +970,9 @@ public class GameScreen extends JPanel {
         if (tippButton == null) return;
 
         if (isScanning) {
-            tippButton.setText("🔬 SCANNEN...");
+            tippButton.setText("SCANNEN...");
         } else {
-            tippButton.setText("🔬 E-MAIL SCANNEN (" + verbleibendeTipps + ")");
+            tippButton.setText("E-MAIL SCANNEN (" + verbleibendeTipps + ")");
         }
 
         if (isPausiert || tippWurdeVerwendet || verbleibendeTipps <= 0 || isScanning) {
@@ -966,11 +989,11 @@ public class GameScreen extends JPanel {
         int angezeigteSekunden = (int) Math.ceil(verbleibendeMillis / 1000.0);
         if (angezeigteSekunden < 0) angezeigteSekunden = 0;
 
-        String text = "⏱️ " + angezeigteSekunden + "s";
+        String text = " " + angezeigteSekunden + "s";
         Color textColor;
 
         if (firewallAktiv) {
-            text += " 🛡️";
+            text += " (Firewall)"; // Emoji 🛡️ entfernt
             textColor = Theme.COLOR_ACCENT_BLUE;
         } else if (angezeigteSekunden <= 5) {
             textColor = Theme.COLOR_TIMER_LOW;
@@ -1009,7 +1032,7 @@ public class GameScreen extends JPanel {
 
     private void zeigeFeedbackRichtig(int punkte) {
         playSound(clipRichtig);
-        FeedbackCard neueCard = new FeedbackCard("✅", "RICHTIG!  +" + punkte + " Punkte", new Color(50, 180, 100));
+        FeedbackCard neueCard = new FeedbackCard(iconCheckmark, "RICHTIG!  +" + punkte + " Punkte", new Color(50, 180, 100));
         zeigeFeedbackCard(neueCard);
         Timer hideTimer = new Timer(1200, e -> feedbackCard.setVisible(false));
         hideTimer.setRepeats(false);
@@ -1018,11 +1041,10 @@ public class GameScreen extends JPanel {
 
     private void zeigeFeedbackFalsch(String grund) {
         playSound(clipFalsch);
-        FeedbackCard neueCard = new FeedbackCard("❌", grund, new Color(220, 50, 50));
+        FeedbackCard neueCard = new FeedbackCard(iconCross, grund, new Color(220, 50, 50));
         zeigeFeedbackCard(neueCard);
-        zeigeTipp(); // Zeigt Tipp bei Fehler
+        zeigeTipp();
 
-        // Timer-Dauer von zeigeTipp() (6s) muss länger sein als dieser (2.8s)
         Timer hideTimer = new Timer(2800, e -> feedbackCard.setVisible(false));
         hideTimer.setRepeats(false);
         hideTimer.start();
@@ -1033,10 +1055,29 @@ public class GameScreen extends JPanel {
         String tipp = aktuelleEmail.getTipp();
         tippCard.showTipp(tipp);
 
-        // ÄNDERUNG: Tipp bleibt 6 Sekunden statt 2.8 Sekunden
         Timer hideTimer = new Timer(6000, e -> tippCard.setVisible(false));
         hideTimer.setRepeats(false);
         hideTimer.start();
+    }
+
+    private ImageIcon ladeIcon(String dateiname, int groesse) {
+        try {
+            java.net.URL iconURL = getClass().getResource("/games/phishingdefender/assets/images/" + dateiname);
+            if (iconURL == null) {
+                throw new Exception("Icon '" + dateiname + "' nicht gefunden!");
+            }
+            ImageIcon icon = new ImageIcon(iconURL);
+            Image scaled = icon.getImage().getScaledInstance(groesse, groesse, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaled);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void iconsLaden() {
+        iconCheckmark = ladeIcon("icon_checkmark.png", 24);
+        iconCross = ladeIcon("icon_cross.png", 24);
     }
 
     private void soundsVorladen() {
@@ -1046,6 +1087,9 @@ public class GameScreen extends JPanel {
         clipLevelGeschafft = soundLaden("level_geschafft.wav");
         clipGameOver = soundLaden("game_over.wav");
         clipTimerTick = soundLaden("timer_tick.wav");
+        clipScan = soundLaden("scan.wav");
+
+        iconsLaden();
     }
 
     private Clip soundLaden(String dateiname) {
@@ -1069,13 +1113,73 @@ public class GameScreen extends JPanel {
 
     private void playSound(Clip clip) {
         if (clip != null) {
-            clip.stop();
+            if (clip.isRunning()) {
+                clip.stop();
+            }
             clip.setFramePosition(0);
             clip.start();
         }
     }
 
-    private String erstelleLebenString() {
+
+    /**
+     * Konfiguriert die Tastenbelegung mit InputMap/ActionMap.
+     * Löst das Fokus-Problem: Tasten funktionieren jetzt auch, wenn
+     * ein Button den Fokus hat.
+     */
+    private void setupKeyBindings() {
+        //holen die InputMap für "WHEN_IN_FOCUSED_WINDOW".
+        //Solange dieses Fenster aktiv ist, gelten die Tasten.
+        InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = this.getActionMap();
+
+        // --- 1. PAUSE (Leertaste) ---
+        inputMap.put(KeyStroke.getKeyStroke(TASTE_PAUSE, 0), "pauseAction");
+        actionMap.put("pauseAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                togglePause();
+            }
+        });
+
+        // --- 2. ZURÜCK (Escape) ---
+        inputMap.put(KeyStroke.getKeyStroke(TASTE_ZURUECK, 0), "zurueckAction");
+        actionMap.put("zurueckAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Zurück sollte immer gehen, auch im Pause-Menü
+                stopAllTimers();
+                hauptFenster.zeigeLevelAuswahl();
+            }
+        });
+
+        // --- 3. SICHER (A) ---
+        inputMap.put(KeyStroke.getKeyStroke(TASTE_SICHER, 0), "sicherAction");
+        actionMap.put("sicherAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Nur erlaubt, wenn das Spiel läuft
+                if (!isPausiert && !isScanning) {
+                    antwortGeben(false);
+                }
+            }
+        });
+
+        // --- 4. PHISHING (L) ---
+        inputMap.put(KeyStroke.getKeyStroke(TASTE_PHISHING, 0), "phishingAction");
+        actionMap.put("phishingAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Nur erlaubt, wenn das Spiel läuft
+                if (!isPausiert && !isScanning) {
+                    antwortGeben(true);
+                }
+            }
+        });
+    }
+
+
+    public String erstelleLebenString() {
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         String rotesHerz = "<font color='#E03030'>❤️</font>";

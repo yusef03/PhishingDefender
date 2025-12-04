@@ -1,26 +1,22 @@
 package games.phishingdefender.ui;
 
-import games.phishingdefender.ui.components.AnimatedBackgroundPanel;
 import games.phishingdefender.PhishingDefender;
+import games.phishingdefender.ui.components.AnimatedBackgroundPanel;
 import games.phishingdefender.ui.components.Theme;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.*;
 
 /**
- * Der Bildschirm, auf dem ein neuer Spieler seinen Namen eingibt.
- * Enthält ein Textfeld und Buttons zum Bestätigen oder Abbrechen.
- * Speichert den Namen im Hauptfenster (PhishingDefender).
+ * Login-Bildschirm für die Spielernamen-Eingabe.
  *
  * @author yusef03
- * @version 1.0
+ * @version 2.0
  */
+    public class NameInputScreen extends JPanel {
 
-public class NameInputScreen extends JPanel {
-
-    private PhishingDefender hauptFenster;
+    private final PhishingDefender hauptFenster;
     private JTextField nameField;
 
     public NameInputScreen(PhishingDefender hauptFenster) {
@@ -30,12 +26,11 @@ public class NameInputScreen extends JPanel {
     }
 
     private void setupUI() {
-        AnimatedBackgroundPanel backgroundPanel = new AnimatedBackgroundPanel();
-        backgroundPanel.setLayout(new BorderLayout());
+        AnimatedBackgroundPanel background = new AnimatedBackgroundPanel();
+        background.setLayout(new BorderLayout());
 
-        JPanel mainContent = new JPanel();
-        mainContent.setLayout(new GridBagLayout());
-        mainContent.setOpaque(false);
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setOpaque(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -43,26 +38,19 @@ public class NameInputScreen extends JPanel {
         gbc.insets = new Insets(20, 50, 20, 50);
         gbc.anchor = GridBagConstraints.CENTER;
 
-        // === TITEL ===
-        JLabel welcomeLabel = new JLabel("🕵️ WILLKOMMEN, REKRUT! 🕵️", JLabel.CENTER);
-        welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 42));
-        welcomeLabel.setForeground(Theme.COLOR_ACCENT_GREEN);
-        gbc.gridy = 0;
-        mainContent.add(welcomeLabel, gbc);
+        // 1. Titel
+        JLabel title = new JLabel("WILLKOMMEN, REKRUT!", JLabel.CENTER);
+        title.setIcon(Theme.loadIcon("icon_detective.png", 42));
+        title.setFont(new Font("SansSerif", Font.BOLD, 42));
+        title.setForeground(Theme.COLOR_ACCENT_GREEN);
+        content.add(title, gbc);
 
-        // === UNTERTITEL ===
-        JLabel subtitleLabel = new JLabel(
-                "<html><center>" +
-                        "<span style='font-size: 18px; color: #CCCCCC;'>" +
-                        "Wir brauchen deine Hilfe im Kampf gegen Cyber-Kriminelle!" +
-                        "</span></center></html>",
-                JLabel.CENTER
-        );
-        gbc.gridy = 1;
+        gbc.gridy++;
         gbc.insets = new Insets(10, 50, 30, 50);
-        mainContent.add(subtitleLabel, gbc);
+        JLabel subtitle = new JLabel("<html><center><span style='font-size: 18px; color: #CCCCCC;'>Wir brauchen deine Hilfe im Kampf gegen Cyber-Kriminelle!</span></center></html>");
+        content.add(subtitle, gbc);
 
-        // === INPUT BOX ===
+        // 2. Input Box
         JPanel inputBox = new JPanel();
         inputBox.setLayout(new BoxLayout(inputBox, BoxLayout.Y_AXIS));
         inputBox.setBackground(Theme.COLOR_PANEL_DARK);
@@ -71,15 +59,12 @@ public class NameInputScreen extends JPanel {
                 BorderFactory.createEmptyBorder(25, 35, 25, 35)
         ));
         inputBox.setPreferredSize(new Dimension(600, 200));
-        inputBox.setMaximumSize(new Dimension(600, 200));
 
-        // Label
-        JLabel instructionLabel = new JLabel("Gib deinen Detektiv-Code-Namen ein:");
-        instructionLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
-        instructionLabel.setForeground(Theme.COLOR_ACCENT_GREEN);
-        instructionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel inputLabel = new JLabel("Gib deinen Detektiv-Code-Namen ein:");
+        inputLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+        inputLabel.setForeground(Theme.COLOR_ACCENT_GREEN);
+        inputLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // TextField
         nameField = new JTextField();
         nameField.setFont(new Font("Monospace", Font.BOLD, 22));
         nameField.setForeground(Color.WHITE);
@@ -90,115 +75,56 @@ public class NameInputScreen extends JPanel {
                 BorderFactory.createEmptyBorder(15, 20, 15, 20)
         ));
         nameField.setHorizontalAlignment(JTextField.CENTER);
-        nameField.setPreferredSize(new Dimension(500, 60));
         nameField.setMaximumSize(new Dimension(500, 60));
-        nameField.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Enter-Taste
         nameField.addKeyListener(new KeyAdapter() {
-            @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    submitName();
-                }
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) submitName();
             }
         });
 
-        // Placeholder
-        nameField.setForeground(new Color(150, 150, 150));
-        nameField.setText("Dein Name...");
-        nameField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (nameField.getText().equals("Dein Name...")) {
-                    nameField.setText("");
-                    nameField.setForeground(Color.WHITE);
-                }
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (nameField.getText().isEmpty()) {
-                    nameField.setForeground(new Color(150, 150, 150));
-                    nameField.setText("Dein Name...");
-                }
-            }
-        });
-
-        // Hint
-        JLabel hintLabel = new JLabel(
-                "<html><center>" +
-                        "<span style='font-size: 12px; color: #888888;'>" +
-                        "💡 Drücke ENTER oder klicke LOS!" +
-                        "</span></center></html>",
-                JLabel.CENTER
-        );
-        hintLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        inputBox.add(instructionLabel);
-        inputBox.add(Box.createRigidArea(new Dimension(0, 15)));
+        inputBox.add(inputLabel);
+        inputBox.add(Box.createVerticalStrut(15));
         inputBox.add(nameField);
-        inputBox.add(Box.createRigidArea(new Dimension(0, 15)));
-        inputBox.add(hintLabel);
+        inputBox.add(Box.createVerticalStrut(15));
 
-        gbc.gridy = 2;
-        gbc.insets = new Insets(20, 50, 30, 50);
-        mainContent.add(inputBox, gbc);
+        JLabel hint = new JLabel("Drücke ENTER oder klicke LOS!", JLabel.CENTER);
+        hint.setForeground(Color.GRAY);
+        hint.setAlignmentX(Component.CENTER_ALIGNMENT);
+        inputBox.add(hint);
 
-        // === BUTTONS ===
-        JButton losButton = Theme.createStyledButton(
-                "▶ LOS!",
-                Theme.FONT_BUTTON_LARGE,
-                Theme.COLOR_ACCENT_ORANGE,
-                Theme.COLOR_ACCENT_ORANGE_HOVER,
-                Theme.PADDING_BUTTON_LARGE
-        );
-        losButton.setPreferredSize(new Dimension(200, 55));
-        losButton.addActionListener(e -> submitName());
+        gbc.gridy++;
+        content.add(inputBox, gbc);
 
-        gbc.gridy = 3;
+        // 3. Buttons
+        JButton btnLos = Theme.createStyledButton(" LOS!", Theme.FONT_BUTTON_LARGE, Theme.COLOR_ACCENT_ORANGE, Theme.COLOR_ACCENT_ORANGE_HOVER, Theme.PADDING_BUTTON_LARGE);
+        btnLos.setIcon(Theme.loadIcon("icon_play.png", 22));
+        btnLos.setPreferredSize(new Dimension(200, 55));
+        btnLos.addActionListener(e -> submitName());
+
+        gbc.gridy++;
         gbc.insets = new Insets(10, 0, 10, 0);
-        mainContent.add(losButton, gbc);
+        content.add(btnLos, gbc);
 
-        JButton zurueckButton = Theme.createStyledButton(
-                "← ZURÜCK",
-                Theme.FONT_BUTTON_MEDIUM,
-                Theme.COLOR_BUTTON_GREY,
-                Theme.COLOR_BUTTON_GREY_HOVER,
-                Theme.PADDING_BUTTON_MEDIUM
-        );
-        zurueckButton.setPreferredSize(new Dimension(180, 50));
-        zurueckButton.addActionListener(e -> hauptFenster.zeigeWelcomeScreen());
+        JButton btnBack = Theme.createStyledButton(" ZURÜCK", Theme.FONT_BUTTON_MEDIUM, Theme.COLOR_BUTTON_GREY, Theme.COLOR_BUTTON_GREY_HOVER, Theme.PADDING_BUTTON_MEDIUM);
+        btnBack.setIcon(Theme.loadIcon("icon_back.png", 22));
+        btnBack.setPreferredSize(new Dimension(180, 50));
+        btnBack.addActionListener(e -> hauptFenster.zeigeWelcomeScreen());
 
-        gbc.gridy = 4;
-        gbc.insets = new Insets(10, 0, 40, 0);
-        mainContent.add(zurueckButton, gbc);
+        gbc.gridy++;
+        content.add(btnBack, gbc);
 
-        backgroundPanel.add(mainContent, BorderLayout.CENTER);
+        background.add(content, BorderLayout.CENTER);
+        add(background, BorderLayout.CENTER);
 
-        setLayout(new BorderLayout());
-        add(backgroundPanel, BorderLayout.CENTER);
-
-        // Focus auf TextField
         SwingUtilities.invokeLater(() -> nameField.requestFocusInWindow());
     }
 
     private void submitName() {
         String name = nameField.getText().trim();
-
-        if (name.isEmpty() || name.equals("Dein Name...")) {
-            nameField.setBackground(new Color(150, 50, 50));
-            Timer timer = new Timer(200, e -> nameField.setBackground(new Color(20, 25, 45)));
-            timer.setRepeats(false);
-            timer.start();
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Bitte gib einen Namen ein!",
-                    "⚠️ Fehler",
-                    JOptionPane.WARNING_MESSAGE
-            );
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bitte gib einen Namen ein!", "Fehler", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // Name speichern und weiter
         hauptFenster.setSpielerName(name);
         hauptFenster.zeigeWelcomeScreen();
     }

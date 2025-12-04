@@ -4,29 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Eine spezielle JPanel-Implementierung, die das Scrollable-Interface nutzt.
- * Dieser "Hack" löst einen Swing-Bug, bei dem ein JScrollPane (der ein
- * BoxLayout enthält) fälschlicherweise Scrollbars anzeigt.
+ * Fix für Swing JScrollPane Layout-Probleme.
+ * Implementiert Scrollable, um Breite an Viewport anzupassen.
+ * Ermöglicht korrektes Word-Wrapping in HTML-Labels.
  *
- * setScrollableTracksViewportWidth(true) ist der Schlüssel: Es zwingt
- * das Panel, seine Breite an den Viewport anzupassen, wodurch der Inhalt
- * (z.B. HTML-Labels) korrekt umbricht und die Höhe richtig berechnet wird.
- *
- * @author yusefbach
+ * @author yusef03
+ * @version 2.0
  */
 public class ScrollablePanel extends JPanel implements Scrollable {
 
-    // Konstruktor, der einfach den BoxLayout.Y_AXIS setzt
     public ScrollablePanel() {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    // Konstruktor, der ein beliebiges Layout-Management erlaubt
     public ScrollablePanel(LayoutManager layout) {
         super(layout);
     }
-
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
@@ -35,17 +29,17 @@ public class ScrollablePanel extends JPanel implements Scrollable {
 
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        return 16; // Wie schnell man mit Klick auf Pfeil scrollt
+        return 16; // Mausrad-Schritt
     }
 
     @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        return 100; // Wie schnell man mit Klick auf Leiste scrollt
+        return 100; // Page-Up/Down Schritt
     }
 
     @Override
     public boolean getScrollableTracksViewportWidth() {
-        return true;
+        return true; // Zwingt Breite auf Viewport-Breite -> Zeilenumbruch
     }
 
     @Override

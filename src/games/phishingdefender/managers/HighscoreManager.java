@@ -1,147 +1,137 @@
 package games.phishingdefender.managers;
 
-import games.phishingdefender.ui.components.LevelConfig;
 import games.phishingdefender.data.HighscoreEntry;
-
+import games.phishingdefender.ui.components.LevelConfig;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
- * Verwaltet das Lesen, Schreiben und Sortieren der Highscores.
- * Speichert die Einträge in einer Textdatei im Benutzerverzeichnis.
- * Stellt Methoden zum Hinzufügen neuer Scores und Abrufen der Top-Liste bereit.
+ * Verwaltet die Highscore-Liste.
+ * - Lädt/Speichert Daten in Textdatei
+ * - Asynchrone Schreibvorgänge (Performance)
+ * - Thread-Sichere Listenverwaltung
  *
  * @author yusef03
- * @version 1.0
+ * @version 2.0
  */
-
 public class HighscoreManager {
 
-    // Speicherpfade werden aus LevelConfig geholt
-    private static final String SAVE_DIR_PATH = LevelConfig.SAVE_DIR_PATH;
-    private static final String DATEI_NAME = SAVE_DIR_PATH + java.io.File.separator + "highscores.txt";
+    private static final String DATEI_NAME = "highscores.txt";
 
-    private List<HighscoreEntry> highscores;
+    private final List<HighscoreEntry> highscores;
+    private final Object lock = new Object(); // Für Thread-Synchronisation
+
     public HighscoreManager() {
-        highscores = new ArrayList<>();
+        this.highscores = new ArrayList<>();
         laden();
     }
 
-    // Lädt Highscores aus Datei
+    // Lädt Einträge beim Start (blockierend, da notwendig)
     private void laden() {
-        File dataDir = new File(SAVE_DIR_PATH);
-        if (!dataDir.exists()) {
-            dataDir.mkdirs();
+        File file = new File(LevelConfig.SAVE_DIR_PATH, DATEI_NAME);
+        if (!file.exists()) return;
+
+        synchronized (lock) {
+            highscores.clear();
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+
+                String zeile;
+                while ((zeile = reader.readLine()) != null) {
+                    String[] teile = zeile.split(",");
+                    if (teile.length == 5) {
+                        highscores.add(new HighscoreEntry(
+                                teile[0],
+                                Integer.parseInt(teile[1]),
+                                Integer.parseInt(teile[2]),
+                                Integer.parseInt(teile[3]),
+                                teile[4]
+                        ));
+                    }
+                }
+                sortieren();
+
+            } catch (Exception e) {
+                System.err.println("Fehler beim Laden der Highscores: " + e.getMessage());
+            }
+        }
+    }
+
+    // Speichert Daten im Hintergrund-Thread
+    private void speichernAsync() {
+        List<HighscoreEntry> copy;
+
+        // Kopie erstellen, um Konflikte zu vermeiden
+        synchronized (lock) {
+            copy = new ArrayList<>(highscores);
         }
 
-        File datei = new File(DATEI_NAME);
-        if (!datei.exists()) {
-            return;
+        new Thread(() -> {
+            File dir = new File(LevelConfig.SAVE_DIR_PATH);
+            if (!dir.exists() && !dir.mkdirs()) return;
+
+            File file = new File(dir, DATEI_NAME);
+            try (BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
+
+                for (HighscoreEntry entry : copy) {
+                    writer.write(entry.toFileString());
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                System.err.println("Fehler beim Speichern der Highscores: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    private void sortieren() {
+        // Absteigend nach Punkten sortieren
+        highscores.sort((a, b) -> Integer.compare(b.getPunkte(), a.getPunkte()));
+    }
+
+    // Öffentliche API
+    public void hinzufuegen(String name, int punkte, int genauigkeit, int level) {
+        String datum = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        HighscoreEntry neuerEntry = new HighscoreEntry(name, punkte, genauigkeit, level, datum);
+
+        synchronized (lock) {
+            highscores.add(neuerEntry);
+            sortieren();
         }
+        speichernAsync();
+    }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(datei))) {
-            String zeile;
-            while ((zeile = reader.readLine()) != null) {
-                String[] teile = zeile.split(",");
+    public List<HighscoreEntry> getTop10() {
+        synchronized (lock) {
+            int limit = Math.min(10, highscores.size());
+            return new ArrayList<>(highscores.subList(0, limit));
+        }
+    }
 
-                if (teile.length == 5) {
-                    String name = teile[0];
-                    int punkte = Integer.parseInt(teile[1]);
-                    int genauigkeit = Integer.parseInt(teile[2]);
-                    int level = Integer.parseInt(teile[3]);
-                    String datum = teile[4];
-
-                    highscores.add(new HighscoreEntry(name, punkte, genauigkeit, level, datum));
+    // Berechnet aktuellen Rang für Ergebnis-Screen
+    public int getPlatzierung(int punkte) {
+        synchronized (lock) {
+            int platzierung = 1;
+            for (HighscoreEntry entry : highscores) {
+                if (entry.getPunkte() > punkte) {
+                    platzierung++;
                 }
             }
-        } catch (IOException e) {
-            System.out.println("Fehler beim Laden der Highscores: " + e.getMessage());
-        }
-
-        sortieren();
-    }
-
-    // Speichert Highscores in Datei
-    private void speichern() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATEI_NAME))) {
-            for (HighscoreEntry entry : highscores) {
-                writer.write(entry.toFileString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Fehler beim Speichern der Highscores: " + e.getMessage());
+            return platzierung;
         }
     }
 
-    // Sortiert nach Punkte (höchste zuerst)
-    private void sortieren() {
-        Collections.sort(highscores, new Comparator<HighscoreEntry>() {
-            public int compare(HighscoreEntry a, HighscoreEntry b) {
-                return b.getPunkte() - a.getPunkte();  // b - a = absteigend
-            }
-        });
-    }
-
-    // Fügt neuen Highscore hinzu
-    public void hinzufuegen(String name, int punkte, int genauigkeit, int level) {
-        // Aktuelles Datum
-        LocalDateTime jetzt = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String datum = jetzt.format(formatter);
-
-        HighscoreEntry neuerEntry = new HighscoreEntry(name, punkte, genauigkeit, level, datum);
-        highscores.add(neuerEntry);
-
-        sortieren();
-        speichern();
-    }
-
-    // Gibt Top 10 zurück
-    public List<HighscoreEntry> getTop10() {
-        List<HighscoreEntry> top10 = new ArrayList<>();
-
-        for (int i = 0; i < Math.min(10, highscores.size()); i++) {
-            top10.add(highscores.get(i));
-        }
-
-        return top10;
-    }
-
-    // Gibt Platzierung für einen Score zurück
-    public int getPlatzierung(int punkte) {
-        int platzierung = 1;
-
-        for (HighscoreEntry entry : highscores) {
-            if (entry.getPunkte() > punkte) {
-                platzierung++;
-            }
-        }
-
-        return platzierung;
-    }
-
-    public int getAnzahl() {
-        return highscores.size();
-    }
-
-    /**
-     * ADMIN-FUNKTION: Löscht die Highscore-Datei.
-     * @return true, wenn erfolgreich (oder wenn Datei nicht existierte), false bei Fehler.
-     */
+    // Admin-Funktion
     public static boolean adminResetHighscores() {
         try {
-            File datei = new File(DATEI_NAME);
-            if (datei.exists()) {
-                return datei.delete(); // Versucht zu löschen
-            }
-            return true;
+            File file = new File(LevelConfig.SAVE_DIR_PATH, DATEI_NAME);
+            return !file.exists() || file.delete();
         } catch (Exception e) {
-            System.err.println("ADMIN RESET FEHLER (Highscore): " + e.getMessage());
+            System.err.println("Reset Fehler: " + e.getMessage());
             return false;
         }
     }

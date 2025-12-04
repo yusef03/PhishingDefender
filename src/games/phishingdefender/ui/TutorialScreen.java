@@ -12,7 +12,7 @@ import java.awt.*;
  * von Phishing für Kinder erklärt.
  *
  * @author yusef03
- * @version 1.1
+ * @version 1.2 (Emoji-Fix für Windows)
  */
 public class TutorialScreen extends JPanel {
 
@@ -27,18 +27,26 @@ public class TutorialScreen extends JPanel {
     private JButton nextButton;
 
     //  Inhalte für Tutorial-Seiten
-    // (Arrays erweitert für 6 Seiten)
     private static final String[] TITEL = {
-            "Was ist Phishing? 🎣",
-            "Tipp 1: Prüfe den Absender! 🕵️",
-            "Tipp 2: Lass dich nicht stressen! ⏰",
-            "Tipp 3: Vertraue keinen Links! 🔗",
-            "Tipp 4: Setze deine Tipps klug ein! 💡",
-            "Tipp 5: Achte auf dein Schild! 🛡️" // NEUE SEITE
+            "Was ist Phishing?",
+            "Tipp 1: Prüfe den Absender!",
+            "Tipp 2: Lass dich nicht stressen!",
+            "Tipp 3: Vertraue keinen Links!",
+            "Tipp 4: Setze deine Tipps klug ein!",
+            "Tipp 5: Achte auf dein Schild!"
     };
 
-    private static final String[] ICONS = { "💡", "🕵️", "⏰", "🚫", "💡", "🛡️" }; // NEUES ICON
+    // Geändert von Emojis zu Dateinamen
+    private static final String[] ICONS = {
+            "icon_lightbulb.png",
+            "icon_detective.png",
+            "icon_clock.png",
+            "icon_forbidden.png",
+            "icon_lightbulb.png",
+            "icon_shield.png"
+    };
 
+    // Emojis aus dem Text entfernt
     private static final String[] INHALTE = {
             // Seite 1: Was ist Phishing?
             "<html><body style='width: 350px; font-size: 15px;'>" +
@@ -47,17 +55,17 @@ public class TutorialScreen extends JPanel {
                     "In diesem Spiel lernst du, diese fiesen Tricks zu erkennen!" +
                     "</body></html>",
 
-            // Seite 2: Absender prüfen
+            // Seite 2: Absender prüfen (✅ ❌ entfernt)
             "<html><body style='width: 350px; font-size: 15px;'>" +
                     "Betrüger benutzen oft Adressen, die *fast* echt aussehen. Sie tauschen Buchstaben aus oder fügen Zahlen hinzu.<br><br>" +
 
                     "<div style='background-color: #1a3a1a; border: 1px solid #00DD78; padding: 10px; margin-bottom: 10px; text-align: center;'>" +
-                    "<b>✅ ECHT:</b><br>" +
+                    "<b>ECHT:</b><br>" +
                     "<span style='font-family: Monospace; font-weight: bold; font-size: 18px; padding-top: 5px; color: white;'>" +
                     "service@bank.de</span></div>" +
 
                     "<div style='background-color: #3a1a1a; border: 1px solid #E03030; padding: 12px; text-align: center;'>" +
-                    "<b>❌ FALSCH:</b><br>" +
+                    "<b>FALSCH:</b><br>" +
                     "<span style='font-family: Monospace; font-weight: bold; font-size: 18px; padding-top: 5px; color: white;'>" +
                     "service@bank-onl<span style='color: #E03030; font-size: 22px;'>1</span>ne.de</span><br>" +
                     "<span style='font-size: 13px; color: #ccc;'>(mit einer '1'!)</span></div>" +
@@ -88,24 +96,24 @@ public class TutorialScreen extends JPanel {
                     "Echte Banken bitten dich nie, auf einen Link in einer E-Mail zu klicken." +
                     "</body></html>",
 
-            // Seite 5: Tipps
+            // Seite 5: Tipps (💡 ⏱️ entfernt)
             "<html><body style='width: 350px; font-size: 15px;'>" +
                     "Du bist dir bei einer E-Mail unsicher? Kein Problem!<br><br>" +
-                    "Du kannst den <b>💡 SCAN-Button</b> benutzen, um einen Hinweis zu bekommen. Aber Achtung:<br><br>" +
+                    "Du kannst den <b>SCAN-Button</b> benutzen, um einen Hinweis zu bekommen. Aber Achtung:<br><br>" +
 
                     "<div style='background-color: #3a3a1a; border: 1px solid #E0C830; padding: 12px; text-align: center;'>" +
                     "<b>STRATEGIE:</b><br>" +
                     "<span style='font-size: 16px; color: white; line-height: 1.5;'>" +
-                    "1. Es kostet dich wertvolle Zeit <b>(-⏱️)</b><br>" +
+                    "1. Es kostet dich wertvolle Zeit <b>(Zeitstrafe)</b><br>" +
                     "2. Du hast nur <b>wenige Tipps</b> pro Level!</b>" +
                     "</span></div><br>" +
 
                     "Setze deine Tipps klug ein, Detektiv!" +
                     "</body></html>",
 
-            // NEUE SEITE 6: Schild-Erklärung
+            // Seite 6: Schild-Erklärung (❤️ entfernt)
             "<html><body style='width: 350px; font-size: 15px;'>" +
-                    "Deine Herzen ❤️ sind jetzt ein <b>High-Tech Schild</b>.<br>" +
+                    "Deine alte Lebensanzeige ist jetzt ein <b>High-Tech Schild</b>.<br>" +
                     "Es zeigt dir live deinen System-Status (deine Leben).<br><br>" +
 
                     "<div style='background-color: #1a3a1a; border: 1px solid #00DD78; padding: 12px; text-align: center; margin-bottom: 10px;'>" +
@@ -174,9 +182,8 @@ public class TutorialScreen extends JPanel {
         contentPanel.setLayout(new BorderLayout(20, 20));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
 
-        // Emoji-Icon
-        iconLabel = new JLabel("💡");
-        iconLabel.setFont(new Font("Arial", Font.PLAIN, 120));
+        // Icon-Label (wird jetzt in updatePageContent gesetzt)
+        iconLabel = new JLabel();
         iconLabel.setHorizontalAlignment(JLabel.CENTER);
         contentPanel.add(iconLabel, BorderLayout.NORTH);
 
@@ -262,7 +269,8 @@ public class TutorialScreen extends JPanel {
      */
     private void updatePageContent() {
         titleLabel.setText(TITEL[currentPage]);
-        iconLabel.setText(ICONS[currentPage]);
+        // Lädt das Icon als Bild
+        iconLabel.setIcon(Theme.loadIcon(ICONS[currentPage], 120));
         contentArea.setText(INHALTE[currentPage]);
 
         // Buttons anpassen

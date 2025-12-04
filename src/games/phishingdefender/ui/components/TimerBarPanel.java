@@ -4,54 +4,45 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Eine visuelle, *dünne* Timer-Leiste.
- * Sie zeichnet NUR die Leiste, keinen Text.
+ * Schlanke Timer-Leiste (ohne Text).
+ * Ändert Farbe basierend auf verbleibender Zeit (Grün -> Orange -> Rot).
  *
  * @author yusef03
  * @version 2.0
  */
 public class TimerBarPanel extends JPanel {
 
+    private double smoothPercent = 1.0;
     private int currentSeconds = 0;
     private int maxSeconds = 1;
     private boolean isFirewallActive = false;
 
-    // NEU: Wir speichern den genauen Prozentsatz für eine flüssige Animation
-    private double smoothPercent = 1.0;
-
     public TimerBarPanel() {
         super();
-        // Wir setzen nur die Hintergrundfarbe. Die Größe wird vom Layout-Manager bestimmt.
-        this.setOpaque(true);
-        this.setBackground(Theme.COLOR_PANEL_DARK);
-        // Die Leiste soll nicht hoch sein
-        this.setPreferredSize(new Dimension(100, 10)); // 10px Höhe
-        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 10)); // Max. 10px Höhe
+        setOpaque(true);
+        setBackground(Theme.COLOR_PANEL_DARK);
+        setPreferredSize(new Dimension(100, 10)); // Höhe fixiert
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 10));
     }
 
-    /**
-     * Aktualisiert die Leiste mit einem genauen Prozentsatz (0.0 - 1.0)
-     * für eine flüssige Animation.
-     */
+    // Für flüssige Animationen (wird vom Timer mit ms-Genauigkeit aufgerufen)
     public void updateSmooth(double percent) {
         this.smoothPercent = percent;
-        this.repaint(); // Löst paintComponent aus
+        repaint();
     }
 
-    /**
-     * Aktualisiert die Leiste mit Sekunden (wird für die Farbauswahl benötigt)
-     */
-    public void updateTime(int aktuell, int max) {
-        this.currentSeconds = aktuell;
+    // Setzt Metadaten für Farbwahl
+    public void updateTime(int current, int max) {
+        this.currentSeconds = current;
         this.maxSeconds = Math.max(1, max);
-        // repaint() wird durch updateSmooth() ausgelöst
     }
 
-    /**
-     * Teilt der Leiste mit, ob der Firewall-Bonus aktiv ist.
-     */
     public void setFirewallActive(boolean isActive) {
         this.isFirewallActive = isActive;
+    }
+
+    public void setMaxTime(int max) {
+        this.maxSeconds = max;
     }
 
     @Override
@@ -60,40 +51,34 @@ public class TimerBarPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int width = getWidth();
-        int height = getHeight();
+        int w = getWidth();
+        int h = getHeight();
 
-        // 1. Hintergrund zeichnen (die "leere" Leiste)
+        // 1. Hintergrund
         g2.setColor(Theme.COLOR_PANEL_DARK);
-        g2.fillRect(0, 0, width, height);
+        g2.fillRect(0, 0, w, h);
 
-        // 2. Zeit-Prozentsatz und Füllbreite berechnen
-        // Wir verwenden jetzt smoothPercent!
+        // 2. Balkenbreite
         double percent = Math.max(0, Math.min(1, smoothPercent));
-        int barWidth = (int) (width * percent);
+        int barWidth = (int) (w * percent);
 
-        // 3. Farbe für die Füllung wählen (basierend auf den Sekunden)
-        double secondPercent = (double) currentSeconds / maxSeconds;
-        Color barColor;
+        // 3. Farbe bestimmen
+        Color color = Theme.COLOR_TIMER_HIGH; // Standard Grün
+
         if (isFirewallActive) {
-            barColor = Theme.COLOR_ACCENT_BLUE; // Blau für Firewall
-        } else if (secondPercent <= 0.25) {
-            barColor = Theme.COLOR_TIMER_LOW; // Rot
-        } else if (secondPercent <= 0.5) {
-            barColor = Theme.COLOR_TIMER_MEDIUM; // Orange
+            color = Theme.COLOR_ACCENT_BLUE;
         } else {
-            barColor = Theme.COLOR_TIMER_HIGH; // Grün
+            double ratio = (double) currentSeconds / maxSeconds;
+            if (ratio <= 0.25) color = Theme.COLOR_TIMER_LOW;      // Rot
+            else if (ratio <= 0.5) color = Theme.COLOR_TIMER_MEDIUM; // Orange
         }
-        g2.setColor(barColor);
 
-        // 4. Füllung zeichnen
-        // zeichnen sie nur 8px hoch in der Mitte
-        int yOffset = (height - 8) / 2;
-        g2.fillRoundRect(0, yOffset, barWidth, 8, 8, 8);
+        g2.setColor(color);
+
+        // 4. Zeichnen (mittig zentriert, 8px hoch)
+        int y = (h - 8) / 2;
+        g2.fillRoundRect(0, y, barWidth, 8, 8, 8);
 
         g2.dispose();
-    }
-
-    public void setMaxTime(int maxSekunden) {
     }
 }

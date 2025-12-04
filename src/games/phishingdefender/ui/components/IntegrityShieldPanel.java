@@ -5,95 +5,71 @@ import java.awt.*;
 import java.awt.geom.Path2D;
 
 /**
- * Eine "High-Tech" Schild-Anzeige, die die Leben (System-Integrität) darstellt.
- * Das Schild "bricht" visuell, wenn der Spieler Schaden nimmt.
- * Ersetzt das einfache Herz-Label.
+ * HUD-Element: High-Tech Schildanzeige für Leben.
+ * Ändert Farbe und Form (Risse) basierend auf Lebenspunkten.
  *
  * @author yusef03
- * @version 1.0
+ * @version 2.0
  */
 public class IntegrityShieldPanel extends JPanel {
 
     private int currentLives = 3;
-    private int maxLives = 3;
-    private Timer pulseTimer;
     private float pulseAlpha = 1.0f;
-    private boolean isPulsingUp = false;
+    private boolean pulsingUp = false;
 
-    // Vordefinierte Formen für das Schild und die Risse
-    private Shape shieldShape;
-    private Shape crackShape1;
-    private Shape crackShape2;
+    // Gecachte Formen (Performance)
+    private Shape shieldShape, crack1, crack2;
 
     public IntegrityShieldPanel() {
         super();
-        this.setOpaque(false);
-        this.setPreferredSize(new Dimension(100, 100)); // Feste Größe für das Schild
+        setOpaque(false);
+        setPreferredSize(new Dimension(100, 100));
 
-        // Timer für den "Puls"-Effekt
-        this.pulseTimer = new Timer(50, e -> {
-            if (isPulsingUp) {
-                pulseAlpha += 0.05f;
-                if (pulseAlpha >= 1.0f) {
-                    pulseAlpha = 1.0f;
-                    isPulsingUp = false;
-                }
-            } else {
-                pulseAlpha -= 0.05f;
-                if (pulseAlpha <= 0.5f) {
-                    pulseAlpha = 0.5f;
-                    isPulsingUp = true;
-                }
-            }
+        // Zentraler Animations-Timer (50ms = 20 FPS)
+        new Timer(50, e -> {
+            pulseAlpha += pulsingUp ? 0.05f : -0.05f;
+            if (pulseAlpha >= 1.0f) pulsingUp = false;
+            if (pulseAlpha <= 0.5f) pulsingUp = true;
             repaint();
-        });
-        pulseTimer.start(); // Schild pulsiert immer
+        }).start();
     }
 
-    /**
-     * Aktualisiert den Status des Schilds.
-     */
     public void updateShield(int current, int max) {
         this.currentLives = current;
-        this.maxLives = max;
-        this.repaint();
+        repaint();
     }
 
-    /**
-     * Definiert die Formen neu, wenn die Größe des Panels geändert wird.
-     */
     private void updateShapes(int w, int h) {
-        // --- 1. Das Schild (Polygon) ---
-        // Wir verwenden einen Rand (padding), damit das Leuchten Platz hat
         int pad = 10;
-        int innerW = w - (pad * 2);
-        int innerH = h - (pad * 2);
+        int iw = w - 20;
+        int ih = h - 20;
 
+        // Schild-Kontur
         Path2D.Float shield = new Path2D.Float();
-        shield.moveTo(pad + innerW / 2.0, pad); // Spitze Oben
-        shield.lineTo(pad, pad + innerH * 0.2); // Ecke Oben-Links
-        shield.lineTo(pad, pad + innerH * 0.6); // Ecke Mitte-Links
-        shield.lineTo(pad + innerW / 2.0, pad + innerH); // Spitze Unten
-        shield.lineTo(pad + innerW, pad + innerH * 0.6); // Ecke Mitte-Rechts
-        shield.lineTo(pad + innerW, pad + innerH * 0.2); // Ecke Oben-Rechts
+        shield.moveTo(pad + iw / 2.0, pad);
+        shield.lineTo(pad, pad + ih * 0.2);
+        shield.lineTo(pad, pad + ih * 0.6);
+        shield.lineTo(pad + iw / 2.0, pad + ih);
+        shield.lineTo(pad + iw, pad + ih * 0.6);
+        shield.lineTo(pad + iw, pad + ih * 0.2);
         shield.closePath();
         this.shieldShape = shield;
 
-        // --- 2. Riss 1 (für 2 Leben) ---
-        Path2D.Float crack1 = new Path2D.Float();
-        crack1.moveTo(w * 0.3, h * 0.3);
-        crack1.lineTo(w * 0.5, h * 0.5);
-        crack1.lineTo(w * 0.45, h * 0.6);
-        crack1.lineTo(w * 0.7, h * 0.8);
-        this.crackShape1 = crack1;
+        // Riss 1
+        Path2D.Float c1 = new Path2D.Float();
+        c1.moveTo(w * 0.3, h * 0.3);
+        c1.lineTo(w * 0.5, h * 0.5);
+        c1.lineTo(w * 0.45, h * 0.6);
+        c1.lineTo(w * 0.7, h * 0.8);
+        this.crack1 = c1;
 
-        // --- 3. Riss 2 (für 1 Leben) ---
-        Path2D.Float crack2 = new Path2D.Float();
-        crack2.moveTo(w * 0.7, h * 0.2);
-        crack2.lineTo(w * 0.55, h * 0.4);
-        crack2.lineTo(w * 0.6, h * 0.5);
-        crack2.lineTo(w * 0.3, h * 0.75);
-        this.crackShape2 = crack2;
+        // Riss 2
+        Path2D.Float c2 = new Path2D.Float();
+        c2.moveTo(w * 0.7, h * 0.2);
+        c2.lineTo(w * 0.55, h * 0.4);
+        c2.lineTo(w * 0.6, h * 0.5);
+        c2.lineTo(w * 0.3, h * 0.75);
+        this.crack2 = c2;
     }
 
     @Override
@@ -105,40 +81,34 @@ public class IntegrityShieldPanel extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        // Prüfen, ob Formen neu berechnet werden müssen
         if (shieldShape == null || shieldShape.getBounds().width != w - 20) {
             updateShapes(w, h);
         }
 
-        // --- 1. Farbe wählen ---
-        Color shieldColor;
-        if (currentLives == 3) {
-            shieldColor = Theme.COLOR_ACCENT_GREEN;
-        } else if (currentLives == 2) {
-            shieldColor = Theme.COLOR_TIMER_MEDIUM; // Orange
-        } else {
-            shieldColor = Theme.COLOR_BUTTON_RED; // Rot
-        }
+        // Farbe je nach Zustand
+        Color color = Theme.COLOR_ACCENT_GREEN;
+        if (currentLives == 2) color = Theme.COLOR_TIMER_MEDIUM;
+        if (currentLives <= 1) color = Theme.COLOR_BUTTON_RED;
 
-        // --- 2. Pulsierendes Leuchten (Fill) ---
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, pulseAlpha * 0.4f)); // Schwacher Fill
-        g2.setColor(shieldColor);
+        // 1. Fill (Leuchten)
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, pulseAlpha * 0.4f));
+        g2.setColor(color);
         g2.fill(shieldShape);
 
-        // --- 3. Schild-Umrandung (Stroke) ---
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, pulseAlpha)); // Starker Stroke
-        g2.setColor(shieldColor);
+        // 2. Stroke (Rand)
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, pulseAlpha));
+        g2.setColor(color);
         g2.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g2.draw(shieldShape);
 
-        // --- 4. Risse zeichnen ---
+        // 3. Risse (bei Schaden)
         if (currentLives < 3) {
-            g2.setColor(new Color(255, 255, 255, (int)(pulseAlpha * 150))); // Halb-transparenter weißer Riss
-            g2.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-            g2.draw(crackShape1);
+            g2.setColor(new Color(255, 255, 255, (int)(pulseAlpha * 150)));
+            g2.setStroke(new BasicStroke(2.0f));
+            g2.draw(crack1);
         }
         if (currentLives < 2) {
-            g2.draw(crackShape2);
+            g2.draw(crack2);
         }
 
         g2.dispose();

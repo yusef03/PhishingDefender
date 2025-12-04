@@ -4,66 +4,44 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Eine Fortschrittsleiste, die die aktuelle "Streak" (Serie) anzeigt,
- * die für den Firewall-Bonus benötigt wird.
+ * Fortschrittsleiste für die "Streak" (Serie).
+ * Pulsiert, wenn die Serie voll ist (Bereit für Bonus).
  *
  * @author yusef03
- * @version 1.0
+ * @version 2.0
  */
 public class StreakBonusBar extends JPanel {
 
     private int currentStreak;
-    private int maxStreak;
+    private int maxStreak = 5;
     private Timer pulseTimer;
-    private boolean isPulsing = false;
-    private float pulseAlpha = 1.0f; // Für den Leucht-Effekt
+    private boolean pulseUp = false;
+    private float alpha = 1.0f;
 
     public StreakBonusBar() {
         super();
-        this.currentStreak = 0;
-        this.maxStreak = 5; // Standardwert, wird von GameScreen überschrieben
-        this.setOpaque(false);
-        this.setPreferredSize(new Dimension(100, 12));
-        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
+        setOpaque(false);
+        setPreferredSize(new Dimension(100, 12));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
 
-        // Timer für den "Puls"-Effekt, wenn die Leiste voll ist
-        this.pulseTimer = new Timer(50, e -> {
-            // Lässt die Helligkeit (Alpha) auf- und abschwellen
-            if (isPulsing) {
-                pulseAlpha += 0.05f;
-                if (pulseAlpha >= 1.0f) {
-                    pulseAlpha = 1.0f;
-                    isPulsing = false;
-                }
-            } else {
-                pulseAlpha -= 0.05f;
-                if (pulseAlpha <= 0.4f) {
-                    pulseAlpha = 0.4f;
-                    isPulsing = true;
-                }
-            }
+        // Puls-Timer für volle Leiste
+        pulseTimer = new Timer(50, e -> {
+            alpha += pulseUp ? 0.05f : -0.05f;
+            if (alpha >= 1.0f) pulseUp = false;
+            if (alpha <= 0.4f) pulseUp = true;
             repaint();
         });
     }
 
-    /**
-     * Aktualisiert die Leiste mit dem neuen Serien-Status.
-     */
     public void updateStreak(int current, int max) {
         this.currentStreak = current;
-        this.maxStreak = Math.max(1, max); // Verhindert Division durch Null
+        this.maxStreak = Math.max(1, max);
 
         if (this.currentStreak >= this.maxStreak) {
-            // Serie ist voll! Starte Puls-Timer.
-            if (!pulseTimer.isRunning()) {
-                pulseTimer.start();
-            }
+            if (!pulseTimer.isRunning()) pulseTimer.start();
         } else {
-            // Serie unterbrochen. Stoppe Puls-Timer.
-            if (pulseTimer.isRunning()) {
-                pulseTimer.stop();
-            }
-            pulseAlpha = 1.0f; // Setze Helligkeit zurück
+            if (pulseTimer.isRunning()) pulseTimer.stop();
+            alpha = 1.0f; // Reset
         }
         repaint();
     }
@@ -74,39 +52,30 @@ public class StreakBonusBar extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int width = getWidth();
-        int height = getHeight();
+        int w = getWidth();
+        int h = getHeight();
 
-        // 1. Hintergrund der Leiste (dunkelgrau)
+        // 1. Hintergrund
         g2.setColor(new Color(10, 10, 10));
-        g2.fillRoundRect(0, 0, width, height, height, height);
+        g2.fillRoundRect(0, 0, w, h, h, h);
 
-        // 2. Fortschritt berechnen
-        double percent = (double) currentStreak / maxStreak;
-        percent = Math.max(0, Math.min(1, percent));
-        int barWidth = (int) (width * percent);
+        // 2. Fortschritt
+        double percent = Math.min(1.0, (double) currentStreak / maxStreak);
+        int barWidth = (int) (w * percent);
 
-        // 3. Farbe wählen
-        Color streakColor = Theme.COLOR_ACCENT_ORANGE; // (ist in Theme.java auf Grün gesetzt)
-
+        // 3. Füllung
+        Color c = Theme.COLOR_ACCENT_ORANGE;
         if (currentStreak >= maxStreak) {
-            // Wenn voll, nutze den Puls-Alpha-Wert für die Farbe
-            g2.setColor(new Color(
-                    streakColor.getRed(),
-                    streakColor.getGreen(),
-                    streakColor.getBlue(),
-                    (int) (pulseAlpha * 255) // Alpha-Wert
-            ));
+            // Pulsierendes Leuchten
+            g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), (int)(alpha * 255)));
         } else {
-            g2.setColor(streakColor);
+            g2.setColor(c);
         }
+        g2.fillRoundRect(0, 0, barWidth, h, h, h);
 
-        // 4. Füllung zeichnen
-        g2.fillRoundRect(0, 0, barWidth, height, height, height);
-
-        // 5. Einen sauberen Rand zeichnen
+        // 4. Rand
         g2.setColor(Theme.COLOR_BUTTON_NEUTRAL);
-        g2.drawRoundRect(0, 0, width - 1, height - 1, height, height);
+        g2.drawRoundRect(0, 0, w - 1, h - 1, h, h);
 
         g2.dispose();
     }

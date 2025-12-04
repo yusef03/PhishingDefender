@@ -1,9 +1,8 @@
 package games.phishingdefender.data;
 
 /**
- * Eine Daten-Klasse , die ein einzelnes Achievement (einen Erfolg) darstellt.
- * Sie speichert einen internen ID-Schlüssel, einen Namen, eine Beschreibung,
- * ein Icon und ob der Spieler es freigeschaltet hat.
+ * Repräsentiert einen einzelnen Erfolg (Achievement) im Spiel.
+ * Speichert ID, Anzeige-Daten und den Freischalt-Status.
  *
  * @author yusef03
  * @version 1.0
@@ -17,16 +16,17 @@ public class Achievement {
     private boolean isUnlocked;
 
     /**
-     * Konstruktor für ein neues Achievement (standardmäßig gesperrt).
+     * Konstruktor: Initialisiert das Achievement als gesperrt.
      */
     public Achievement(String id, String name, String description, String icon) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.icon = icon;
-        this.isUnlocked = false; // Fängt immer als gesperrt an
+        this.isUnlocked = false;
     }
 
+    // --- Getter & Setter ---
 
     public String getId() {
         return id;
@@ -48,8 +48,7 @@ public class Achievement {
         return isUnlocked;
     }
 
-
     public void setUnlocked(boolean unlocked) {
-        isUnlocked = unlocked;
+        this.isUnlocked = unlocked;
     }
 }

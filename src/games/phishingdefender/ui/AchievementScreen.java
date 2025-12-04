@@ -11,21 +11,19 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * Zeigt eine Liste aller verfügbaren Achievements (Erfolge) an.
- * Unterscheidet visuell zwischen freigeschalteten und gesperrten Erfolgen.
- * Lädt die Daten über den AchievementManager für den aktuellen Spieler.
+ * Zeigt alle verfügbaren Erfolge an.
+ * Unterschiedliche Darstellung für freigeschaltete/gesperrte Items.
  *
  * @author yusef03
- * @version 1.0
+ * @version 2.0
  */
 public class AchievementScreen extends JPanel {
 
-    private PhishingDefender hauptFenster;
-    private AchievementManager manager;
+    private final PhishingDefender hauptFenster;
+    private final AchievementManager manager;
 
     public AchievementScreen(PhishingDefender hauptFenster) {
         this.hauptFenster = hauptFenster;
-        // WICHTIG: Manager für den aktuellen Spieler laden!
         this.manager = new AchievementManager(hauptFenster.getSpielerName());
 
         setLayout(new BorderLayout());
@@ -33,71 +31,67 @@ public class AchievementScreen extends JPanel {
     }
 
     private void setupUI() {
-        AnimatedBackgroundPanel backgroundPanel = new AnimatedBackgroundPanel();
-        backgroundPanel.setLayout(new BorderLayout());
-        backgroundPanel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60)); // Standard-Padding
+        AnimatedBackgroundPanel background = new AnimatedBackgroundPanel();
+        background.setLayout(new BorderLayout());
+        background.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
 
-        // === TOP PANEL (Titel & Fortschritt) ===
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        topPanel.setOpaque(false);
+        // 1. Header
+        JPanel header = new JPanel();
+        header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
+        header.setOpaque(false);
 
-        JLabel titleLabel = new JLabel("🏆 ERFOLGE 🏆", JLabel.CENTER);
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 50));
-        titleLabel.setForeground(new Color(255, 215, 0)); // Goldfarbe
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title = new JLabel("ERFOLGE", JLabel.CENTER);
+        title.setIcon(Theme.loadIcon("icon_trophy.png", 50));
+        title.setFont(new Font("SansSerif", Font.BOLD, 50));
+        title.setForeground(new Color(255, 215, 0)); // Gold
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Zähle, wie viele freigeschaltet sind
-        long unlockedCount = manager.getAllAchievements().stream().filter(Achievement::isUnlocked).count();
-        long totalCount = manager.getAllAchievements().size();
+        // Fortschrittsanzeige
+        long unlocked = manager.getAllAchievements().stream().filter(Achievement::isUnlocked).count();
+        long total = manager.getAllAchievements().size();
 
-        JLabel subtitleLabel = new JLabel(
-                ">>> " + unlockedCount + " / " + totalCount + " FREIGESCHALTET <<<",
-                JLabel.CENTER
-        );
-        subtitleLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
-        subtitleLabel.setForeground(Theme.COLOR_ACCENT_GREEN);
-        subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel subtitle = new JLabel(">>> " + unlocked + " / " + total + " FREIGESCHALTET <<<", JLabel.CENTER);
+        subtitle.setFont(new Font("Monospaced", Font.BOLD, 15));
+        subtitle.setForeground(Theme.COLOR_ACCENT_GREEN);
+        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        topPanel.add(titleLabel);
-        topPanel.add(Box.createRigidArea(new Dimension(0, 15)));
-        topPanel.add(subtitleLabel);
+        header.add(title);
+        header.add(Box.createRigidArea(new Dimension(0, 15)));
+        header.add(subtitle);
 
-        backgroundPanel.add(topPanel, BorderLayout.NORTH);
+        background.add(header, BorderLayout.NORTH);
 
-        // === CENTER (Liste der Erfolge) ===
+        // 2. Liste
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
         listPanel.setOpaque(false);
         listPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
-        List<Achievement> allAchievements = manager.getAllAchievements();
+        List<Achievement> all = manager.getAllAchievements();
 
-        if (allAchievements.isEmpty()) {
-            JLabel emptyLabel = new JLabel("Keine Erfolge definiert.", JLabel.CENTER);
-            emptyLabel.setFont(Theme.FONT_BUTTON_MEDIUM);
-            emptyLabel.setForeground(Theme.COLOR_TEXT_SECONDARY);
-            listPanel.add(emptyLabel);
+        if (all.isEmpty()) {
+            JLabel empty = new JLabel("Keine Erfolge vorhanden.", JLabel.CENTER);
+            empty.setFont(Theme.FONT_BUTTON_MEDIUM);
+            empty.setForeground(Theme.COLOR_TEXT_SECONDARY);
+            listPanel.add(empty);
         } else {
-            for (Achievement ach : allAchievements) {
-                listPanel.add(createAchievementCard(ach));
-                listPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Abstand
+            for (Achievement ach : all) {
+                listPanel.add(createCard(ach));
+                listPanel.add(Box.createRigidArea(new Dimension(0, 15)));
             }
         }
 
-        // ScrollPane
-        JScrollPane scrollPane = new JScrollPane(listPanel);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        scrollPane.setBorder(null);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        JScrollPane scroll = new JScrollPane(listPanel);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        scroll.setBorder(null);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
 
-        backgroundPanel.add(scrollPane, BorderLayout.CENTER);
+        background.add(scroll, BorderLayout.CENTER);
 
-        // === BOTTOM (Zurück-Button) ===
-        JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
-        footerPanel.setOpaque(false);
+        // 3. Footer
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        footer.setOpaque(false);
 
         JButton backBtn = Theme.createStyledButton(
                 "← Zurück zum Menü",
@@ -108,19 +102,13 @@ public class AchievementScreen extends JPanel {
         );
         backBtn.addActionListener(e -> hauptFenster.zeigeWelcomeScreen());
 
-        footerPanel.add(backBtn);
-        backgroundPanel.add(footerPanel, BorderLayout.SOUTH);
+        footer.add(backBtn);
+        background.add(footer, BorderLayout.SOUTH);
 
-        // Alles zum Hauptpanel hinzufügen
-        add(backgroundPanel, BorderLayout.CENTER);
+        add(background, BorderLayout.CENTER);
     }
 
-    /**
-     * Erstellt eine einzelne "Karte" für die Achievement-Liste.
-     * Stellt freigeschaltete Erfolge (farbig) und gesperrte (grau) unterschiedlich dar.
-     */
-    private JPanel createAchievementCard(Achievement ach) {
-
+    private JPanel createCard(Achievement ach) {
         JPanel card = new JPanel(new BorderLayout(20, 0)) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -130,62 +118,43 @@ public class AchievementScreen extends JPanel {
 
                 int w = getWidth();
                 int h = getHeight();
-                int cornerRadius = 15;
+                int r = 15; // Radius
 
-                if (ach.isUnlocked()) {
-                    g2.setColor(Theme.COLOR_PANEL_DARK);
-                    g2.fillRoundRect(0, 0, w, h, cornerRadius, cornerRadius);
-                    g2.setColor(Theme.COLOR_ACCENT_GREEN);
-                    g2.setStroke(new BasicStroke(2));
-                    g2.drawRoundRect(0, 0, w - 1, h - 1, cornerRadius, cornerRadius);
-                } else {
-                    g2.setColor(new Color(30, 30, 30, 200)); // Dunkler als PANEL_DARK
-                    g2.fillRoundRect(0, 0, w, h, cornerRadius, cornerRadius);
-                    g2.setColor(new Color(80, 80, 80));
-                    g2.setStroke(new BasicStroke(1));
-                    g2.drawRoundRect(0, 0, w - 1, h - 1, cornerRadius, cornerRadius);
-                }
+                // Hintergrund
+                Color bg = ach.isUnlocked() ? Theme.COLOR_PANEL_DARK : new Color(30, 30, 30, 200);
+                g2.setColor(bg);
+                g2.fillRoundRect(0, 0, w, h, r, r);
+
+                // Rand
+                Color border = ach.isUnlocked() ? Theme.COLOR_ACCENT_GREEN : new Color(80, 80, 80);
+                g2.setColor(border);
+                g2.setStroke(new BasicStroke(ach.isUnlocked() ? 2 : 1));
+                g2.drawRoundRect(0, 0, w - 1, h - 1, r, r);
+
                 g2.dispose();
             }
         };
 
         card.setOpaque(false);
         card.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
-        // Verhindert, dass Karten in die Höhe wachsen
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
-        // === LINKS: Icon ===
-        JLabel iconLabel;
-        if (ach.isUnlocked()) {
-            iconLabel = new JLabel(ach.getIcon());
-            iconLabel.setFont(new Font("Arial", Font.PLAIN, 40));
-            iconLabel.setForeground(new Color(255, 215, 0)); // Gold
-        } else {
-            iconLabel = new JLabel("🔒");
-            iconLabel.setFont(new Font("Arial", Font.PLAIN, 40));
-            iconLabel.setForeground(Theme.COLOR_BUTTON_GREY); // Grau
-        }
-        iconLabel.setHorizontalAlignment(JLabel.CENTER);
-        card.add(iconLabel, BorderLayout.WEST);
+        // Icon
+        JLabel icon = new JLabel();
+        String iconName = ach.isUnlocked() ? ach.getIcon() : "icon_lock.png";
+        icon.setIcon(Theme.loadIcon(iconName, 40));
+        card.add(icon, BorderLayout.WEST);
 
-        // === MITTE: Text (Name & Beschreibung) ===
+        // Text
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.setOpaque(false);
-        textPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0)); // Vertikal zentrieren
+        textPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 
-        JLabel nameLabel;
-        if (ach.isUnlocked()) {
-            nameLabel = new JLabel(ach.getName());
-            nameLabel.setFont(Theme.FONT_BUTTON_MEDIUM); // 18px Bold
-            nameLabel.setForeground(Color.WHITE);
-        } else {
-            nameLabel = new JLabel("???????"); // Name versteckt
-            nameLabel.setFont(Theme.FONT_BUTTON_MEDIUM);
-            nameLabel.setForeground(Theme.COLOR_BUTTON_GREY);
-        }
+        JLabel nameLabel = new JLabel(ach.isUnlocked() ? ach.getName() : "???????");
+        nameLabel.setFont(Theme.FONT_BUTTON_MEDIUM);
+        nameLabel.setForeground(ach.isUnlocked() ? Color.WHITE : Theme.COLOR_BUTTON_GREY);
 
-        // Beschreibung ist immer sichtbar, damit der Spieler weiß, was zu tun ist
         JLabel descLabel = new JLabel(ach.getDescription());
         descLabel.setFont(new Font("SansSerif", Font.ITALIC, 14));
         descLabel.setForeground(Theme.COLOR_TEXT_SECONDARY);

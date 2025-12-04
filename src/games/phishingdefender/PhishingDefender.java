@@ -13,421 +13,368 @@ import games.phishingdefender.ui.components.Theme;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 /**
- * Das Hauptfenster (JFrame) der Phishing Defender Anwendung.
- * Fungiert als Controller, der die verschiedenen Spiel-Bildschirme (Panels)
- * verwaltet und zwischen ihnen wechselt.
+ * Hauptklasse (Controller) der Anwendung.
+ * Verwaltet das Hauptfenster (JFrame) und die Navigation zwischen den Screens.
+ * Hält den globalen Spielzustand (Spielerdaten, Manager).
  *
  * @author yusef03
- * @version 1.3l
+ * @version 2.0
  */
 public class PhishingDefender extends JFrame {
 
-    // Panel-Manager
+    // UI-Container
     private JPanel mainPanel;
 
-    // Spieler-Daten
+    // Spielzustand & Daten
     private int hoechstesFreigeschaltetes;
     private String spielerName;
+
+    // Manager-Instanzen
     private StarsManager starsManager;
     private AchievementManager achievementManager;
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
 
-    // UI-Komponenten, die sich ändern
+    // Buttons (für dynamische Updates)
     private JLabel spielerAnzeigeLabel;
-    private JButton wechselnButton;
-    private JButton startButton;
-    private JButton tutorialButton;
-    private JButton achievementsButton;
+    private JButton startButton; // Der "Hero"-Button
 
     public PhishingDefender() {
-        hoechstesFreigeschaltetes = 1;
+        // Initialisierung
+        this.hoechstesFreigeschaltetes = 1;
         this.spielerName = "";
         this.settingsManager = new SettingsManager();
 
-        setTitle("Phishing Defender by 03yusef v.2.0");
+        setTitle("Phishing Defender by 03yusef v.2.2l");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
         setSize(1920, 1080);
-        setMinimumSize(new Dimension(1920, 1080));
-        // Zentriert das Fenster
+        setMinimumSize(new Dimension(1280, 720));
         setLocationRelativeTo(null);
 
-        // Haupt-Panel für Gradient-Hintergrund
+        // Haupt-Panel
         mainPanel = new AnimatedBackgroundPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        // === LOGO ===
-        JLabel logoLabel = null;
+        setupWelcomeScreenUI();
+        zeigeWelcomeScreen(); // Initialanzeige
+    }
+
+    /**
+     * Baut das UI für den Startbildschirm auf.
+     * Wird bei Statusänderungen (Login/Logout) neu aufgerufen.
+     */
+    private void setupWelcomeScreenUI() {
+        mainPanel.removeAll(); // Reset
+
+        // === 1. LOGO & HEADER ===
+        JLabel logoLabel = new JLabel();
+        logoLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 10, 0));
         try {
-            java.net.URL logoURL = getClass().getResource("/games/phishingdefender/assets/images/logo.png");
-            if (logoURL == null) { throw new Exception("Logo nicht gefunden!"); }
-            ImageIcon originalIcon = new ImageIcon(logoURL);
-            Image scaledImage = originalIcon.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
-            logoLabel = new JLabel(new ImageIcon(scaledImage), JLabel.CENTER);
+            URL logoURL = getClass().getResource("/games/phishingdefender/assets/images/logo.png");
+            if (logoURL != null) {
+                ImageIcon icon = new ImageIcon(logoURL);
+                Image img = icon.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
+                logoLabel.setIcon(new ImageIcon(img));
+            } else {
+                throw new Exception("Logo nicht gefunden");
+            }
         } catch (Exception e) {
-            logoLabel = new JLabel("🛡️", JLabel.CENTER);
+            logoLabel.setText("🛡️"); // Fallback
             logoLabel.setFont(new Font("Arial", Font.PLAIN, 100));
         }
-        logoLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 10, 0));
 
-        // === TITEL ===
-        JLabel welcomeLabel = new JLabel("PHISHING DEFENDER", JLabel.CENTER) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                g2d.setColor(Color.RED);
-                g2d.setFont(getFont());
-                FontMetrics fm = g2d.getFontMetrics();
-                int x = (getWidth() - fm.stringWidth(getText())) / 2;
-                int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
-                g2d.drawString(getText(), x, y);
-            }
-        };
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 52));
-        welcomeLabel.setOpaque(false);
+        JLabel titleLabel = new JLabel("PHISHING DEFENDER", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 52));
+        titleLabel.setForeground(Theme.COLOR_BUTTON_RED);
 
-        // === EMAIL STORY BOX ===
-        JPanel storyBox = new JPanel();
-        storyBox.setLayout(new BorderLayout());
+        // === 2. STORY BOX (E-Mail Style) ===
+        JPanel storyBox = new JPanel(new BorderLayout());
         storyBox.setBackground(Theme.COLOR_PANEL_DARK);
-        storyBox.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Theme.COLOR_ACCENT_GREEN, 2),
-                BorderFactory.createEmptyBorder(0, 0, 0, 0)
-        ));
+        storyBox.setBorder(BorderFactory.createLineBorder(Theme.COLOR_ACCENT_GREEN, 2));
 
+        // E-Mail Header
+        JPanel mailHeader = new JPanel(new BorderLayout());
+        mailHeader.setBackground(new Color(40, 40, 40));
+        mailHeader.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
 
+        JLabel from = new JLabel(" Von: Cyber Security HQ");
+        from.setIcon(Theme.loadIcon("icon_mail.png", 16));
+        from.setFont(new Font("SansSerif", Font.BOLD, 13));
+        from.setForeground(Theme.COLOR_TEXT_SECONDARY);
 
-        // (Header)
-        JPanel emailHeader = new JPanel(new BorderLayout());
-        emailHeader.setBackground(new Color(40, 40, 40));
-        emailHeader.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
-        JLabel fromLabel = new JLabel("📧 Von: Cyber Security HQ");
-        fromLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
-        fromLabel.setForeground(Theme.COLOR_TEXT_SECONDARY);
-        JLabel subjectLabel = new JLabel("Betreff: ⚠️ DRINGEND - Phishing-Angriff erkannt!");
-        subjectLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-        subjectLabel.setForeground(Theme.COLOR_ACCENT_GREEN);
-        JPanel headerContent = new JPanel();
-        headerContent.setLayout(new BoxLayout(headerContent, BoxLayout.Y_AXIS));
-        headerContent.setOpaque(false);
-        headerContent.add(fromLabel);
-        headerContent.add(Box.createRigidArea(new Dimension(0, 5)));
-        headerContent.add(subjectLabel);
-        emailHeader.add(headerContent, BorderLayout.WEST);
+        JLabel subject = new JLabel(" Betreff: DRINGEND - Angriff erkannt!");
+        subject.setIcon(Theme.loadIcon("icon_warning.png", 16));
+        subject.setFont(new Font("SansSerif", Font.BOLD, 14));
+        subject.setForeground(Theme.COLOR_ACCENT_GREEN);
 
+        JPanel headerText = new JPanel();
+        headerText.setLayout(new BoxLayout(headerText, BoxLayout.Y_AXIS));
+        headerText.setOpaque(false);
+        headerText.add(from);
+        headerText.add(Box.createVerticalStrut(5));
+        headerText.add(subject);
 
-        // (Body)
-        JPanel emailBody = new JPanel(new BorderLayout());
-        emailBody.setBackground(Theme.COLOR_PANEL_DARK);
-        emailBody.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-        JLabel bodyLabel = new JLabel(
-                "<html><div style='line-height: 1.5;'>" +
-                        "<span style='color: #CCCCCC; font-size: 14px;'>" +
-                        "Hacker haben gefährliche Phishing-E-Mails in unserer Stadt verschickt!<br>" +
-                        "Nur du kannst sie aufhalten!<br><br>" +
-                        "</span>" +
-                        "<span style='color: #AAAAAA; font-size: 13px;'>" +
-                        "<span style='color: #FF6B35;'>▸</span> <b>Analysiere</b> verdächtige E-Mails<br>" +
-                        "<span style='color: #FF6B35;'>▸</span> <b>Erkenne</b> Fälschungen und Betrugsversuche<br>" +
-                        "<span style='color: #FF6B35;'>▸</span> <b>Schütze</b> die Bürger vor Cyber-Kriminellen<br><br>" +
-                        "</span>" +
-                        "<span style='color: #64B5FF; font-size: 15px; font-weight: bold;'>🕵️ Werde zum Cyber-Detektiv! 💻</span>" +
-                        "</div></html>"
-        );
-        emailBody.add(bodyLabel, BorderLayout.CENTER);
-        storyBox.add(emailHeader, BorderLayout.NORTH);
-        storyBox.add(emailBody, BorderLayout.CENTER);
+        mailHeader.add(headerText, BorderLayout.WEST);
 
-        // === CONTENT PANEL (Mitte) ===
-        JPanel contentPanel = new ScrollablePanel();
-        contentPanel.setOpaque(false);
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
-        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        storyBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        contentPanel.add(logoLabel);
-        contentPanel.add(Box.createRigidArea(new Dimension(0, 15)));
-        contentPanel.add(welcomeLabel);
-        contentPanel.add(Box.createRigidArea(new Dimension(0, 25)));
-        contentPanel.add(storyBox);
+        // E-Mail Body
+        JPanel mailBody = new JPanel(new BorderLayout());
+        mailBody.setBackground(Theme.COLOR_PANEL_DARK);
+        mailBody.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        scrollPane.setBorder(null);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        JLabel bodyText = new JLabel("<html><div style='line-height: 1.5; color:#CCCCCC;'>" +
+                "Hacker haben gefährliche Phishing-E-Mails verschickt!<br>" +
+                "Nur du kannst sie aufhalten!<br><br>" +
+                "<span style='color:#FF6B35;'>•</span> Analysiere E-Mails<br>" +
+                "<span style='color:#FF6B35;'>•</span> Erkenne Betrug<br>" +
+                "<span style='color:#FF6B35;'>•</span> Schütze das Netzwerk<br><br>" +
+                "<b style='color:#64B5FF;'>Werde zum Cyber-Detektiv!</b></div></html>");
+        mailBody.add(bodyText, BorderLayout.CENTER);
 
-        // === SPIELER ANZEIGE (OBEN IM BUTTON-BEREICH) ===
-        JPanel spielerInfoPanel = new JPanel();
-        spielerInfoPanel.setOpaque(false);
+        storyBox.add(mailHeader, BorderLayout.NORTH);
+        storyBox.add(mailBody, BorderLayout.CENTER);
+
+        // === 3. CONTENT WRAPPER (Scrollbar) ===
+        JPanel content = new ScrollablePanel();
+        content.setOpaque(false);
+        content.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+
+        logoLabel.setAlignmentX(CENTER_ALIGNMENT);
+        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
+        storyBox.setAlignmentX(CENTER_ALIGNMENT);
+
+        content.add(logoLabel);
+        content.add(Box.createVerticalStrut(15));
+        content.add(titleLabel);
+        content.add(Box.createVerticalStrut(25));
+        content.add(storyBox);
+
+        JScrollPane scroll = new JScrollPane(content);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        scroll.setBorder(null);
+        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        // === 4. BUTTONS & FOOTER (Das neue Layout) ===
+
+        // Spieler Info
         spielerAnzeigeLabel = new JLabel("", JLabel.CENTER);
         spielerAnzeigeLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         spielerAnzeigeLabel.setForeground(new Color(100, 200, 255));
-        spielerAnzeigeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         aktualisiereSpielerAnzeige();
-        spielerInfoPanel.add(spielerAnzeigeLabel);
 
-        // === BUTTONS (NEUES, SAUBERES RASTER) ===
+        // --- Buttons definieren ---
 
-        // --- 1. ALLE BUTTONS ERSTELLEN UND DEFINIEREN ---
-
-        startButton = Theme.createStyledButton(
-                "▶ START GAME",
-                Theme.FONT_BUTTON_LARGE,
-                Theme.COLOR_ACCENT_ORANGE,
-                Theme.COLOR_ACCENT_ORANGE_HOVER,
-                Theme.PADDING_BUTTON_LARGE
-        );
-        startButton.addActionListener(e -> {
+        // 1. Der "Hero-Button" (Dynamisch)
+        String startText = " START GAME";
+        java.awt.event.ActionListener startAction = e -> {
             if (spielerName == null || spielerName.isEmpty()) {
                 zeigeNameInput();
-                return;
+            } else if (starsManager != null && !starsManager.hatTutorialGelesen()) {
+                zeigeTutorialScreen();
+            } else {
+                zeigeLevelAuswahl();
             }
-            if (starsManager != null) {
-                if (starsManager.hatTutorialGelesen()) {
-                    zeigeLevelAuswahl();
-                } else {
-                    zeigeTutorialScreen();
-                }
+        };
+
+        if (spielerName != null && !spielerName.isEmpty()) {
+            if (starsManager != null && !starsManager.hatTutorialGelesen()) {
+                startText = " TUTORIAL STARTEN";
+            } else {
+                startText = " MISSION WÄHLEN";
             }
-        });
+        }
 
-        JButton highscoresButton = Theme.createStyledButton(
-                "🏆 HIGHSCORES",
-                Theme.FONT_BUTTON_MEDIUM,
-                Theme.COLOR_BUTTON_GREY,
-                Theme.COLOR_BUTTON_GREY_HOVER,
-                Theme.PADDING_BUTTON_MEDIUM
-        );
-        highscoresButton.addActionListener(e -> zeigeHighscores());
+        startButton = Theme.createStyledButton(startText, Theme.FONT_BUTTON_LARGE, Theme.COLOR_ACCENT_ORANGE, Theme.COLOR_ACCENT_ORANGE_HOVER, Theme.PADDING_BUTTON_LARGE);
+        startButton.setIcon(Theme.loadIcon("icon_play.png", 22));
+        startButton.addActionListener(startAction);
 
-        achievementsButton = Theme.createStyledButton(
-                "🏆 ERFOLGE",
-                Theme.FONT_BUTTON_MEDIUM,
-                Theme.COLOR_BUTTON_GREY,
-                Theme.COLOR_BUTTON_GREY_HOVER,
-                Theme.PADDING_BUTTON_MEDIUM
-        );
-        achievementsButton.addActionListener(e -> zeigeAchievementScreen());
+        // 2. Highscores
+        JButton scoresBtn = Theme.createStyledButton(" HIGHSCORES", Theme.FONT_BUTTON_MEDIUM, Theme.COLOR_BUTTON_GREY, Theme.COLOR_BUTTON_GREY_HOVER, Theme.PADDING_BUTTON_MEDIUM);
+        scoresBtn.setIcon(Theme.loadIcon("icon_trophy.png", 18));
+        scoresBtn.addActionListener(e -> zeigeHighscores());
 
-        tutorialButton = Theme.createStyledButton(
-                "💡 WAS IST PHISHING?",
-                Theme.FONT_BUTTON_MEDIUM,
-                Theme.COLOR_BUTTON_BLUE,
-                Theme.COLOR_BUTTON_BLUE_HOVER,
-                Theme.PADDING_BUTTON_MEDIUM
-        );
-        tutorialButton.addActionListener(e -> zeigeTutorialScreen());
+        // 3. Erfolge (Deaktiviert für Gäste)
+        JButton achBtn = Theme.createStyledButton(" ERFOLGE", Theme.FONT_BUTTON_MEDIUM, Theme.COLOR_BUTTON_GREY, Theme.COLOR_BUTTON_GREY_HOVER, Theme.PADDING_BUTTON_MEDIUM);
+        achBtn.setIcon(Theme.loadIcon("icon_trophy.png", 18));
+        if (spielerName == null || spielerName.isEmpty()) {
+            achBtn.setEnabled(false);
+            achBtn.setToolTipText("Melde dich an, um Erfolge zu sehen!");
+        } else {
+            achBtn.addActionListener(e -> zeigeAchievementScreen());
+        }
 
-        wechselnButton = Theme.createStyledButton(
-                "🚪 SPIELER WECHSELN",
-                Theme.FONT_BUTTON_MEDIUM,
-                Theme.COLOR_BUTTON_PURPLE,
-                Theme.COLOR_BUTTON_PURPLE_HOVER,
-                Theme.PADDING_BUTTON_MEDIUM
-        );
-        wechselnButton.addActionListener(e -> spielerAbmelden());
-        wechselnButton.setVisible(false);
+        // 4. Hilfe / Tutorial
+        JButton helpBtn = Theme.createStyledButton(" WAS IST PHISHING?", Theme.FONT_BUTTON_MEDIUM, Theme.COLOR_BUTTON_BLUE, Theme.COLOR_BUTTON_BLUE_HOVER, Theme.PADDING_BUTTON_MEDIUM);
+        helpBtn.setIcon(Theme.loadIcon("icon_lightbulb.png", 18));
+        helpBtn.addActionListener(e -> zeigeTutorialScreen());
 
-        JButton beendenButton = Theme.createStyledButton(
-                "🔌 BEENDEN",
-                Theme.FONT_BUTTON_MEDIUM,
-                Theme.COLOR_BUTTON_RED,
-                Theme.COLOR_BUTTON_RED_HOVER,
-                Theme.PADDING_BUTTON_MEDIUM
-        );
-        beendenButton.addActionListener(e -> System.exit(0));
+        // 5. Spieler Wechseln / Anmelden
+        JButton switchBtn;
+        if (spielerName == null || spielerName.isEmpty()) {
+            switchBtn = Theme.createStyledButton(" ANMELDEN", Theme.FONT_BUTTON_MEDIUM, Theme.COLOR_BUTTON_PURPLE, Theme.COLOR_BUTTON_PURPLE_HOVER, Theme.PADDING_BUTTON_MEDIUM);
+            switchBtn.setIcon(Theme.loadIcon("icon_user.png", 18));
+            switchBtn.addActionListener(e -> zeigeNameInput());
+        } else {
+            switchBtn = Theme.createStyledButton(" SPIELER WECHSELN", Theme.FONT_BUTTON_MEDIUM, Theme.COLOR_BUTTON_PURPLE, Theme.COLOR_BUTTON_PURPLE_HOVER, Theme.PADDING_BUTTON_MEDIUM);
+            switchBtn.setIcon(Theme.loadIcon("icon_change_player.png", 18));
+            switchBtn.addActionListener(e -> spielerAbmelden());
+        }
 
-        // --- 2. DAS LAYOUT-PANEL (MIT GRIDBAG) ERSTELLEN ---
+        // 6. Beenden
+        JButton exitBtn = Theme.createStyledButton("BEENDEN", Theme.FONT_BUTTON_MEDIUM, Theme.COLOR_BUTTON_RED, Theme.COLOR_BUTTON_RED_HOVER, Theme.PADDING_BUTTON_MEDIUM);
+        exitBtn.addActionListener(e -> System.exit(0));
 
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
-        buttonPanel.setOpaque(false);
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 0));
+        // --- Layout zusammenbauen (GridBag) ---
+        JPanel btnPanel = new JPanel(new GridBagLayout());
+        btnPanel.setOpaque(false);
+        btnPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 0));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        // KEIN fill, KEIN weightx, KEIN ipady. Die Buttons behalten ihre natürliche Größe.
-        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.insets = new Insets(8, 15, 8, 15); // Abstand zwischen Buttons
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // ZEILE 0: Spieler-Info (breit über 2 Spalten)
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(0, 0, 10, 0); // Nur Abstand nach unten
-        buttonPanel.add(spielerInfoPanel, gbc);
+        // Zeile 0: Info
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 15, 0);
+        btnPanel.add(spielerAnzeigeLabel, gbc);
 
-        // Zurücksetzen für Buttons
-        gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.gridwidth = 1;
-
-        // ZEILE 1: Start Game (breit über 2 Spalten)
-        gbc.gridx = 0;
+        // Zeile 1: Start (Groß)
         gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        buttonPanel.add(startButton, gbc);
+        gbc.ipady = 10;
+        gbc.insets = new Insets(8, 15, 8, 15);
+        btnPanel.add(startButton, gbc);
+        gbc.ipady = 0;
 
-        // Zurücksetzen
-        gbc.gridwidth = 1;
+        // Zeile 2: Scores | Erfolge
+        gbc.gridy = 2; gbc.gridwidth = 1;
+        gbc.gridx = 0; btnPanel.add(scoresBtn, gbc);
+        gbc.gridx = 1; btnPanel.add(achBtn, gbc);
 
-        // ZEILE 2: Highscores | Erfolge
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        buttonPanel.add(highscoresButton, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        buttonPanel.add(achievementsButton, gbc);
-
-        // ZEILE 3: Tutorial | Spieler wechseln
-        gbc.gridx = 0;
+        // Zeile 3: Hilfe | Login
         gbc.gridy = 3;
-        buttonPanel.add(tutorialButton, gbc);
+        gbc.gridx = 0; btnPanel.add(helpBtn, gbc);
+        gbc.gridx = 1; btnPanel.add(switchBtn, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        buttonPanel.add(wechselnButton, gbc);
+        // Zeile 4: Beenden (Zentriert, kleiner)
+        gbc.gridy = 4; gbc.gridx = 0; gbc.gridwidth = 2;
+        gbc.insets = new Insets(25, 50, 0, 50);
+        gbc.fill = GridBagConstraints.NONE;
+        btnPanel.add(exitBtn, gbc);
 
-        // ZEILE 4: Beenden Button (breit über 2 Spalten)
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        buttonPanel.add(beendenButton, gbc);
-
-        // === Settings Button (unten rechts) ===
-        SettingsButton settingsButton = new SettingsButton();
-        settingsButton.addActionListener(e -> {
-            // Wir übergeben den manager an den Dialog!
+// === Settings Button (Perfekt unten rechts positioniert) ===
+        SettingsButton settingsBtn = new SettingsButton();
+        settingsBtn.addActionListener(e -> {
             SettingsDialog dialog = new SettingsDialog(this, this.settingsManager);
             dialog.setVisible(true);
         });
-        JPanel settingsWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT, 25, 25));
-        settingsWrapper.setOpaque(false);
-        settingsWrapper.add(settingsButton);
 
+        // Wir nutzen GridBagLayout für den Wrapper, um den Button in die Ecke zu "zwingen"
+        JPanel settingsWrap = new JPanel(new GridBagLayout());
+        settingsWrap.setOpaque(false);
 
+        GridBagConstraints gbcSettings = new GridBagConstraints();
+        gbcSettings.gridx = 0;
+        gbcSettings.gridy = 0;
+        gbcSettings.weightx = 1.0; // Nimmt horizontalen Platz
+        gbcSettings.weighty = 1.0; // Nimmt vertikalen Platz (drückt nach unten)
+        gbcSettings.anchor = GridBagConstraints.SOUTHEAST; // Verankerung: UNTEN RECHTS
+        // Abstand zum Rand: Oben, Links, Unten, Rechts
+        gbcSettings.insets = new Insets(0, 0, 30, 40);
+
+        settingsWrap.add(settingsBtn, gbcSettings);
+
+        // Footer zusammenbauen
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
-        // Packt die Buttons in die Mitte (GridBagLayout)
-        bottomPanel.add(buttonPanel, BorderLayout.CENTER);
-        // Packt den Settings-Button nach rechts
-        bottomPanel.add(settingsWrapper, BorderLayout.EAST);
+        // WICHTIG: Damit der Wrapper Platz hat, geben wir ihm eine Mindestbreite
+        settingsWrap.setPreferredSize(new Dimension(150, 0));
 
-        // === ALLES ZUM HAUPTFENSTER HINZUFÜGEN ===
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        bottomPanel.add(btnPanel, BorderLayout.CENTER);
+        bottomPanel.add(settingsWrap, BorderLayout.EAST);
+
+        mainPanel.add(scroll, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-        add(mainPanel);
     }
 
-    // === METHODEN ZUM WECHSELN DER BILDSCHIRME ===
+    // === NAVIGATION & LOGIK ===
 
     public void zeigeWelcomeScreen() {
-        getContentPane().removeAll();
-        getContentPane().add(mainPanel);
-
-        // 1. Logik ausführen, die ändert, was sichtbar ist
-        aktualisiereSpielerAnzeige();
-        aktualisiereStartButtonStatus();
-
-        // 2. DANN das Fenster neu zeichnen
-        revalidate();
-        repaint();
-
-        if (!MusicManager.isPlaying()) {
-            MusicManager.startMenuMusic(this.settingsManager);
-        }
-        if (spielerName != null && !spielerName.isEmpty()) {
-            aktualisiereLevelFreischaltung();
-        }
+        setupWelcomeScreenUI(); // UI neu aufbauen für aktuellen Status
+        switchScreen(mainPanel);
+        if (!MusicManager.isPlaying()) MusicManager.startMenuMusic(settingsManager);
     }
 
-    public void zeigeHighscores() {
-        getContentPane().removeAll();
-        getContentPane().add(new HighscoreScreen(this));
-        revalidate();
-        repaint();
-    }
-
-    public void zeigeAchievementScreen() {
-        if (spielerName == null || spielerName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Bitte melde dich erst an (über 'Start Game').");
-            return;
-        }
-        getContentPane().removeAll();
-        getContentPane().add(new AchievementScreen(this));
-        revalidate();
-        repaint();
-    }
-
-    public void zeigeTutorialScreen() {
-        getContentPane().removeAll();
-        getContentPane().add(new TutorialScreen(this));
-        revalidate();
-        repaint();
+    public void zeigeNameInput() {
+        switchScreen(new NameInputScreen(this));
     }
 
     public void zeigeLevelAuswahl() {
-        getContentPane().removeAll();
-        // Wir übergeben den zentralen StarsManager
-        getContentPane().add(new LevelSelectionScreen(this, this.starsManager));
-        revalidate();
-        repaint();
-        if (!MusicManager.isPlaying()) {
-            MusicManager.startMenuMusic(this.settingsManager);
-        }
+        switchScreen(new LevelSelectionScreen(this, starsManager));
+        if (!MusicManager.isPlaying()) MusicManager.startMenuMusic(settingsManager);
+    }
+
+    public void zeigeTutorialScreen() {
+        switchScreen(new TutorialScreen(this));
+    }
+
+    public void zeigeHighscores() {
+        switchScreen(new HighscoreScreen(this));
+    }
+
+    public void zeigeAchievementScreen() {
+        if (spielerName == null || spielerName.isEmpty()) return;
+        switchScreen(new AchievementScreen(this));
     }
 
     public void starteLevel(int level) {
         MusicManager.stopMenuMusic();
-        getContentPane().removeAll();
-        JPanel ladePanel = new JPanel(new BorderLayout());
-        ladePanel.setBackground(new Color(26, 26, 46));
-        JLabel ladeLabel = new JLabel("LADEN... 🎵", JLabel.CENTER);
-        ladeLabel.setFont(new Font("Arial", Font.BOLD, 48));
-        ladeLabel.setForeground(new Color(255, 107, 53));
-        ladePanel.add(ladeLabel, BorderLayout.CENTER);
-        getContentPane().add(ladePanel);
-        revalidate();
-        repaint();
 
+        // Lade-Screen
+        JPanel loader = new JPanel(new BorderLayout());
+        loader.setBackground(new Color(20, 20, 30));
+        JLabel lbl = new JLabel("LADEN... 🎵", JLabel.CENTER);
+        lbl.setFont(new Font("Arial", Font.BOLD, 40));
+        lbl.setForeground(Color.ORANGE);
+        loader.add(lbl, BorderLayout.CENTER);
+
+        switchScreen(loader);
+
+        // Async Start
         SwingUtilities.invokeLater(() -> {
-            getContentPane().removeAll();
-            // KORREKTER AUFRUF MIT 3 ARGUMENTEN
-            getContentPane().add(new GameScreen(this, level, this.achievementManager));
-            revalidate();
-            repaint();
+            try {
+                Thread.sleep(100); // Kurzer Delay für Rendering
+                switchScreen(new GameScreen(this, level, achievementManager));
+            } catch (Exception e) {
+                System.err.println("Fehler beim Levelstart: " + e.getMessage());
+            }
         });
     }
 
-    public void zeigeResultScreen(int level, int score, int leben, int maxLeben, int gesamtEmails, boolean erfolg) {
+    public void zeigeResultScreen(int lvl, int pts, int lives, int maxLives, int totalMails, boolean win) {
         MusicManager.stopMenuMusic();
+        switchScreen(new ResultScreen(this, lvl, pts, lives, maxLives, totalMails, win, starsManager, achievementManager));
+    }
+
+    public void levelGeschafft(int level) {
+        aktualisiereLevelStatus();
+    }
+
+    public void tutorialAbgeschlossen() {
+        if (starsManager != null) starsManager.setTutorialGelesen();
+        zeigeWelcomeScreen();
+    }
+
+    // Helper zum Wechseln
+    private void switchScreen(JPanel panel) {
         getContentPane().removeAll();
-        // Wir übergeben den zentralen StarsManager UND AchievementManager
-        getContentPane().add(new ResultScreen(this, level, score, leben, maxLeben, gesamtEmails, erfolg, this.starsManager, this.achievementManager));
+        getContentPane().add(panel);
         revalidate();
         repaint();
     }
 
-    public void levelGeschafft(int level) {
-        // Diese Methode aktualisiert nur noch den internen Status.
-        // Sie wechselt NICHT mehr den Bildschirm.
-        aktualisiereLevelFreischaltung();
-    }
-
-    // === SPIELER-LOGIK METHODEN ===
-
-    public int getHoechstesFreigeschaltetes() {
-        return hoechstesFreigeschaltetes;
-    }
-
-    // Neuer Getter, damit andere Klassen den Manager abholen können
-    public StarsManager getStarsManager() {
-        return this.starsManager;
-    }
+    // === DATEN-MANAGEMENT ===
 
     public void setSpielerName(String name) {
         this.spielerName = name;
@@ -438,7 +385,7 @@ public class PhishingDefender extends JFrame {
             this.starsManager = null;
             this.achievementManager = null;
         }
-        aktualisiereLevelFreischaltung();
+        aktualisiereLevelStatus();
         aktualisiereSpielerAnzeige();
     }
 
@@ -446,102 +393,50 @@ public class PhishingDefender extends JFrame {
         return spielerName;
     }
 
-    private void aktualisiereLevelFreischaltung() {
-        if (spielerName == null || spielerName.isEmpty() || this.starsManager == null) {
+    public StarsManager getStarsManager() {
+        return starsManager;
+    }
+
+    private void aktualisiereLevelStatus() {
+        if (starsManager == null) {
             hoechstesFreigeschaltetes = 1;
             return;
         }
         hoechstesFreigeschaltetes = 1;
-        if (this.starsManager.getStarsForLevel(1) > 0) {
-            hoechstesFreigeschaltetes = 2;
-        }
-        if (this.starsManager.getStarsForLevel(2) > 0) {
-            hoechstesFreigeschaltetes = 3;
-        }
-    }
-
-    public void zeigeNameInput() {
-        getContentPane().removeAll();
-        getContentPane().add(new NameInputScreen(this));
-        revalidate();
-        repaint();
+        if (starsManager.getStarsForLevel(1) > 0) hoechstesFreigeschaltetes = 2;
+        if (starsManager.getStarsForLevel(2) > 0) hoechstesFreigeschaltetes = 3;
     }
 
     private void spielerAbmelden() {
-        int antwort = JOptionPane.showConfirmDialog(
-                this,
-                "Möchtest du den Spieler wechseln?\n\nDein Fortschritt ist gespeichert!",
-                "Spieler wechseln",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-        );
-        if (antwort == JOptionPane.YES_OPTION) {
+        int wahl = JOptionPane.showConfirmDialog(this,
+                "Spieler wechseln? Dein Fortschritt ist sicher.",
+                "Abmelden", JOptionPane.YES_NO_OPTION);
+
+        if (wahl == JOptionPane.YES_OPTION) {
             setSpielerName("");
-            hoechstesFreigeschaltetes = 1;
             zeigeNameInput();
         }
     }
 
     private void aktualisiereSpielerAnzeige() {
         if (spielerAnzeigeLabel != null) {
-            if (spielerName == null || spielerName.isEmpty()) {
-                spielerAnzeigeLabel.setText("👤 Angemeldet als: Gast");
-            } else {
-                spielerAnzeigeLabel.setText("👤 Angemeldet als: " + spielerName);
-            }
-        }
-        if (wechselnButton != null) {
-            wechselnButton.setVisible(spielerName != null && !spielerName.isEmpty());
+            spielerAnzeigeLabel.setIcon(Theme.loadIcon("icon_user.png", 16));
+            String text = (spielerName == null || spielerName.isEmpty()) ? "Gast" : spielerName;
+            spielerAnzeigeLabel.setText("Angemeldet als: " + text);
         }
     }
 
-    private void aktualisiereStartButtonStatus() {
-        if (startButton == null || tutorialButton == null || achievementsButton == null) return;
-
-        // Fall 1: "Gast"
-        if (spielerName == null || spielerName.isEmpty()) {
-            startButton.setEnabled(true);
-            startButton.setText("▶ START GAME");
-            tutorialButton.setVisible(true);
-            achievementsButton.setVisible(false); // ERFOLGE AUSBLENDEN FÜR GAST
-        }
-        // Fall 2: Angemeldeter Spieler
-        else if (starsManager != null) {
-            achievementsButton.setVisible(true); // ERFOLGE EINBLENDEN
-            if (starsManager.hatTutorialGelesen()) {
-                // Hat Tutorial gelesen
-                startButton.setEnabled(true);
-                startButton.setText("▶ START GAME");
-                tutorialButton.setVisible(true);
-            } else {
-                // Hat Tutorial NICHT gelesen
-                startButton.setEnabled(true);
-                startButton.setText("▶ (Tutorial starten)");
-                tutorialButton.setVisible(false);
-            }
-        }
-    }
-
-    public void tutorialAbgeschlossen() {
-        if (this.starsManager != null) {
-            this.starsManager.setTutorialGelesen();
-        }
-        zeigeWelcomeScreen();
-    }
-
-
-    // === MAIN METHODE ===
+    // === MAIN ===
     public static void main(String[] args) {
-        games.phishingdefender.ui.SplashScreen splash = new SplashScreen();
+        SplashScreen splash = new SplashScreen();
         splash.setVisible(true);
 
-        SwingWorker<PhishingDefender, Void> worker = new SwingWorker<>() {
+        SwingWorker<PhishingDefender, Void> loader = new SwingWorker<>() {
             @Override
             protected PhishingDefender doInBackground() throws Exception {
                 PhishingDefender game = new PhishingDefender();
-                // Wir starten die Musik erst, NACHDEM wir den SettingsManager haben
                 MusicManager.startMenuMusic(game.settingsManager);
-                Thread.sleep(1500);
+                Thread.sleep(1500); // Künstliche Ladezeit für Effekt
                 return game;
             }
 
@@ -552,13 +447,12 @@ public class PhishingDefender extends JFrame {
                     game.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Spiel konnte nicht geladen werden!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Startfehler: " + e.getMessage());
                 } finally {
-                    splash.setVisible(false);
                     splash.dispose();
                 }
             }
         };
-        worker.execute();
+        loader.execute();
     }
 }
